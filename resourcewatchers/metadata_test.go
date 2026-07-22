@@ -6,9 +6,9 @@ import (
 
 	check "gopkg.in/check.v1"
 
-	"github.com/rancher/go-rancher-metadata/metadata"
+	"github.com/PastureStack/resource-scheduler/internal/metadata"
+	"github.com/PastureStack/resource-scheduler/scheduler"
 	"github.com/rancher/go-rancher/v2"
-	"github.com/rancher/scheduler/scheduler"
 )
 
 // gocheck setup
@@ -82,24 +82,24 @@ func (s *MetadataTestSuite) TestWatchMetadataPortPool(c *check.C) {
 	go WatchMetadata(mock, sched, nil)
 
 	// The mock metadata client's OnChange hasn't fired yet, so there should be no valid candidates
-	actual, err := sched.PrioritizeCandidates([]scheduler.ResourceRequest{scheduler.PortBindingResourceRequest{InstanceID: "1", ResourceUUID: "12345", Resource: "portReservation", PortRequests: []scheduler.PortSpec{{PublicPort: 8081, PrivatePort: 8081, Protocol: "tcp"}}}}, scheduler.Context{})
+	actual, err := sched.PrioritizeCandidates([]scheduler.ResourceRequest{scheduler.PortBindingResourceRequest{InstanceID: "1", ResourceUUID: "request-uuid", Resource: "portReservation", PortRequests: []scheduler.PortSpec{{PublicPort: 8081, PrivatePort: 8081, Protocol: "tcp"}}}}, scheduler.Context{})
 	c.Assert(err, check.IsNil)
 	c.Assert(actual, check.DeepEquals, []string{})
 
 	change <- "1"
 	<-changeDone
 	// port 8081 is already used by host-a, so return host-b
-	actual, err = sched.PrioritizeCandidates([]scheduler.ResourceRequest{scheduler.PortBindingResourceRequest{InstanceID: "1", ResourceUUID: "12345", Resource: "portReservation", PortRequests: []scheduler.PortSpec{{PublicPort: 8081, PrivatePort: 8081, Protocol: "tcp"}}}}, scheduler.Context{})
+	actual, err = sched.PrioritizeCandidates([]scheduler.ResourceRequest{scheduler.PortBindingResourceRequest{InstanceID: "1", ResourceUUID: "request-uuid", Resource: "portReservation", PortRequests: []scheduler.PortSpec{{PublicPort: 8081, PrivatePort: 8081, Protocol: "tcp"}}}}, scheduler.Context{})
 	c.Assert(err, check.IsNil)
 	c.Assert(actual, check.DeepEquals, []string{"host-b"})
 
 	// port 8082 is used for udp by host-a, so return host-b
-	actual, err = sched.PrioritizeCandidates([]scheduler.ResourceRequest{scheduler.PortBindingResourceRequest{InstanceID: "1", ResourceUUID: "12345", Resource: "portReservation", PortRequests: []scheduler.PortSpec{{PublicPort: 8082, PrivatePort: 8082, Protocol: "udp"}}}}, scheduler.Context{})
+	actual, err = sched.PrioritizeCandidates([]scheduler.ResourceRequest{scheduler.PortBindingResourceRequest{InstanceID: "1", ResourceUUID: "request-uuid", Resource: "portReservation", PortRequests: []scheduler.PortSpec{{PublicPort: 8082, PrivatePort: 8082, Protocol: "udp"}}}}, scheduler.Context{})
 	c.Assert(err, check.IsNil)
 	c.Assert(actual, check.DeepEquals, []string{"host-b"})
 
 	// port 8083 is not used, should return two host
-	actual, err = sched.PrioritizeCandidates([]scheduler.ResourceRequest{scheduler.PortBindingResourceRequest{InstanceID: "1", ResourceUUID: "12345", Resource: "portReservation", PortRequests: []scheduler.PortSpec{{PublicPort: 8083, PrivatePort: 8083, Protocol: "tcp"}}}}, scheduler.Context{})
+	actual, err = sched.PrioritizeCandidates([]scheduler.ResourceRequest{scheduler.PortBindingResourceRequest{InstanceID: "1", ResourceUUID: "request-uuid", Resource: "portReservation", PortRequests: []scheduler.PortSpec{{PublicPort: 8083, PrivatePort: 8083, Protocol: "tcp"}}}}, scheduler.Context{})
 	c.Assert(err, check.IsNil)
 	c.Assert(actual, check.HasLen, 2)
 
@@ -107,7 +107,7 @@ func (s *MetadataTestSuite) TestWatchMetadataPortPool(c *check.C) {
 	err = sched.ReleaseResources("host-a", []scheduler.ResourceRequest{scheduler.PortBindingResourceRequest{InstanceID: "1", ResourceUUID: "12345", Resource: "portReservation", PortRequests: []scheduler.PortSpec{{IPAddress: "192.168.1.1", PublicPort: 8081, PrivatePort: 8081, Protocol: "tcp"}}}})
 
 	// when 8081 is released, scheduler should return two host available
-	actual, err = sched.PrioritizeCandidates([]scheduler.ResourceRequest{scheduler.PortBindingResourceRequest{InstanceID: "1", ResourceUUID: "12345", Resource: "portReservation", PortRequests: []scheduler.PortSpec{{PublicPort: 8081, PrivatePort: 8081, Protocol: "tcp"}}}}, scheduler.Context{})
+	actual, err = sched.PrioritizeCandidates([]scheduler.ResourceRequest{scheduler.PortBindingResourceRequest{InstanceID: "1", ResourceUUID: "request-uuid", Resource: "portReservation", PortRequests: []scheduler.PortSpec{{PublicPort: 8081, PrivatePort: 8081, Protocol: "tcp"}}}}, scheduler.Context{})
 	c.Assert(err, check.IsNil)
 	c.Assert(actual, check.HasLen, 2)
 }
