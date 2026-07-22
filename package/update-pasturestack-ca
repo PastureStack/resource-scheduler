@@ -1,0 +1,53 @@
+#!/bin/bash
+set -euo pipefail
+
+if [ -z "${CATTLE_CA_CHECKSUM:-}" ]; then
+    exit 0
+fi
+if [ -z "${CATTLE_URL:-}" ]; then
+    echo "CATTLE_URL is required when CATTLE_CA_CHECKSUM configures a custom control-plane CA" >&2
+    exit 1
+fi
+case "${CATTLE_URL}" in
+    http://*|https://*) ;;
+    *) echo "CATTLE_URL must use HTTP or HTTPS" >&2; exit 1 ;;
+esac
+
+expected_checksum=$(printf '%s' "${CATTLE_CA_CHECKSUM#sha256:}" | tr '[:upper:]' '[:lower:]')
+if ! [[ "${expected_checksum}" =~ ^[0-9a-f]{64}$ ]]; then
+    echo "CATTLE_CA_CHECKSUM must be a SHA-256 value" >&2
+    exit 1
+fi
+
+control_plane_base="${CATTLE_URL%/}"
+api_segment="${control_plane_base##*/}"
+case "${api_segment}" in
+    v[0-9]*) control_plane_base="${control_plane_base%/*}" ;;
+esac
+cert_url="${control_plane_base}/v1/scripts/agent-ca.crt"
+curl_connect_timeout="${PASTURESTACK_SCHEDULER_CA_CONNECT_TIMEOUT:-10}"
+curl_max_time="${PASTURESTACK_SCHEDULER_CA_MAX_TIME:-60}"
+ca_dir=$(mktemp -d "${TMPDIR:-/tmp}/pasturestack-scheduler-ca.XXXXXX")
+cert_file="${ca_dir}/agent-ca.crt"
+bundle_file="${ca_dir}/ca-certificates.crt"
+
+cleanup() {
+    rm -rf "${ca_dir}"
+}
+trap cleanup ERR INT TERM
+
+curl -fsSL --retry 5 --retry-all-errors --retry-delay 2 \
+    --connect-timeout "${curl_connect_timeout}" \
+    --max-time "${curl_max_time}" \
+    --proto '=http,https' --proto-redir '=http,https' \
+    "${cert_url}" -o "${cert_file}"
+actual_checksum=$(sha256sum "${cert_file}" | awk '{print $1}')
+if [ "${actual_checksum}" != "${expected_checksum}" ]; then
+    echo "Downloaded control-plane CA checksum did not match CATTLE_CA_CHECKSUM" >&2
+    exit 1
+fi
+
+cat /etc/ssl/certs/ca-certificates.crt "${cert_file}" > "${bundle_file}"
+chmod 0600 "${cert_file}" "${bundle_file}"
+trap - ERR INT TERM
+printf '%s\n' "${bundle_file}"

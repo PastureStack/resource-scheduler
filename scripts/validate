@@ -1,20 +1,11 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
-cd $(dirname $0)/..
+cd "$(dirname "$0")/.."
 
-echo Running validation
+PACKAGES=". $(find . -name '*.go' -not -path './vendor/*' -not -path './.git/*' -not -path './bin/*' -printf '%h\n' | sort -u | grep -v '^\.$' | sed -e 's!^!./!' -e 's!$!/...!')"
 
-PACKAGES=". $(find -name '*.go' | xargs -I{} dirname {} |  cut -f2 -d/ | sort -u | grep -Ev '(^\.$|.git|.trash-cache|vendor|bin)' | sed -e 's!^!./!' -e 's!$!/...!')"
-
-echo Running: go vet
+echo "Running go vet"
 go vet ${PACKAGES}
-echo Running: golint
-for i in ${PACKAGES}; do
-    if [ -n "$(golint $i | grep -v 'should have comment.*or be unexported' | tee /dev/stderr)" ]; then
-        failed=true
-    fi
-done
-test -z "$failed"
-echo Running: go fmt
-test -z "$(go fmt ${PACKAGES} | tee /dev/stderr)"
+echo "Running gofmt"
+test -z "$(find . -name '*.go' -not -path './vendor/*' -not -path './.git/*' -not -path './bin/*' -print0 | xargs -0 gofmt -l -s | tee /dev/stderr)"

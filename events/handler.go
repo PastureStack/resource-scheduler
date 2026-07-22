@@ -3,12 +3,12 @@ package events
 import (
 	"fmt"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/PastureStack/resource-scheduler/scheduler"
 	"github.com/mitchellh/mapstructure"
 	"github.com/pkg/errors"
 	revents "github.com/rancher/event-subscriber/events"
 	"github.com/rancher/go-rancher/v2"
-	"github.com/rancher/scheduler/scheduler"
+	"github.com/rancher/log"
 )
 
 const (
@@ -54,6 +54,17 @@ func (h *schedulingHandler) Prioritize(event *revents.Event, client *client.Ranc
 		return errors.Wrapf(err, "Error decoding prioritize event %v.", event)
 	}
 
+	for i := 0; i < 5; i++ {
+		_, err = h.scheduler.UpdateWithMetadata(false)
+		if err != nil {
+			if i == 4 {
+				panic(fmt.Sprintf("Failed at metadata initialization. 5 consecutive errors attempting to reach metadata. Panicing. Error: %v", err))
+			}
+			continue
+		}
+		break
+	}
+
 	candidates, err := h.scheduler.PrioritizeCandidates(data.ResourceRequests, data.Context)
 	if err != nil {
 		return errors.Wrapf(err, "Error prioritizing candidates. Event %v", event)
@@ -72,13 +83,13 @@ func publish(event *revents.Event, data map[string]interface{}, apiClient *clien
 	reply.ResourceId = event.ResourceID
 	reply.Data = data
 
-	logrus.Infof("Reply: Name: %v, PreviousIds: %v, ResourceId: %v, Data: %v.", reply.Name, reply.PreviousIds, reply.ResourceId, reply.Data)
+	log.Infof("Reply: Name: %v, PreviousIds: %v, ResourceId: %v, Data: %v.", reply.Name, reply.PreviousIds, reply.ResourceId, reply.Data)
 	_, err := apiClient.Publish.Create(reply)
 	return err
 }
 
 func getEventData(event *revents.Event) (*schedulerData, error) {
-	logrus.Infof("Received event: Name: %s, Event Id: %s, ResourceId : %v", event.Name, event.ID, event.ResourceID)
+	log.Infof("Received event: Name: %s, Event Id: %s, ResourceId : %v", event.Name, event.ID, event.ResourceID)
 	return decodeEvent(event, "schedulerRequest")
 }
 

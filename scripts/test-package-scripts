@@ -1,0 +1,63 @@
+#!/bin/bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+test_root=$(mktemp -d "${TMPDIR:-/tmp}/resource-scheduler-package-test.XXXXXX")
+trap 'rm -rf "${test_root}"' EXIT
+mkdir -p "${test_root}/fakebin" "${test_root}/runtime"
+printf '%s\n' 'test control-plane certificate' > "${test_root}/agent-ca.crt"
+
+cat > "${test_root}/fakebin/curl" <<'FAKE_CURL'
+#!/bin/bash
+set -euo pipefail
+output=""
+url=""
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -o)
+            output="$2"
+            shift 2
+            ;;
+        http://*|https://*)
+            url="$1"
+            shift
+            ;;
+        *)
+            shift
+            ;;
+    esac
+done
+[ -n "${output}" ] && [ -n "${url}" ]
+cp "${TEST_CERT_SOURCE}" "${output}"
+printf '%s\n' "${url}" > "${TEST_URL_LOG}"
+FAKE_CURL
+chmod 0755 "${test_root}/fakebin/curl"
+
+if output=$(env -u CATTLE_CA_CHECKSUM CATTLE_URL='http://control-plane.example/v2-beta' package/update-pasturestack-ca); then
+    [ -z "${output}" ] || { echo "CA helper emitted a path without a configured checksum" >&2; exit 1; }
+else
+    echo "CA helper failed when no custom CA was configured" >&2
+    exit 1
+fi
+
+if CATTLE_CA_CHECKSUM='invalid' CATTLE_URL='http://control-plane.example/v2-beta' package/update-pasturestack-ca >/dev/null 2>&1; then
+    echo "CA helper accepted an invalid checksum" >&2
+    exit 1
+fi
+
+checksum=$(sha256sum "${test_root}/agent-ca.crt" | awk '{print $1}')
+bundle=$(PATH="${test_root}/fakebin:${PATH}" \
+    TMPDIR="${test_root}/runtime" \
+    TEST_CERT_SOURCE="${test_root}/agent-ca.crt" \
+    TEST_URL_LOG="${test_root}/url.log" \
+    CATTLE_CA_CHECKSUM="sha256:${checksum}" \
+    CATTLE_URL='http://control-plane.example/v2-beta' \
+    package/update-pasturestack-ca)
+
+[ -r "${bundle}" ] || { echo "CA helper did not create a readable bundle" >&2; exit 1; }
+tail -n 1 "${bundle}" | grep -Fqx 'test control-plane certificate'
+grep -Fqx 'http://control-plane.example/v1/scripts/agent-ca.crt' "${test_root}/url.log"
+rm -rf "$(dirname "${bundle}")"
+
+echo "RESOURCE_SCHEDULER_PACKAGE_SCRIPTS_OK optional_ca=1 checksum=sha256 api_path_normalized=1"
