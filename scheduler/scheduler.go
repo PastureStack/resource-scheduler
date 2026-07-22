@@ -1,25 +1,31 @@
 package scheduler
 
 import (
-	"bytes"
 	"fmt"
-	"sort"
 	"sync"
 
 	"time"
 
-	"github.com/Sirupsen/logrus"
-	"github.com/rancher/go-rancher-metadata/metadata"
 	"reflect"
+
+	"github.com/PastureStack/resource-scheduler/internal/metadata"
+	"github.com/rancher/log"
 )
 
 const (
-	hostLabels          = "hostLabels"
-	computePool         = "computePool"
-	portPool            = "portPool"
-	instanceReservation = "instanceReservation"
-	labelPool           = "labelPool"
-	defaultIP           = "0.0.0.0"
+	instancePool            = "instanceReservation"
+	memoryPool              = "memoryReservation"
+	cpuPool                 = "cpuReservation"
+	storageSize             = "storageSize"
+	portPool                = "portReservation"
+	totalAvailableInstances = 1000000
+	hostLabels              = "hostLabels"
+	computePool             = "computePool"
+	portPoolType            = "portPool"
+	instanceReservation     = "instanceReservation"
+	labelPool               = "labelPool"
+	defaultIP               = "0.0.0.0"
+	ipLabel                 = "io.rancher.scheduler.ips"
 )
 
 type host struct {
@@ -28,178 +34,108 @@ type host struct {
 }
 
 func NewScheduler(sleepTime int) *Scheduler {
+	initialized := false
+	if sleepTime < 0 {
+		initialized = true
+	}
 	return &Scheduler{
-		hosts:     map[string]*host{},
-		sleepTime: sleepTime,
+		hosts:       map[string]*host{},
+		sleepTime:   sleepTime,
+		initialized: initialized,
 	}
 }
 
 type Scheduler struct {
-	mu        sync.RWMutex
-	hosts     map[string]*host
-	sleepTime int
+	mu          sync.RWMutex
+	hosts       map[string]*host
+	sleepTime   int
+	initialized bool
+	mdClient    metadata.Client
+	knownHosts  map[string]bool
+	//lock for initialization update
+	iniMu       sync.RWMutex
+	lastEventMu sync.Mutex
+	lastEvent   time.Time
+	globalMu    sync.RWMutex
 }
 
 func (s *Scheduler) PrioritizeCandidates(resourceRequests []ResourceRequest, context Context) ([]string, error) {
+	s.globalMu.RLock()
+	defer s.globalMu.RUnlock()
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	hosts := filter(s.hosts, resourceRequests)
+	defer s.setLastEvent()
 
-	if len(hosts) == 0 {
-		return []string{}, nil
+	filteredHosts := []string{}
+	for host := range s.hosts {
+		filteredHosts = append(filteredHosts, host)
 	}
 
-	hs := hostSorter{
-		hosts:            hosts,
-		resourceRequests: resourceRequests,
+	filters := getFilters()
+	for _, filter := range filters {
+		filteredHosts = filter.Filter(s, resourceRequests, context, filteredHosts)
 	}
-	sort.Sort(hs)
-	sortedIDs := ids(hs.hosts)
-	filteredHosts := s.PortFilter(resourceRequests, sortedIDs)
-	filteredHosts = s.LabelFilter(filteredHosts, context)
-	s.reserveTempPool(sortedIDs[0], resourceRequests)
+	filteredHosts = sortHosts(s, resourceRequests, context, filteredHosts)
 	return filteredHosts, nil
 }
 
 func (s *Scheduler) ReserveResources(hostID string, force bool, resourceRequests []ResourceRequest) (map[string]interface{}, error) {
+	s.globalMu.RLock()
+	defer s.globalMu.RUnlock()
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	logrus.Infof("Reserving %+v for %v. Force=%v", resourceRequests, hostID, force)
+	defer s.setLastEvent()
+
+	log.Infof("Reserving %+v for %v. Force=%v", resourceRequests, hostID, force)
 	h, ok := s.hosts[hostID]
 	if !ok {
 		// If the host isn't present, it is most likely that it hasn't been registered with the scheduler yet.
 		// When it is, this reservation will get counted by the initial population.
-		logrus.Warnf("Host %v not found for reserving %v. Skipping reservation", hostID, resourceRequests)
+		log.Warnf("Host %v not found for reserving %v. Skipping reservation", hostID, resourceRequests)
 		return nil, nil
 	}
 
-	i := 0
-	var err error
+	reserveActions := getReserveActions()
 	data := map[string]interface{}{}
-	portsRollback := []map[string]interface{}{}
-	var reserveLog *bytes.Buffer
-L:
-	for _, rr := range resourceRequests {
-		p, ok := h.pools[rr.GetResourceType()]
-		if !ok {
-			logrus.Warnf("Pool %v for host %v not found for reserving %v. Skipping reservation", rr.GetResourceType(), hostID, rr)
-			continue
-		}
-		PoolType := p.GetPoolType()
-		switch PoolType {
-		case computePool:
-			pool := p.(*ComputeResourcePool)
-			request := rr.(AmountBasedResourceRequest)
-			if !force && pool.Used+request.Amount > pool.Total {
-				err = OverReserveError{hostID: hostID, resourceRequest: rr}
-				break L
-			}
 
-			pool.Used = pool.Used + request.Amount
-			i++
-			if reserveLog == nil {
-				reserveLog = bytes.NewBufferString(fmt.Sprintf("New pool amount on host %v:", hostID))
+	executedActions := []ReserveAction{}
+
+	for _, action := range reserveActions {
+		err := action.Reserve(s, resourceRequests, nil, h, force, data)
+		executedActions = append(executedActions, action)
+		if err != nil {
+			log.Error("Error happens in reserving resource. Rolling back the reservation")
+			// rollback previous reserve actions
+			for _, exeAction := range executedActions {
+				exeAction.RollBack(s, resourceRequests, nil, h)
 			}
-			reserveLog.WriteString(fmt.Sprintf(" %v total: %v used: %v.", request.Resource, pool.Total, pool.Used))
-		case portPool:
-			pool := p.(*PortResourcePool)
-			request := rr.(PortBindingResourceRequest)
-			result, e := PortReserve(pool, request)
-			portsRollback = append(portsRollback, result)
-			logrus.Debugf("Host-UUID %v, PortPool Map tcp %v, PortPool Map udp %v, Ghost Map tcp %v, Ghost Map udp %v", hostID, pool.PortBindingMapTCP, pool.PortBindingMapUDP, pool.GhostMapTCP, pool.GhostMapUDP)
-			if e != nil && !force {
-				err = e
-				break L
-			} else {
-				if _, ok := data[request.Resource]; !ok {
-					data[request.Resource] = []map[string]interface{}{}
-				}
-				data[request.Resource] = append(data[request.Resource].([]map[string]interface{}), result)
-			}
+			return nil, err
 		}
 	}
-
-	if err == nil {
-		if reserveLog != nil {
-			logrus.Info(reserveLog.String())
-		}
-	} else {
-		logrus.Error(err)
-		// rollback
-		for _, rr := range resourceRequests[:i] {
-			p, ok := h.pools[rr.GetResourceType()]
-			if !ok {
-				break
-			}
-			resourcePoolType := p.GetPoolType()
-			switch resourcePoolType {
-			case computePool:
-				pool := p.(*ComputeResourcePool)
-				request := rr.(AmountBasedResourceRequest)
-				pool.Used = pool.Used - request.Amount
-			}
-		}
-		// roll back ports
-		if pool, ok := h.pools["portReservation"].(*PortResourcePool); ok {
-			for _, prb := range portsRollback {
-				if portReservation, ok := prb[allocatedIPs].([]map[string]interface{}); ok {
-					for _, portReserved := range portReservation {
-						ip := portReserved[allocatedIP].(string)
-						port := portReserved[publicPort].(int64)
-						prot := portReserved[protocol].(string)
-						pool.ReleasePort(ip, port, prot, "")
-						logrus.Infof("Roll back ip [%v] and port [%v]", ip, port)
-					}
-				}
-			}
-		}
-		return nil, err
-	}
-
 	return data, nil
 }
 
 func (s *Scheduler) ReleaseResources(hostID string, resourceRequests []ResourceRequest) error {
+	s.globalMu.RLock()
+	defer s.globalMu.RUnlock()
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	logrus.Infof("Releasing %+v for %v", resourceRequests, hostID)
+	defer s.setLastEvent()
+
+	log.Infof("Releasing %+v for %v", resourceRequests, hostID)
 	h, ok := s.hosts[hostID]
 	if !ok {
-		logrus.Infof("Host %v not found for releasing %v. Nothing to do.", hostID, resourceRequests)
+		log.Infof("Host %v not found for releasing %v. Nothing to do.", hostID, resourceRequests)
 		return nil
 	}
+	releaseActions := getReleaseActions()
 
-	releaseLog := bytes.NewBufferString(fmt.Sprintf("New pool amounts on host %v:", hostID))
-	for _, rr := range resourceRequests {
-		p, ok := h.pools[rr.GetResourceType()]
-		if !ok {
-			logrus.Infof("Host %v doesn't have resource pool %v. Nothing to do.", hostID, rr.GetResourceType())
-			continue
-		}
-		PoolType := p.GetPoolType()
-		switch PoolType {
-		case computePool:
-			pool := p.(*ComputeResourcePool)
-			request := rr.(AmountBasedResourceRequest)
-			if pool.Used-request.Amount < 0 {
-				logrus.Infof("Decreasing used for %v.%v by %v would result in negative usage. Setting to 0.", hostID, request.Resource, request.Amount)
-				pool.Used = 0
-			} else {
-				pool.Used = pool.Used - request.Amount
-			}
-			releaseLog.WriteString(fmt.Sprintf(" %v total: %v used: %v.", request.Resource, pool.Total, pool.Used))
-		case portPool:
-			pool := p.(*PortResourcePool)
-			request := rr.(PortBindingResourceRequest)
-			PortRelease(pool, request)
-			logrus.Infof("Host-UUID %v, PortPool Map tcp %v, PortPool Map udp %v, Ghost Map tcp %v, Ghost Map udp %v", hostID, pool.PortBindingMapTCP, pool.PortBindingMapUDP, pool.GhostMapTCP, pool.GhostMapUDP)
-		}
-
+	for _, rAction := range releaseActions {
+		rAction.Release(s, resourceRequests, nil, h)
 	}
-	logrus.Info(releaseLog.String())
 	return nil
 }
 
@@ -219,30 +155,13 @@ func (s *Scheduler) CreateResourcePool(hostUUID string, pool ResourcePool) error
 	if _, ok := h.pools[pool.GetPoolResourceType()]; ok {
 		return fmt.Errorf("Pool %v already exists on host %v", pool.GetPoolResourceType(), hostUUID)
 	}
-	switch pool.GetPoolType() {
-	case computePool:
-		p := pool.(*ComputeResourcePool)
-		logrus.Infof("Adding resource pool [%v] with total %v and used %v for host  %v", p.Resource, p.Total, p.Used, hostUUID)
-		h.pools[p.Resource] = &ComputeResourcePool{Total: p.Total, Used: p.Used, Resource: p.Resource}
-	case portPool:
-		p := pool.(*PortResourcePool)
-		ipset := []string{}
-		for ip := range p.PortBindingMapTCP {
-			ipset = append(ipset, ip)
-		}
-		logrus.Infof("Adding resource pool [%v], ip set %v, ports map tcp %v, ports map udp %v for host %v", p.Resource,
-			ipset, p.PortBindingMapTCP, p.PortBindingMapUDP, hostUUID)
-		h.pools[p.Resource] = p
-	case labelPool:
-		p := pool.(*LabelPool)
-		logrus.Infof("Adding resource pool [%v] with label map [%v]", p.Resource, p.Labels)
-		h.pools[p.Resource] = p
-	}
+
+	pool.Create(h)
 
 	return nil
 }
 
-func (s *Scheduler) UpdateResourcePool(hostUUID string, pool ResourcePool, updatePool bool) bool {
+func (s *Scheduler) UpdateResourcePool(hostUUID string, pool ResourcePool) bool {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -251,34 +170,12 @@ func (s *Scheduler) UpdateResourcePool(hostUUID string, pool ResourcePool, updat
 		return false
 	}
 
-	existingPool, ok := h.pools[pool.GetPoolResourceType()]
+	_, ok = h.pools[pool.GetPoolResourceType()]
 	if !ok {
 		return false
 	}
-	poolType := existingPool.GetPoolType()
-	switch poolType {
-	case computePool:
-		e := existingPool.(*ComputeResourcePool)
-		p := pool.(*ComputeResourcePool)
-		if e.Total != p.Total {
-			logrus.Infof("Updating resource pool [%v] to %v for host %v", p.GetPoolResourceType(), p.Total, hostUUID)
-			e.Total = p.Total
-		}
-	case portPool:
-		if updatePool {
-			p := pool.(*PortResourcePool)
-			ipset := []string{}
-			for ip := range p.PortBindingMapTCP {
-				ipset = append(ipset, ip)
-			}
-			logrus.Infof("Adding resource pool [%v], ip set %v, ports map tcp %v, ports map udp %v for host %v", p.Resource,
-				ipset, p.PortBindingMapTCP, p.PortBindingMapUDP, hostUUID)
-			h.pools[p.Resource] = p
-		}
-	case labelPool:
-		p := pool.(*LabelPool)
-		h.pools[p.Resource] = p
-	}
+
+	pool.Update(h)
 
 	return true
 }
@@ -287,7 +184,7 @@ func (s *Scheduler) RemoveHost(hostUUID string) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	logrus.Infof("Removing host %v.", hostUUID)
+	log.Infof("Removing host %v.", hostUUID)
 	delete(s.hosts, hostUUID)
 }
 
@@ -309,36 +206,103 @@ func (s *Scheduler) CompareHostLabels(hosts []metadata.Host) bool {
 	return false
 }
 
-func (s *Scheduler) PortFilter(requests []ResourceRequest, hosts []string) []string {
-	filteredHosts := []string{}
-	for _, host := range hosts {
-		portPool, ok := s.hosts[host].pools["portReservation"].(*PortResourcePool)
-		if !ok {
-			logrus.Warnf("Pool portReservation for host %v not found for reserving %v. Skipping pritization", hosts)
-		}
-		qualified := true
-		for _, request := range requests {
-			if rr, ok := request.(PortBindingResourceRequest); ok {
-				if !portPool.ArePortsAvailable(rr.PortRequests) {
-					qualified = false
-					break
-				}
-			}
-		}
-		if qualified {
-			filteredHosts = append(filteredHosts, host)
+func (s *Scheduler) UpdateWithMetadata(force bool) (bool, error) {
+	// if scheduler is not initialized or is updated by force, trigger the update logic
+	s.iniMu.Lock()
+	defer s.iniMu.Unlock()
+
+	// After we're initialized, don't perform the sync if the an event has come in in the last two seconds.
+	// Scheduling is bursty, so this mitigates performing the sync during a scheduling burst.
+	// Syncing and handling events at the same time is ok, but avoiding it is better.
+	if s.initialized {
+		check := s.getLastEvent().Add(time.Second * 5)
+		now := time.Now()
+		if check.After(now) || check.Equal(now) {
+			return false, nil
 		}
 	}
-	return filteredHosts
+
+	if !s.initialized || force {
+		s.globalMu.Lock()
+		defer s.globalMu.Unlock()
+		hosts, err := s.mdClient.GetHosts()
+		if err != nil {
+			return false, err
+		}
+
+		usedResourcesByHost, err := GetUsedResourcesByHost(s.mdClient)
+		if err != nil {
+			return false, err
+		}
+		newKnownHosts := map[string]bool{}
+
+		for _, h := range hosts {
+			newKnownHosts[h.UUID] = true
+			delete(s.knownHosts, h.UUID)
+
+			poolInits := map[string]int64{
+				instancePool: totalAvailableInstances,
+				cpuPool:      h.MilliCPU,
+				memoryPool:   h.Memory,
+				storageSize:  h.LocalStorageMb,
+			}
+
+			for resourceKey, total := range poolInits {
+				// Update totals available, not amount used
+				poolDoesntExist := !s.UpdateResourcePool(h.UUID, &ComputeResourcePool{
+					Resource:  resourceKey,
+					Used:      usedResourcesByHost[h.UUID][resourceKey],
+					Total:     total,
+					UpdateAll: true,
+				})
+				if poolDoesntExist {
+					usedResource := usedResourcesByHost[h.UUID][resourceKey]
+					if err := s.CreateResourcePool(h.UUID, &ComputeResourcePool{Resource: resourceKey, Total: total, Used: usedResource}); err != nil {
+						log.Errorf("Received an error creating resource pool. This shouldn't have happened. Error: %v.", err)
+						panic(err)
+					}
+				}
+			}
+
+			portPool, err := GetPortPoolFromHost(h, s.mdClient)
+			if err != nil {
+				return false, err
+			}
+			portPool.ShouldUpdate = true
+			poolDoesntExist := !s.UpdateResourcePool(h.UUID, portPool)
+			if poolDoesntExist {
+				s.CreateResourcePool(h.UUID, portPool)
+			}
+			// updating label pool
+			labelPool := &LabelPool{
+				Resource: hostLabels,
+				Labels:   h.Labels,
+			}
+			poolDoesntExist = !s.UpdateResourcePool(h.UUID, labelPool)
+			if poolDoesntExist {
+				s.CreateResourcePool(h.UUID, labelPool)
+			}
+
+		}
+
+		for uuid := range s.knownHosts {
+			s.RemoveHost(uuid)
+		}
+
+		s.knownHosts = newKnownHosts
+		if !force {
+			s.initialized = true
+		}
+	}
+	return true, nil
 }
 
-type OverReserveError struct {
-	hostID          string
-	resourceRequest ResourceRequest
+func (s *Scheduler) GetMetadataClient() metadata.Client {
+	return s.mdClient
 }
 
-func (e OverReserveError) Error() string {
-	return fmt.Sprintf("Not enough available resources on host %v to reserve %v.", e.hostID, e.resourceRequest)
+func (s *Scheduler) SetMetadataClient(client metadata.Client) {
+	s.mdClient = client
 }
 
 func (s *Scheduler) reserveTempPool(hostID string, requests []ResourceRequest) {
@@ -358,4 +322,17 @@ func (s *Scheduler) reserveTempPool(hostID string, requests []ResourceRequest) {
 			}
 		}
 	}
+}
+
+func (s *Scheduler) setLastEvent() {
+	s.lastEventMu.Lock()
+	defer s.lastEventMu.Unlock()
+	s.lastEvent = time.Now()
+}
+
+func (s *Scheduler) getLastEvent() time.Time {
+	s.lastEventMu.Lock()
+	defer s.lastEventMu.Unlock()
+	le := s.lastEvent // Get a copy while under the lock
+	return le
 }

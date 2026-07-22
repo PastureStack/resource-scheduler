@@ -1,0 +1,94 @@
+#!/bin/bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+failures=0
+fail() {
+    echo "RESOURCE_SCHEDULER_MIGRATION_POLICY_FAIL $*"
+    failures=$((failures + 1))
+}
+
+personal_matches=$(git grep -I -n -E '([[:alnum:]_.%+-]+@(gmail\.com|users\.noreply\.github\.com))|C:\\Users\\|(^|[^0-9])(10\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})([^0-9]|$)' -- ':!vendor/**' ':!LICENSES/**' || true)
+if [ -n "${personal_matches}" ]; then
+    printf '%s\n' "${personal_matches}"
+    fail "personal_marker_in_tracked_tree"
+fi
+
+if git ls-files -- ':!vendor/**' | grep -Eq '(^|/)\.github/workflows/|(^|/)\.drone\.yml$'; then
+    fail "migration_ci_must_remain_disabled"
+fi
+legacy_brand='ran''cher'
+legacy_title='Ran''cher'
+legacy_upper=$(printf '%s' "${legacy_brand}" | tr '[:lower:]' '[:upper:]')
+retired_short='rc''16'
+if git ls-files | grep -Eq "vendor/github\\.com/${legacy_brand}/go-${legacy_brand}-metadata/"; then
+    fail "metadata_snapshot_without_explicit_license_present"
+fi
+if git ls-files | grep -Eq "package/(${legacy_brand}-entrypoint\\.sh|update-${legacy_brand}-ssl)$|UNOFFICIAL_MAINTENANCE_FORK\\.md$"; then
+    fail "retired_packaging_name_present"
+fi
+
+for required in README.md ORIGIN.md COMPATIBILITY.md SECURITY.md THIRD_PARTY_NOTICES.md LICENSE \
+    internal/metadata/client.go internal/metadata/types.go package/pasturestack-entrypoint.sh package/update-pasturestack-ca scripts/test-package-scripts; do
+    [ -f "${required}" ] || fail "missing_${required//\//_}"
+done
+
+grep -Fq "PastureStack is an independent community effort to preserve, audit, and modernize the ${legacy_title} 1.6 ecosystem. It is not affiliated with or endorsed by ${legacy_title} Labs or SUSE." README.md || fail "independence_notice_missing"
+grep -Fq 'ad28c1d94b7f1b1814fa6404886398b4f4094d64' ORIGIN.md || fail "upstream_boundary_missing"
+grep -Fq 'ghcr.io/pasturestack/resource-scheduler' README.md || fail "public_image_missing"
+
+if git grep -I -n -E "${legacy_brand}-1\\.6-|${retired_short}" -- ':!vendor/**' ':!LICENSES/**' >/tmp/resource-scheduler-policy-matches 2>/dev/null; then
+    cat /tmp/resource-scheduler-policy-matches
+    fail "retired_repository_or_image_brand_present"
+fi
+rm -f /tmp/resource-scheduler-policy-matches
+
+image_matches=$(git grep -I -n 'ghcr\.io/' -- ':!vendor/**' ':!LICENSES/**' || true)
+unexpected_images=$(printf '%s\n' "${image_matches}" | grep -Ev 'ghcr\.io/(pasturestack/|\$\{IMAGE_NAMESPACE:-pasturestack\})' || true)
+if [ -n "${unexpected_images}" ]; then
+    printf '%s\n' "${unexpected_images}"
+    fail "non_pasturestack_image_present"
+fi
+
+legacy_source_matches=$(git grep -I -n -i "${legacy_brand}" -- '*.go' 'package/**' 'scripts/**' 'Dockerfile*' 'Makefile' '.dockerignore' || true)
+unexpected_legacy=$(printf '%s\n' "${legacy_source_matches}" | grep -Ev "github\\.com/${legacy_brand}/(event-subscriber|go-${legacy_brand}|log)|${legacy_title}Client|New${legacy_title}Client|${legacy_upper}_DEBUG|io\\.${legacy_brand}\\.scheduler" || true)
+if [ -n "${unexpected_legacy}" ]; then
+    printf '%s\n' "${unexpected_legacy}"
+    fail "unexpected_legacy_brand_in_maintained_source"
+fi
+
+if [ "$(git rev-parse ad28c1d94b7f1b1814fa6404886398b4f4094d64:LICENSE)" != "$(git rev-parse HEAD:LICENSE)" ]; then
+    fail "upstream_license_modified"
+fi
+
+check_license_copy() {
+    local source="$1" copy="$2"
+    if ! cmp -s "${source}" "${copy}"; then
+        fail "third_party_license_copy_mismatch_${copy//\//_}"
+    fi
+}
+check_license_copy vendor/github.com/gorilla/websocket/LICENSE LICENSES/gorilla-websocket.txt
+check_license_copy vendor/github.com/mitchellh/mapstructure/LICENSE LICENSES/mitchellh-mapstructure.txt
+check_license_copy vendor/github.com/pkg/errors/LICENSE LICENSES/pkg-errors.txt
+check_license_copy "vendor/github.com/${legacy_brand}/event-subscriber/LICENSE" LICENSES/legacy-event-subscriber.txt
+check_license_copy "vendor/github.com/${legacy_brand}/go-${legacy_brand}/LICENSE" LICENSES/legacy-control-plane-client.txt
+check_license_copy "vendor/github.com/${legacy_brand}/log/LICENSE" LICENSES/legacy-log.txt
+check_license_copy vendor/github.com/sirupsen/logrus/LICENSE LICENSES/sirupsen-logrus.txt
+check_license_copy vendor/github.com/urfave/cli/LICENSE LICENSES/urfave-cli.txt
+check_license_copy vendor/golang.org/x/sys/LICENSE LICENSES/golang-x-sys.txt
+check_license_copy vendor/golang.org/x/sys/PATENTS LICENSES/golang-x-sys-PATENTS.txt
+check_license_copy vendor/gopkg.in/check.v1/LICENSE LICENSES/gopkg-check-v1.txt
+if [ "$(git rev-parse HEAD^)" != 'ad28c1d94b7f1b1814fa6404886398b4f4094d64' ]; then
+    fail "pasturestack_commit_not_directly_after_upstream"
+fi
+if [ "$(git rev-list --count ad28c1d94b7f1b1814fa6404886398b4f4094d64..HEAD)" != '1' ]; then
+    fail "pasturestack_history_not_consolidated"
+fi
+
+echo "failure_count=${failures}"
+if [ "${failures}" -ne 0 ]; then
+    exit 1
+fi
+
+echo "RESOURCE_SCHEDULER_MIGRATION_POLICY_OK personal_markers=0 workflows=0 upstream_history=preserved maintenance_commits=1 metadata_client=separately_implemented"
