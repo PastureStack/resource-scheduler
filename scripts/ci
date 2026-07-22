@@ -6,4 +6,7 @@ cd $(dirname $0)
 ./build
 ./test
 ./validate
+bash ./check-build-downloads
+bash ./check-migration-policy
+./test-package-scripts
 ./package

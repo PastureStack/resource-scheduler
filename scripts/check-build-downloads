@@ -1,0 +1,65 @@
+#!/bin/bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+failures=0
+fail() {
+    echo "RESOURCE_SCHEDULER_BUILD_POLICY_FAIL $*"
+    failures=$((failures + 1))
+}
+require_pattern() {
+    local file="$1" pattern="$2" label="$3"
+    grep -Eq -- "${pattern}" "${file}" || fail "${label}"
+}
+reject_pattern() {
+    local file="$1" pattern="$2" label="$3"
+    if grep -Eq -- "${pattern}" "${file}"; then
+        fail "${label}"
+    fi
+}
+
+bash -n scripts/build scripts/ci scripts/package scripts/test scripts/test-package-scripts scripts/validate scripts/version \
+    scripts/check-migration-policy package/pasturestack-entrypoint.sh package/update-pasturestack-ca
+
+require_pattern Dockerfile.dapper 'FROM ubuntu:26\.04@sha256:3131b4cc82a783df6c9df078f86e01819a13594b865c2cad47bd1bca2b7063bb' "dapper_base_not_pinned"
+require_pattern Dockerfile.dapper 'ARG GO_VERSION=1\.26\.5' "go_version_not_current"
+require_pattern Dockerfile.dapper 'GO_LINUX_AMD64_SHA256=5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053' "go_amd64_sha_not_current"
+require_pattern Dockerfile.dapper 'GO_LINUX_ARM64_SHA256=fe4789e92b1f33358680864bbe8704289e7bb5fc207d80623c308935bd696d49' "go_arm64_sha_not_current"
+require_pattern Dockerfile.dapper 'ARG DOCKER_VERSION=29\.6\.2' "docker_version_not_current"
+require_pattern Dockerfile.dapper 'DOCKER_LINUX_AMD64_SHA256=d6204aea92238e2453d5445c885b9d2e5eb8f82915568ec50edf9dbe12a3ac74' "docker_amd64_sha_not_current"
+require_pattern Dockerfile.dapper 'DOCKER_LINUX_ARM64_SHA256=8d16d8b3b158c132a9fb9963d4b4345746f925e287e154c9ed880ac257baf292' "docker_arm64_sha_not_current"
+require_pattern Dockerfile.dapper 'ARG BUILDX_VERSION=0\.34\.1' "buildx_version_not_current"
+require_pattern Dockerfile.dapper 'BUILDX_LINUX_AMD64_SHA256=f1332ddb9010bd0b72628266c3a906d9a6979848033df4c8d9bd2cd113bae12b' "buildx_amd64_sha_not_current"
+require_pattern Dockerfile.dapper 'BUILDX_LINUX_ARM64_SHA256=c34e32dd6ea2653d960d6c099c9f09b9077e4a37504d2d31e5066eccc3904231' "buildx_arm64_sha_not_current"
+require_pattern Dockerfile.dapper 'ARG UBUNTU_SNAPSHOT=20260722T164940Z' "dapper_snapshot_not_pinned"
+require_pattern Dockerfile.dapper 'ADD --checksum=sha256:6077d27c6b6f8b23590cb01ff877ed8c804a67a5442cc32b5a33da10d2bd0e90' "dapper_ca_bootstrap_not_pinned"
+require_pattern Makefile 'DAPPER_IMAGE \?= pasturestack-resource-scheduler-dapper:go1\.26\.5-docker29\.6\.2-buildx0\.34\.1' "dapper_identity_not_pinned"
+require_pattern Makefile 'DAPPER_SOURCE \?= /go/src/github\.com/PastureStack/resource-scheduler' "dapper_source_not_canonical"
+reject_pattern Dockerfile.dapper 'curl[^|]*\|[[:space:]]*tar' "pipe_to_tar_download"
+
+require_pattern package/Dockerfile 'FROM ubuntu:26\.04@sha256:3131b4cc82a783df6c9df078f86e01819a13594b865c2cad47bd1bca2b7063bb' "runtime_base_not_pinned"
+require_pattern package/Dockerfile 'ARG UBUNTU_SNAPSHOT=20260722T164940Z' "runtime_snapshot_not_pinned"
+require_pattern package/Dockerfile 'Acquire::https::CaInfo "/etc/ssl/certs/ca-certificates\.crt"' "runtime_snapshot_ca_not_enforced"
+require_pattern package/Dockerfile '/var/log/alternatives\.log /var/log/lastlog /var/log/faillog /var/cache/ldconfig/aux-cache' "runtime_nondeterministic_state_not_removed"
+require_pattern package/Dockerfile 'USER 10001:10001' "runtime_user_not_nonroot"
+require_pattern package/Dockerfile 'setcap cap_net_bind_service=\+ep /usr/bin/resource-scheduler' "scheduler_capability_missing"
+require_pattern package/Dockerfile 'org\.opencontainers\.image\.source="https://github\.com/PastureStack/resource-scheduler"' "oci_source_missing"
+require_pattern package/Dockerfile 'org\.opencontainers\.image\.revision="\$\{IMAGE_REVISION\}"' "oci_revision_missing"
+require_pattern scripts/package 'rewrite-timestamp=true,compatibility-version=20' "reproducible_export_missing"
+require_pattern scripts/package '--build-arg SOURCE_DATE_EPOCH="\$\{SOURCE_DATE_EPOCH\}"' "source_date_epoch_missing"
+require_pattern .dockerignore '^!bin/resource-scheduler$' "verified_binary_not_in_context"
+
+require_pattern package/update-pasturestack-ca 'CATTLE_CA_CHECKSUM#sha256:' "ca_checksum_prefix_not_supported"
+require_pattern package/update-pasturestack-ca 'sha256sum "\$\{cert_file\}"' "ca_checksum_not_verified"
+require_pattern package/update-pasturestack-ca '--connect-timeout "\$\{curl_connect_timeout\}"' "ca_connect_timeout_missing"
+require_pattern package/update-pasturestack-ca '--max-time "\$\{curl_max_time\}"' "ca_max_time_missing"
+reject_pattern package/update-pasturestack-ca 'curl .*-[A-Za-z]*k' "insecure_ca_download"
+reject_pattern package/Dockerfile 'gmail\.com|users\.noreply\.github\.com|C:\\Users|/Users/' "personal_marker_in_image"
+
+echo "failure_count=${failures}"
+if [ "${failures}" -ne 0 ]; then
+    exit 1
+fi
+
+echo "RESOURCE_SCHEDULER_BUILD_POLICY_OK go=1.26.5 docker=29.6.2 buildx=0.34.1 pinned_base=1 pinned_apt_snapshot=1 reproducible_export=1 nonroot=1 verified_ca=1"

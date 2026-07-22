@@ -1,0 +1,12 @@
+* text=auto
+
+Dockerfile* text eol=lf
+Makefile text eol=lf
+scripts/* text eol=lf
+package/* text eol=lf
+*.sh text eol=lf
+*.go text eol=lf
+*.md text eol=lf
+.dockerignore text eol=lf
+.gitignore text eol=lf
+trash.conf text eol=lf

@@ -6,9 +6,9 @@ import (
 
 	check "gopkg.in/check.v1"
 
-	"github.com/rancher/go-rancher-metadata/metadata"
+	"github.com/PastureStack/resource-scheduler/internal/metadata"
+	"github.com/PastureStack/resource-scheduler/scheduler"
 	"github.com/rancher/go-rancher/v2"
-	"github.com/rancher/scheduler/scheduler"
 )
 
 // gocheck setup
