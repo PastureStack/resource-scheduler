@@ -3,6 +3,18 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+if ! git diff --quiet -- vendor; then
+    echo "vendored files contain unstaged changes" >&2
+    exit 1
+fi
+
+untracked_vendor=$(git ls-files --others --exclude-standard -- vendor)
+if [ -n "$untracked_vendor" ]; then
+    printf '%s\n' "$untracked_vendor" >&2
+    echo "untracked vendored files are not allowed" >&2
+    exit 1
+fi
+
 expected_modules=$(mktemp)
 observed_modules=$(mktemp)
 trap 'rm -f "$expected_modules" "$observed_modules"' EXIT
@@ -41,7 +53,8 @@ while read -r module revision expected_digest expected_count; do
             LC_ALL=C sort -z |
             while IFS= read -r -d '' path; do
                 printf '%s\n' "$path"
-                cat "$path"
+                git ls-files --error-unmatch -- "$path" >/dev/null
+                git show ":$path"
                 printf '\n'
             done |
             sha256sum |
