@@ -10,3 +10,5 @@ package/* text eol=lf
 .dockerignore text eol=lf
 .gitignore text eol=lf
 trash.conf text eol=lf
+vendor.lock text eol=lf
+ubuntu-apt.lock text eol=lf

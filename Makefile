@@ -1,11 +1,11 @@
 .RECIPEPREFIX := >
 TARGETS := $(shell ls scripts)
 
-DAPPER_IMAGE ?= pasturestack-resource-scheduler-dapper:go1.26.5-docker29.6.2-buildx0.34.1
+DAPPER_IMAGE ?= pasturestack-resource-scheduler-dapper:go1.26.6-docker29.6.2-buildx0.34.1
 DAPPER_HOST_ARCH ?= amd64
 DOCKER_VERSION ?= 29.6.2
 BUILDX_VERSION ?= 0.34.1
-UBUNTU_SNAPSHOT ?= 20260722T164940Z
+UBUNTU_SNAPSHOT ?= 20260808T000000Z
 DAPPER_SOURCE ?= /go/src/github.com/PastureStack/resource-scheduler
 
 .dapper:

@@ -19,8 +19,10 @@ Resource Scheduler receives scoped control-plane credentials, consumes host and 
 
 - Build from the public source commit named by `org.opencontainers.image.revision`.
 - Verify Go, Docker CLI, and Buildx downloads before extraction or execution.
-- Keep the runtime base image digest-pinned and install packages from a fixed Ubuntu archive snapshot.
+- Keep the runtime base image digest-pinned. Resolve exact direct-package versions from the dated Canonical snapshot in `ubuntu-apt.lock`, and retain the complete resolved `dpkg` inventory in each build and runtime image.
+- Verify every vendored module against the full source revision, deterministic tree digest, and file count in `vendor.lock` before compilation.
 - Run unit tests, race tests, `go vet`, formatting checks, build-policy checks, migration-policy checks, secret scanning, an SBOM inventory, and High/Critical vulnerability scanning before publishing.
+- A High or Critical finding may be classified as not affected only when CI proves it is an unfixed `linux-libc-dev` header finding in the disposable builder, emits OpenVEX evidence, and proves the package is absent from the runtime image. Any fixed or different builder finding remains blocking.
 - Publish a new immutable version when source or dependencies change; do not replace an existing release digest.
 
 Report vulnerabilities privately to the PastureStack organization maintainers. Do not include credentials, internal addresses, customer data, or exploit details in public issues.

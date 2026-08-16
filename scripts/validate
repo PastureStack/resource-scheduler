@@ -3,9 +3,15 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+bash scripts/verify-vendor-lock
+
 PACKAGES=". $(find . -name '*.go' -not -path './vendor/*' -not -path './.git/*' -not -path './bin/*' -printf '%h\n' | sort -u | grep -v '^\.$' | sed -e 's!^!./!' -e 's!$!/...!')"
 
 echo "Running go vet"
 go vet ${PACKAGES}
 echo "Running gofmt"
-test -z "$(find . -name '*.go' -not -path './vendor/*' -not -path './.git/*' -not -path './bin/*' -print0 | xargs -0 gofmt -l -s | tee /dev/stderr)"
+unformatted=$(find . -name '*.go' -not -path './vendor/*' -not -path './.git/*' -not -path './bin/*' -print0 | xargs -0 gofmt -l -s)
+if [ -n "${unformatted}" ]; then
+    printf '%s\n' "${unformatted}" >&2
+    exit 1
+fi

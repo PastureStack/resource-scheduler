@@ -15,9 +15,14 @@ if [ -n "${personal_matches}" ]; then
     fail "personal_marker_in_tracked_tree"
 fi
 
-if git ls-files -- ':!vendor/**' | grep -Eq '(^|/)\.github/workflows/|(^|/)\.drone\.yml$'; then
-    fail "migration_ci_must_remain_disabled"
+unexpected_workflows=$(find .github/workflows -maxdepth 1 -type f -print | sed 's|^\./||' | grep -Ev '^\.github/workflows/(repository-integrity|supply-chain)\.yml$' || true)
+if [ -n "${unexpected_workflows}" ]; then
+    printf '%s\n' "${unexpected_workflows}"
+    fail "unreviewed_workflow_present"
 fi
+for workflow in .github/workflows/repository-integrity.yml .github/workflows/supply-chain.yml; do
+    [ -f "${workflow}" ] || fail "missing_${workflow//\//_}"
+done
 legacy_brand='ran''cher'
 legacy_title='Ran''cher'
 legacy_upper=$(printf '%s' "${legacy_brand}" | tr '[:lower:]' '[:upper:]')
@@ -79,11 +84,14 @@ check_license_copy vendor/github.com/urfave/cli/LICENSE LICENSES/urfave-cli.txt
 check_license_copy vendor/golang.org/x/sys/LICENSE LICENSES/golang-x-sys.txt
 check_license_copy vendor/golang.org/x/sys/PATENTS LICENSES/golang-x-sys-PATENTS.txt
 check_license_copy vendor/gopkg.in/check.v1/LICENSE LICENSES/gopkg-check-v1.txt
-if [ "$(git rev-parse HEAD^)" != 'ad28c1d94b7f1b1814fa6404886398b4f4094d64' ]; then
-    fail "pasturestack_commit_not_directly_after_upstream"
+if ! git merge-base --is-ancestor ad28c1d94b7f1b1814fa6404886398b4f4094d64 HEAD; then
+    fail "upstream_boundary_not_preserved"
 fi
-if [ "$(git rev-list --count ad28c1d94b7f1b1814fa6404886398b4f4094d64..HEAD)" != '1' ]; then
-    fail "pasturestack_history_not_consolidated"
+if [ "$(git rev-list --count ad28c1d94b7f1b1814fa6404886398b4f4094d64..HEAD)" -lt 1 ]; then
+    fail "pasturestack_maintenance_commit_missing"
+fi
+if [ "$(git rev-list --count --merges ad28c1d94b7f1b1814fa6404886398b4f4094d64..HEAD)" -ne 0 ]; then
+    fail "pasturestack_history_must_remain_linear"
 fi
 
 echo "failure_count=${failures}"
@@ -91,4 +99,4 @@ if [ "${failures}" -ne 0 ]; then
     exit 1
 fi
 
-echo "RESOURCE_SCHEDULER_MIGRATION_POLICY_OK personal_markers=0 workflows=0 upstream_history=preserved maintenance_commits=1 metadata_client=separately_implemented"
+echo "RESOURCE_SCHEDULER_MIGRATION_POLICY_OK personal_markers=0 workflows=reviewed upstream_history=preserved maintenance_history=linear metadata_client=separately_implemented"

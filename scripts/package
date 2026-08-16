@@ -16,7 +16,7 @@ IMAGE=${REPO}/resource-scheduler:${TAG}
 IMAGE_REVISION=${IMAGE_REVISION:-$(git rev-parse HEAD)}
 IMAGE_CREATED=${IMAGE_CREATED:-$(git show -s --format=%cI HEAD)}
 SOURCE_DATE_EPOCH=${SOURCE_DATE_EPOCH:-$(git show -s --format=%ct HEAD)}
-UBUNTU_SNAPSHOT=${UBUNTU_SNAPSHOT:-20260722T164940Z}
+UBUNTU_SNAPSHOT=${UBUNTU_SNAPSHOT:-20260808T000000Z}
 IMAGE_ARCHIVE=$(mktemp "${TMPDIR:-/tmp}/resource-scheduler-image.XXXXXX.tar")
 trap 'rm -f "${IMAGE_ARCHIVE}"' EXIT
 

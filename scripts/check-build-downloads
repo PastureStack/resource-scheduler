@@ -20,27 +20,34 @@ reject_pattern() {
 }
 
 bash -n scripts/build scripts/ci scripts/package scripts/test scripts/test-package-scripts scripts/validate scripts/version \
+    scripts/verify-vendor-lock \
     scripts/check-migration-policy package/pasturestack-entrypoint.sh package/update-pasturestack-ca
 
-require_pattern Dockerfile.dapper 'FROM ubuntu:26\.04@sha256:3131b4cc82a783df6c9df078f86e01819a13594b865c2cad47bd1bca2b7063bb' "dapper_base_not_pinned"
-require_pattern Dockerfile.dapper 'ARG GO_VERSION=1\.26\.5' "go_version_not_current"
-require_pattern Dockerfile.dapper 'GO_LINUX_AMD64_SHA256=5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053' "go_amd64_sha_not_current"
-require_pattern Dockerfile.dapper 'GO_LINUX_ARM64_SHA256=fe4789e92b1f33358680864bbe8704289e7bb5fc207d80623c308935bd696d49' "go_arm64_sha_not_current"
+require_pattern Dockerfile.dapper 'ARG UBUNTU_IMAGE=ubuntu:26\.04@sha256:7c2884fd32770fc6c173b78e0dc2278a2851d89f5447919edbc45475ac55dd6a' "dapper_base_not_pinned"
+require_pattern Dockerfile.dapper 'ARG GO_VERSION=1\.26\.6' "go_version_not_current"
+require_pattern Dockerfile.dapper 'GO_LINUX_AMD64_SHA256=708effb774be8237570d0add163225abbdfaf4fca28b2611df167beba4feef89' "go_amd64_sha_not_current"
+require_pattern Dockerfile.dapper 'GO_LINUX_ARM64_SHA256=d0507e9e9d7fe012aae570108cbd76c15de879e17130ab8cb90d4d7445cb1f2e' "go_arm64_sha_not_current"
 require_pattern Dockerfile.dapper 'ARG DOCKER_VERSION=29\.6\.2' "docker_version_not_current"
 require_pattern Dockerfile.dapper 'DOCKER_LINUX_AMD64_SHA256=d6204aea92238e2453d5445c885b9d2e5eb8f82915568ec50edf9dbe12a3ac74' "docker_amd64_sha_not_current"
 require_pattern Dockerfile.dapper 'DOCKER_LINUX_ARM64_SHA256=8d16d8b3b158c132a9fb9963d4b4345746f925e287e154c9ed880ac257baf292' "docker_arm64_sha_not_current"
 require_pattern Dockerfile.dapper 'ARG BUILDX_VERSION=0\.34\.1' "buildx_version_not_current"
 require_pattern Dockerfile.dapper 'BUILDX_LINUX_AMD64_SHA256=f1332ddb9010bd0b72628266c3a906d9a6979848033df4c8d9bd2cd113bae12b' "buildx_amd64_sha_not_current"
 require_pattern Dockerfile.dapper 'BUILDX_LINUX_ARM64_SHA256=c34e32dd6ea2653d960d6c099c9f09b9077e4a37504d2d31e5066eccc3904231' "buildx_arm64_sha_not_current"
-require_pattern Dockerfile.dapper 'ARG UBUNTU_SNAPSHOT=20260722T164940Z' "dapper_snapshot_not_pinned"
+require_pattern Dockerfile.dapper 'ARG UBUNTU_SNAPSHOT=20260808T000000Z' "dapper_snapshot_not_pinned"
 require_pattern Dockerfile.dapper 'ADD --checksum=sha256:6077d27c6b6f8b23590cb01ff877ed8c804a67a5442cc32b5a33da10d2bd0e90' "dapper_ca_bootstrap_not_pinned"
-require_pattern Makefile 'DAPPER_IMAGE \?= pasturestack-resource-scheduler-dapper:go1\.26\.5-docker29\.6\.2-buildx0\.34\.1' "dapper_identity_not_pinned"
+require_pattern Dockerfile.dapper 'COPY ubuntu-apt\.lock /usr/share/pasturestack/manifests/ubuntu-apt\.lock' "dapper_apt_lock_not_copied"
+require_pattern Dockerfile.dapper 'gcc="\$\{UBUNTU_APT_GCC_VERSION\}"' "dapper_gcc_not_version_pinned"
+require_pattern Dockerfile.dapper 'dpkg-query -W' "dapper_resolved_package_manifest_missing"
+require_pattern Makefile 'DAPPER_IMAGE \?= pasturestack-resource-scheduler-dapper:go1\.26\.6-docker29\.6\.2-buildx0\.34\.1' "dapper_identity_not_pinned"
+require_pattern Makefile 'UBUNTU_SNAPSHOT \?= 20260808T000000Z' "make_snapshot_not_current"
 require_pattern Makefile 'DAPPER_SOURCE \?= /go/src/github\.com/PastureStack/resource-scheduler' "dapper_source_not_canonical"
 reject_pattern Dockerfile.dapper 'curl[^|]*\|[[:space:]]*tar' "pipe_to_tar_download"
 
-require_pattern package/Dockerfile 'FROM ubuntu:26\.04@sha256:3131b4cc82a783df6c9df078f86e01819a13594b865c2cad47bd1bca2b7063bb' "runtime_base_not_pinned"
-require_pattern package/Dockerfile 'ARG UBUNTU_SNAPSHOT=20260722T164940Z' "runtime_snapshot_not_pinned"
+require_pattern package/Dockerfile 'ARG UBUNTU_IMAGE=ubuntu:26\.04@sha256:7c2884fd32770fc6c173b78e0dc2278a2851d89f5447919edbc45475ac55dd6a' "runtime_base_not_pinned"
+require_pattern package/Dockerfile 'ARG UBUNTU_SNAPSHOT=20260808T000000Z' "runtime_snapshot_not_pinned"
 require_pattern package/Dockerfile 'Acquire::https::CaInfo "/etc/ssl/certs/ca-certificates\.crt"' "runtime_snapshot_ca_not_enforced"
+require_pattern package/Dockerfile 'libcap2-bin="\$\{UBUNTU_APT_LIBCAP2_BIN_VERSION\}"' "runtime_packages_not_version_pinned"
+require_pattern package/Dockerfile 'runtime-ubuntu-packages\.tsv' "runtime_resolved_package_manifest_missing"
 require_pattern package/Dockerfile '/var/log/alternatives\.log /var/log/lastlog /var/log/faillog /var/cache/ldconfig/aux-cache' "runtime_nondeterministic_state_not_removed"
 require_pattern package/Dockerfile 'USER 10001:10001' "runtime_user_not_nonroot"
 require_pattern package/Dockerfile 'setcap cap_net_bind_service=\+ep /usr/bin/resource-scheduler' "scheduler_capability_missing"
@@ -48,7 +55,18 @@ require_pattern package/Dockerfile 'org\.opencontainers\.image\.source="https://
 require_pattern package/Dockerfile 'org\.opencontainers\.image\.revision="\$\{IMAGE_REVISION\}"' "oci_revision_missing"
 require_pattern scripts/package 'rewrite-timestamp=true,compatibility-version=20' "reproducible_export_missing"
 require_pattern scripts/package '--build-arg SOURCE_DATE_EPOCH="\$\{SOURCE_DATE_EPOCH\}"' "source_date_epoch_missing"
+require_pattern scripts/package 'UBUNTU_SNAPSHOT=\$\{UBUNTU_SNAPSHOT:-20260808T000000Z\}' "package_snapshot_not_current"
 require_pattern .dockerignore '^!bin/resource-scheduler$' "verified_binary_not_in_context"
+require_pattern .dockerignore '^!ubuntu-apt\.lock$' "apt_lock_not_in_build_context"
+require_pattern ubuntu-apt.lock '^UBUNTU_APT_SNAPSHOT=.20260808T000000Z.$' "apt_snapshot_lock_missing"
+require_pattern ubuntu-apt.lock '^UBUNTU_APT_GCC_VERSION=.4:15\.2\.0-5ubuntu1.$' "gcc_package_lock_missing"
+require_pattern vendor.lock '^golang\.org/x/sys f33a730cd0c449cfd6f7106780c73052e96cc33d [0-9a-f]{64} 479$' "x_sys_vendor_lock_missing"
+require_pattern .github/workflows/repository-integrity.yml 'repository-integrity\.yml@86986b855e3cde8bab6b5221407417365ef138a4' "reusable_workflow_not_commit_pinned"
+reject_pattern .github/workflows/repository-integrity.yml 'repository-integrity\.yml@main' "reusable_workflow_floating"
+require_pattern .github/workflows/supply-chain.yml 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' "checkout_action_not_commit_pinned"
+require_pattern .github/workflows/supply-chain.yml 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' "artifact_action_not_commit_pinned"
+require_pattern .github/workflows/supply-chain.yml 'aquasec/trivy:0\.74\.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969' "trivy_image_not_digest_pinned"
+require_pattern .github/workflows/supply-chain.yml 'govulncheck@v1\.1\.4' "govulncheck_not_version_pinned"
 
 require_pattern package/update-pasturestack-ca 'CATTLE_CA_CHECKSUM#sha256:' "ca_checksum_prefix_not_supported"
 require_pattern package/update-pasturestack-ca 'sha256sum "\$\{cert_file\}"' "ca_checksum_not_verified"
@@ -62,4 +80,4 @@ if [ "${failures}" -ne 0 ]; then
     exit 1
 fi
 
-echo "RESOURCE_SCHEDULER_BUILD_POLICY_OK go=1.26.5 docker=29.6.2 buildx=0.34.1 pinned_base=1 pinned_apt_snapshot=1 reproducible_export=1 nonroot=1 verified_ca=1"
+echo "RESOURCE_SCHEDULER_BUILD_POLICY_OK go=1.26.6 docker=29.6.2 buildx=0.34.1 pinned_base=1 pinned_direct_apt=1 vendor_tree_lock=1 reproducible_export=1 nonroot=1 verified_ca=1"

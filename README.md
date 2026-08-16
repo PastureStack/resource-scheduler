@@ -22,17 +22,20 @@ The native command is `resource-scheduler`. A `scheduler` executable symlink rem
 
 ## Build and test
 
-The reviewed build uses Go 1.26.5, Docker CLI 29.6.2, and Docker Buildx 0.34.1. Downloaded tools are checked against fixed SHA-256 values. The Ubuntu base image is digest-pinned, package installation uses the fixed `20260722T164940Z` Ubuntu archive snapshot, and the image exporter normalizes file timestamps to the source commit time.
+The reviewed build uses Go 1.26.6, Docker CLI 29.6.2, and Docker Buildx 0.34.1. Downloaded tools are checked against fixed SHA-256 values. The Ubuntu base image is digest-pinned; direct packages are version-pinned in `ubuntu-apt.lock` against the fixed `20260808T000000Z` Canonical snapshot, and each built image records the complete resolved `dpkg` inventory. The image exporter normalizes file timestamps to the source commit time.
+
+The committed `vendor.lock` records a full source commit, deterministic tree digest, and file count for every reachable vendored module. `scripts/verify-vendor-lock` rejects added, removed, or modified vendored files before compilation. Security CI produces short-lived source and runtime CycloneDX SBOMs, runs binary reachability analysis, and blocks runtime Critical or High vulnerabilities and detected secrets.
 
 ```bash
 make test
 make validate
 bash scripts/check-build-downloads
+bash scripts/verify-vendor-lock
 bash scripts/check-migration-policy
-VERSION_OVERRIDE=v0.8.16 IMAGE_NAMESPACE=pasturestack make package
+VERSION_OVERRIDE=v0.8.17 IMAGE_NAMESPACE=pasturestack make package
 ```
 
-No CI/CD workflow is enabled during the migration and system-integration phase.
+CI validates source and dependency locks, tests and reproducible builds, and generates short-lived security evidence. Publishing remains a separate, explicitly authorized operation.
 
 The scheduling test suite includes repeated allocation of the same host-port
 reservation. Retries for one resource UUID are idempotent, while a different

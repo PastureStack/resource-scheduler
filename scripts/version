@@ -15,7 +15,7 @@ fi
 COMMIT=$(git rev-parse --short HEAD)
 GIT_TAG=$(git tag -l --contains HEAD | head -n 1)
 
-if [[ -z "$DIRTY" && -n "$GIT_TAG" ]]; then
+if [[ -z "${DIRTY:-}" && -n "$GIT_TAG" ]]; then
     VERSION=$GIT_TAG
     IMAGE_VERSION=${VERSION}
 else
@@ -25,6 +25,6 @@ fi
 
 fi
 
-if [ -z "$ARCH" ]; then
+if [ -z "${ARCH:-}" ]; then
     ARCH=amd64
 fi
