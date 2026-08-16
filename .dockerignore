@@ -1,6 +1,8 @@
 **
 !Dockerfile.dapper
 !ubuntu-apt.lock
+!toolchain/
+!toolchain/buildx-security.patch
 !bin/
 !bin/resource-scheduler
 !package/

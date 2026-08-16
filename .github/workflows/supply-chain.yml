@@ -41,12 +41,15 @@ jobs:
           mkdir -p evidence
           git rev-parse HEAD > evidence/source-revision.txt
           sha256sum \
+            .dockerignore \
             ubuntu-apt.lock \
             vendor.lock \
             Dockerfile.dapper \
             Makefile \
             package/Dockerfile \
+            toolchain/buildx-security.patch \
             scripts/build \
+            scripts/entry \
             scripts/package \
             scripts/check-build-downloads \
             scripts/check-migration-policy \
@@ -64,6 +67,9 @@ jobs:
         run: |
           set -euo pipefail
           make ci DAPPER_IMAGE="$DAPPER_IMAGE"
+          expected_owner="$(id -u):$(id -g)"
+          test "$(stat -c '%u:%g' bin/resource-scheduler)" = "$expected_owner"
+          test "$(stat -c '%u:%g' dist/images)" = "$expected_owner"
           runtime_image="$(cat dist/images)"
           first_image_id="$(docker image inspect --format '{{.Id}}' "$runtime_image")"
           printf '%s\n' "$runtime_image" > evidence/runtime-image.txt
@@ -114,6 +120,20 @@ jobs:
             $4 !~ /^[0-9a-f]{64}$/ || $5 == "" { exit 1 }
             END { if (NR != 4) exit 1 }
           ' evidence/dapper-downloaded-toolchain.tsv
+          grep -F $'docker\t29.7.2\tlinux-amd64\t' evidence/dapper-downloaded-toolchain.tsv >/dev/null
+          grep -F $'buildx\t0.36.1\tlinux-amd64\t' evidence/dapper-downloaded-toolchain.tsv >/dev/null
+          docker run --rm --entrypoint cat "$DAPPER_IMAGE" \
+            /usr/share/pasturestack/manifests/buildx-go-version.txt \
+            > evidence/buildx-go-version.txt
+          docker run --rm --entrypoint cat "$DAPPER_IMAGE" \
+            /usr/share/pasturestack/patches/buildx-security.patch \
+            > evidence/buildx-security.patch
+          diff -u toolchain/buildx-security.patch evidence/buildx-security.patch
+          echo '9d424e752f24ea0e34ccd80340428f067ae8109204c401c93786a2b0be6ea993  evidence/buildx-security.patch' | sha256sum -c -
+          if grep -F $'dep\tgithub.com/docker/docker\t' evidence/buildx-go-version.txt; then
+            echo 'patched Buildx binary still records github.com/docker/docker' >&2
+            exit 1
+          fi
           docker run --rm --entrypoint go --volume "$PWD:/work:ro" "$DAPPER_IMAGE" \
             version -m /work/bin/resource-scheduler \
             > evidence/resource-scheduler-go-version.txt
@@ -204,6 +224,8 @@ jobs:
             select(.Severity == "CRITICAL" or .Severity == "HIGH") |
             select(.PkgName != "linux-libc-dev" or ((.FixedVersion // "") != ""))] | length' \
             evidence/dapper-security.json)"
+          vex_expires='2026-09-15T00:00:00Z'
+          test "$(date -u +%s)" -lt "$(date -u -d "$vex_expires" +%s)"
           jq -r '.Results[]?.Vulnerabilities[]? |
             select(.Severity == "CRITICAL" or .Severity == "HIGH") |
             [.VulnerabilityID, .PkgName, .InstalledVersion, (.FixedVersion // ""), .Severity] | @tsv' \
@@ -213,12 +235,14 @@ jobs:
             --slurpfile report evidence/dapper-security.json \
             --arg author 'PastureStack Security' \
             --arg timestamp "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+            --arg expires "$vex_expires" \
             --arg impact 'linux-libc-dev supplies user-space kernel API headers only in the disposable build and race-test image. The package is not copied into the product runtime image, so the vulnerable kernel implementation is not present.' \
             '{
               "@context":"https://openvex.dev/ns/v0.2.0",
               "@id":"https://github.com/PastureStack/resource-scheduler/security/openvex/dapper",
               author:$author,
               timestamp:$timestamp,
+              "x-pasturestack-expires":$expires,
               version:1,
               statements:[
                 $report[0].Results[]?.Vulnerabilities[]?
@@ -244,6 +268,13 @@ jobs:
           ! grep -Eq $'^package\tlinux-libc-dev([:]|\t)' evidence/runtime-dpkg.tsv
           test "$(jq '.statements | length' evidence/dapper.openvex.json)" -eq \
             "$(wc -l < evidence/dapper-critical-high.tsv)"
+          jq -e --arg expires "$vex_expires" \
+            '.["x-pasturestack-expires"] == $expires and
+             all(.statements[];
+               .status == "not_affected" and
+               .justification == "vulnerable_code_not_present" and
+               (.products | length) == 1)' \
+            evidence/dapper.openvex.json >/dev/null
           for sbom in evidence/source.cdx.json evidence/dapper.cdx.json evidence/runtime.cdx.json; do
             jq -e '.bomFormat == "CycloneDX"' "$sbom" >/dev/null
           done
@@ -261,8 +292,15 @@ jobs:
         if: always()
         shell: bash
         run: |
-          set +e
-          docker image rm -f "$DAPPER_IMAGE" "${RUNTIME_IMAGE:-}" "$TRIVY_IMAGE" 2>/dev/null
-          docker builder prune --all --force >/dev/null 2>&1
-          sudo rm -rf bin dist evidence "$RUNNER_TEMP/resource-scheduler-trivy-cache"
-          true
+          set -euo pipefail
+          images=("$DAPPER_IMAGE" "$TRIVY_IMAGE")
+          if [ -n "${RUNTIME_IMAGE:-}" ]; then
+            images+=("$RUNTIME_IMAGE")
+          fi
+          for image in "${images[@]}"; do
+            if docker image inspect "$image" >/dev/null 2>&1; then
+              docker image rm -f "$image" >/dev/null
+            fi
+          done
+          docker builder prune --all --force >/dev/null
+          rm -rf bin dist evidence "$RUNNER_TEMP/resource-scheduler-trivy-cache"
