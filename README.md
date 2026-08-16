@@ -22,7 +22,7 @@ The native command is `resource-scheduler`. A `scheduler` executable symlink rem
 
 ## Build and test
 
-The reviewed build uses Go 1.26.6, Docker CLI 29.6.2, and Docker Buildx 0.34.1. Downloaded tools are checked against fixed SHA-256 values. The Ubuntu base image is digest-pinned; direct packages are version-pinned in `ubuntu-apt.lock` against the fixed `20260808T000000Z` Canonical snapshot, and each built image records the complete resolved `dpkg` inventory. The image exporter normalizes file timestamps to the source commit time.
+The reviewed build uses Go 1.26.6, Docker CLI 29.6.2, and Docker Buildx 0.34.1. Downloaded tools are checked against fixed SHA-256 values. The Ubuntu base image is digest-pinned; direct packages are version-pinned in `ubuntu-apt.lock` against the fixed `20260808T000000Z` Canonical snapshot, and each built image records the complete resolved `dpkg` inventory. BuildKit receives the source commit time through `SOURCE_DATE_EPOCH`, and CI rejects differing binary hashes or image IDs across clean rebuilds.
 
 The committed `vendor.lock` records a full source commit, deterministic tree digest, and file count for every reachable vendored module. `scripts/verify-vendor-lock` rejects added, removed, or modified vendored files before compilation. Security CI produces short-lived source and runtime CycloneDX SBOMs, runs binary reachability analysis, and blocks runtime Critical or High vulnerabilities and detected secrets.
 
