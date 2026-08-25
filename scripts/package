@@ -17,11 +17,21 @@ IMAGE_REVISION=${IMAGE_REVISION:-$(git rev-parse HEAD)}
 IMAGE_CREATED=${IMAGE_CREATED:-$(git show -s --format=%cI HEAD)}
 SOURCE_DATE_EPOCH=${SOURCE_DATE_EPOCH:-$(git show -s --format=%ct HEAD)}
 UBUNTU_SNAPSHOT=${UBUNTU_SNAPSHOT:-20260808T000000Z}
+archive=dist/runtime-image.tar
+
+if [ -e "$archive" ] || [ -L "$archive" ]; then
+    printf 'Refusing to overwrite existing runtime image archive: %s\n' "$archive" >&2
+    exit 1
+fi
+cleanup_archive() {
+    rm -f -- "$archive"
+}
+trap cleanup_archive EXIT
 
 ./scripts/build
 
 docker buildx build \
-    --output "type=docker,rewrite-timestamp=true" \
+    --output "type=docker,dest=${archive},name=${IMAGE},rewrite-timestamp=true,compatibility-version=20" \
     --provenance=false \
     --network "${DOCKER_BUILD_NETWORK:-host}" \
     --build-arg IMAGE_VERSION="${TAG}" \
@@ -32,5 +42,8 @@ docker buildx build \
     --tag "${IMAGE}" \
     -f package/Dockerfile \
     .
+docker image load --input "$archive" >/dev/null
+rm -f -- "$archive"
+trap - EXIT
 printf '%s\n' "${IMAGE}" > dist/images
 printf 'Built %s\n' "${IMAGE}"
