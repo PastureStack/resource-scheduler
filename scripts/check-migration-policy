@@ -74,13 +74,11 @@ check_license_copy() {
     fi
 }
 check_license_copy vendor/github.com/gorilla/websocket/LICENSE LICENSES/gorilla-websocket.txt
-check_license_copy vendor/github.com/mitchellh/mapstructure/LICENSE LICENSES/mitchellh-mapstructure.txt
-check_license_copy vendor/github.com/pkg/errors/LICENSE LICENSES/pkg-errors.txt
+check_license_copy vendor/github.com/go-viper/mapstructure/v2/LICENSE LICENSES/go-viper-mapstructure.txt
 check_license_copy "vendor/github.com/${legacy_brand}/event-subscriber/LICENSE" LICENSES/legacy-event-subscriber.txt
 check_license_copy "vendor/github.com/${legacy_brand}/go-${legacy_brand}/LICENSE" LICENSES/legacy-control-plane-client.txt
-check_license_copy "vendor/github.com/${legacy_brand}/log/LICENSE" LICENSES/legacy-log.txt
 check_license_copy vendor/github.com/sirupsen/logrus/LICENSE LICENSES/sirupsen-logrus.txt
-check_license_copy vendor/github.com/urfave/cli/LICENSE LICENSES/urfave-cli.txt
+check_license_copy vendor/github.com/urfave/cli/v3/LICENSE LICENSES/urfave-cli.txt
 check_license_copy vendor/golang.org/x/sys/LICENSE LICENSES/golang-x-sys.txt
 check_license_copy vendor/golang.org/x/sys/PATENTS LICENSES/golang-x-sys-PATENTS.txt
 check_license_copy vendor/gopkg.in/check.v1/LICENSE LICENSES/gopkg-check-v1.txt

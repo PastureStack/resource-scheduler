@@ -3,7 +3,8 @@ package scheduler
 import (
 	"bytes"
 	"fmt"
-	"github.com/rancher/log"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // ComputeFilter define a filter based on cpu, memory and instance number

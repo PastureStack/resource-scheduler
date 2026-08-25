@@ -4,11 +4,10 @@ import (
 	"fmt"
 
 	"github.com/PastureStack/resource-scheduler/scheduler"
-	"github.com/mitchellh/mapstructure"
-	"github.com/pkg/errors"
+	"github.com/go-viper/mapstructure/v2"
 	revents "github.com/rancher/event-subscriber/events"
 	"github.com/rancher/go-rancher/v2"
-	"github.com/rancher/log"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -23,12 +22,12 @@ type schedulingHandler struct {
 func (h *schedulingHandler) Reserve(event *revents.Event, client *client.RancherClient) error {
 	data, err := getEventData(event)
 	if err != nil {
-		return errors.Wrapf(err, "Error decoding reserve event %v.", event)
+		return fmt.Errorf("error decoding reserve event %v: %w", event, err)
 	}
 
 	result, err := h.scheduler.ReserveResources(data.HostID, data.Force, data.ResourceRequests)
 	if err != nil {
-		return errors.Wrapf(err, "Error reserving resources. Event: %v.", event)
+		return fmt.Errorf("error reserving resources for event %v: %w", event, err)
 	}
 
 	return publish(event, result, client)
@@ -37,12 +36,12 @@ func (h *schedulingHandler) Reserve(event *revents.Event, client *client.Rancher
 func (h *schedulingHandler) Release(event *revents.Event, client *client.RancherClient) error {
 	data, err := getEventData(event)
 	if err != nil {
-		return errors.Wrapf(err, "Error decoding release event %v.", event)
+		return fmt.Errorf("error decoding release event %v: %w", event, err)
 	}
 
 	err = h.scheduler.ReleaseResources(data.HostID, data.ResourceRequests)
 	if err != nil {
-		return errors.Wrapf(err, "Error releasing resources. Event %v.", event)
+		return fmt.Errorf("error releasing resources for event %v: %w", event, err)
 	}
 
 	return publish(event, nil, client)
@@ -51,7 +50,7 @@ func (h *schedulingHandler) Release(event *revents.Event, client *client.Rancher
 func (h *schedulingHandler) Prioritize(event *revents.Event, client *client.RancherClient) error {
 	data, err := getEventData(event)
 	if err != nil {
-		return errors.Wrapf(err, "Error decoding prioritize event %v.", event)
+		return fmt.Errorf("error decoding prioritize event %v: %w", event, err)
 	}
 
 	for i := 0; i < 5; i++ {
@@ -67,7 +66,7 @@ func (h *schedulingHandler) Prioritize(event *revents.Event, client *client.Ranc
 
 	candidates, err := h.scheduler.PrioritizeCandidates(data.ResourceRequests, data.Context)
 	if err != nil {
-		return errors.Wrapf(err, "Error prioritizing candidates. Event %v", event)
+		return fmt.Errorf("error prioritizing candidates for event %v: %w", event, err)
 	}
 
 	eventDataWrapper := map[string]interface{}{"prioritizedCandidates": candidates}

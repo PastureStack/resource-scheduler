@@ -5,7 +5,7 @@ import (
 	revents "github.com/rancher/event-subscriber/events"
 	"github.com/rancher/event-subscriber/locks"
 	"github.com/rancher/go-rancher/v2"
-	"github.com/rancher/log"
+	log "github.com/sirupsen/logrus"
 )
 
 func ConnectToEventStream(cattleURL, accessKey, secretKey string, scheduler *scheduler.Scheduler) error {

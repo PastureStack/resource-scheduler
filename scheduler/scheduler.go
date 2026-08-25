@@ -9,7 +9,7 @@ import (
 	"reflect"
 
 	"github.com/PastureStack/resource-scheduler/internal/metadata"
-	"github.com/rancher/log"
+	log "github.com/sirupsen/logrus"
 )
 
 const (

@@ -43,7 +43,9 @@ jobs:
           sha256sum \
             .dockerignore \
             ubuntu-apt.lock \
-            vendor.lock \
+            go.mod \
+            go.sum \
+            vendor/modules.txt \
             Dockerfile.dapper \
             Makefile \
             package/Dockerfile \
@@ -53,10 +55,9 @@ jobs:
             scripts/package \
             scripts/check-build-downloads \
             scripts/check-migration-policy \
-            scripts/verify-vendor-lock \
             .github/workflows/supply-chain.yml \
             > evidence/source-inputs.sha256
-          bash scripts/verify-vendor-lock | tee evidence/vendor-lock.txt
+          go list -mod=vendor ./... > evidence/module-packages.txt
           bash scripts/check-build-downloads | tee evidence/build-policy.txt
           bash scripts/check-migration-policy | tee evidence/migration-policy.txt
 
@@ -146,7 +147,7 @@ jobs:
             --volume "$PWD:/work:ro" \
             --entrypoint /bin/bash "$DAPPER_IMAGE" -lc '
               set -euo pipefail
-              GO111MODULE=on GOBIN=/tmp/security-tools go install golang.org/x/vuln/cmd/govulncheck@v1.1.4
+              GOFLAGS=-mod=mod GOWORK=off GOBIN=/tmp/security-tools go install golang.org/x/vuln/cmd/govulncheck@v1.1.4
               /tmp/security-tools/govulncheck -mode=binary -json /work/bin/resource-scheduler
             ' > evidence/govulncheck.json
           if jq -e 'select(.finding != null)' evidence/govulncheck.json >/dev/null; then

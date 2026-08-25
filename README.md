@@ -22,15 +22,15 @@ The native command is `resource-scheduler`. A `scheduler` executable symlink rem
 
 ## Build and test
 
-The reviewed build uses Go 1.26.6, Docker CLI 29.7.2, and Docker Buildx 0.36.1. Downloaded tools and source archives are checked against fixed SHA-256 values. A checksum-locked Buildx patch removes its sole compiled dependency on the legacy Docker module. The Ubuntu base image is digest-pinned; direct packages are version-pinned in `ubuntu-apt.lock` against the fixed `20260808T000000Z` Canonical snapshot, and each built image records the complete resolved `dpkg` inventory. BuildKit receives the source commit time through `SOURCE_DATE_EPOCH`, and CI rejects differing binary hashes or image IDs across clean rebuilds.
+The reviewed build uses Go 1.27.0, Docker CLI 29.7.2, and Docker Buildx 0.36.1. Downloaded tools and source archives are checked against fixed SHA-256 values. A checksum-locked Buildx patch removes its sole compiled dependency on the legacy Docker module. The Ubuntu base image is digest-pinned; direct packages are version-pinned in `ubuntu-apt.lock` against the fixed `20260808T000000Z` Canonical snapshot, and each built image records the complete resolved `dpkg` inventory. BuildKit receives the source commit time through `SOURCE_DATE_EPOCH`, and CI rejects differing binary hashes or image IDs across clean rebuilds.
 
-The committed `vendor.lock` records a full source commit, deterministic tree digest, and file count for every reachable vendored module. `scripts/verify-vendor-lock` rejects added, removed, or modified vendored files before compilation. Security CI produces short-lived source and runtime CycloneDX SBOMs, runs binary reachability analysis, and blocks runtime Critical or High vulnerabilities and detected secrets.
+The dependency graph is declared in `go.mod`, checksum-bound by `go.sum`, and committed in the standard module-aware `vendor` tree for reproducible offline builds. Security CI produces short-lived source and runtime CycloneDX SBOMs, runs binary reachability analysis, and blocks runtime Critical or High vulnerabilities and detected secrets.
 
 ```bash
 make test
 make validate
 bash scripts/check-build-downloads
-bash scripts/verify-vendor-lock
+go list -mod=vendor ./...
 bash scripts/check-migration-policy
 VERSION_OVERRIDE=v0.8.17 IMAGE_NAMESPACE=pasturestack make package
 ```

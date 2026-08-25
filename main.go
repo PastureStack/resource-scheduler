@@ -1,7 +1,8 @@
 package main
 
 import (
-	stderrors "errors"
+	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -14,48 +15,46 @@ import (
 	"github.com/PastureStack/resource-scheduler/internal/metadata"
 	"github.com/PastureStack/resource-scheduler/resourcewatchers"
 	"github.com/PastureStack/resource-scheduler/scheduler"
-	pkgerrors "github.com/pkg/errors"
 	"github.com/rancher/go-rancher/v2"
-	"github.com/rancher/log"
-	logserver "github.com/rancher/log/server"
-	"github.com/urfave/cli"
+	log "github.com/sirupsen/logrus"
+	"github.com/urfave/cli/v3"
 )
 
 var VERSION = "v0.1.0-dev"
 
 func main() {
-	logserver.StartServerWithDefaults()
 	metadataAddress := os.Getenv("PASTURESTACK_METADATA_ADDRESS")
 	if metadataAddress == "" {
 		metadataAddress = "metadata"
 	}
 
-	app := cli.NewApp()
-	app.Name = "resource-scheduler"
-	app.Version = VERSION
-	app.Usage = "PastureStack resource and host-port scheduling service."
-	app.Action = run
-	app.Flags = []cli.Flag{
-		cli.StringFlag{
-			Name:  "metadata-address",
-			Usage: "Metadata service address",
-			Value: metadataAddress,
-		},
-		cli.IntFlag{
-			Name:  "health-check-port",
-			Usage: "Port to listen on for health checks",
-			Value: 80,
+	app := &cli.Command{
+		Name:    "resource-scheduler",
+		Version: VERSION,
+		Usage:   "PastureStack resource and host-port scheduling service.",
+		Action:  run,
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:  "metadata-address",
+				Usage: "Metadata service address",
+				Value: metadataAddress,
+			},
+			&cli.IntFlag{
+				Name:  "health-check-port",
+				Usage: "Port to listen on for health checks",
+				Value: 80,
+			},
 		},
 	}
 
-	if err := app.Run(os.Args); err != nil {
+	if err := app.Run(context.Background(), os.Args); err != nil {
 		log.Fatalf("Resource scheduler exited: %v", err)
 	}
 }
 
-func run(c *cli.Context) error {
+func run(_ context.Context, c *cli.Command) error {
 	if debugEnabled() {
-		log.SetLevelString("debug")
+		log.SetLevel(log.DebugLevel)
 	}
 
 	sleepSeconds := 1
@@ -75,7 +74,7 @@ func run(c *cli.Context) error {
 	accessKey := os.Getenv("CATTLE_ACCESS_KEY")
 	secretKey := os.Getenv("CATTLE_SECRET_KEY")
 	if controlPlaneURL == "" || accessKey == "" || secretKey == "" {
-		return stderrors.New("control-plane connection environment variables are incomplete")
+		return errors.New("control-plane connection environment variables are incomplete")
 	}
 	apiClient, err := client.NewRancherClient(&client.ClientOpts{
 		Timeout:   30 * time.Second,
@@ -98,7 +97,7 @@ func run(c *cli.Context) error {
 
 	go func() {
 		err := startHealthCheck(c.Int("health-check-port"), metadataClient, controlPlaneURL)
-		exit <- pkgerrors.Wrap(err, "health-check provider exited")
+		exit <- fmt.Errorf("health-check provider exited: %w", err)
 	}()
 
 	go func() {
@@ -232,10 +231,10 @@ func newHealthHandler(metadataClient metadata.Client, controlPlaneURL string, pi
 func controlPlanePingURL(rawURL string) (string, error) {
 	parsed, err := url.Parse(rawURL)
 	if err != nil || (parsed.Scheme != "http" && parsed.Scheme != "https") || parsed.Host == "" {
-		return "", stderrors.New("invalid control-plane URL")
+		return "", errors.New("invalid control-plane URL")
 	}
 	if parsed.User != nil || parsed.RawQuery != "" || parsed.Fragment != "" {
-		return "", stderrors.New("control-plane URL must not contain credentials, a query, or a fragment")
+		return "", errors.New("control-plane URL must not contain credentials, a query, or a fragment")
 	}
 	path := strings.TrimRight(parsed.Path, "/")
 	lastSlash := strings.LastIndex(path, "/")

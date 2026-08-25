@@ -13,7 +13,7 @@ COPY ubuntu-apt.lock /usr/share/pasturestack/manifests/ubuntu-apt.lock
 COPY toolchain/buildx-security.patch /usr/share/pasturestack/patches/buildx-security.patch
 
 ARG DAPPER_HOST_ARCH=amd64
-ARG GO_VERSION=1.26.6
+ARG GO_VERSION=1.27.0
 ARG DOCKER_VERSION=29.7.2
 ARG BUILDX_VERSION=0.36.1
 ARG BUILDX_GIT_COMMIT=1d8dde89b8aba914e05e45366770736fea1fd690
@@ -21,8 +21,8 @@ ARG BUILDX_SOURCE_DATE_EPOCH=1785856317
 ARG BUILDX_SOURCE_SHA256=fb28b5c2a198d05482f0656dfb7ee161240a904e36697bf7108e5d517f23854b
 ARG BUILDX_SECURITY_PATCH_SHA256=9d424e752f24ea0e34ccd80340428f067ae8109204c401c93786a2b0be6ea993
 ARG UBUNTU_SNAPSHOT=20260808T000000Z
-ARG GO_LINUX_AMD64_SHA256=708effb774be8237570d0add163225abbdfaf4fca28b2611df167beba4feef89
-ARG GO_LINUX_ARM64_SHA256=d0507e9e9d7fe012aae570108cbd76c15de879e17130ab8cb90d4d7445cb1f2e
+ARG GO_LINUX_AMD64_SHA256=675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685
+ARG GO_LINUX_ARM64_SHA256=51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda
 ARG DOCKER_LINUX_AMD64_SHA256=803d433f226db4776e1768fd319fc6c6e4935a456acf84fcc0080818b854bc8f
 ARG DOCKER_LINUX_ARM64_SHA256=43d143448adf2c2787704e7d7704fd6d62d367a54c5edaef0a3f75509cb0938d
 
@@ -81,7 +81,8 @@ RUN set -eux; \
 ENV GOPATH=/go \
     PATH=/go/bin:/usr/local/go/bin:${PATH} \
     SHELL=/bin/bash \
-    GO111MODULE=off \
+    GOFLAGS=-mod=vendor \
+    GOWORK=off \
     GOCACHE=/tmp/go-build-cache \
     GOTELEMETRY=off \
     XDG_CONFIG_HOME=/tmp/go-config \
@@ -123,12 +124,12 @@ RUN set -eux; \
     cd /tmp/buildx-src; \
     git apply --check /usr/share/pasturestack/patches/buildx-security.patch; \
     git apply /usr/share/pasturestack/patches/buildx-security.patch; \
-    GO111MODULE=on GOPROXY=off GOSUMDB=sum.golang.org go list -mod=vendor -deps ./cmd/buildx > /tmp/buildx-deps.txt; \
+    GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org go list -mod=vendor -deps ./cmd/buildx > /tmp/buildx-deps.txt; \
     if grep '^github.com/docker/docker/' /tmp/buildx-deps.txt; then \
         echo 'patched Buildx still compiles github.com/docker/docker' >&2; \
         exit 1; \
     fi; \
-    SOURCE_DATE_EPOCH="${BUILDX_SOURCE_DATE_EPOCH}" CGO_ENABLED=0 GO111MODULE=on GOPROXY=off GOSUMDB=sum.golang.org GOOS=linux GOARCH="${DAPPER_HOST_ARCH}" \
+    SOURCE_DATE_EPOCH="${BUILDX_SOURCE_DATE_EPOCH}" CGO_ENABLED=0 GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOOS=linux GOARCH="${DAPPER_HOST_ARCH}" \
         go build -mod=vendor -trimpath -buildvcs=false \
         -ldflags "-s -w -buildid= -X github.com/docker/buildx/version.Version=${BUILDX_VERSION} -X github.com/docker/buildx/version.Revision=${BUILDX_GIT_COMMIT} -X github.com/docker/buildx/version.Package=github.com/docker/buildx" \
         -o /usr/libexec/docker/cli-plugins/docker-buildx ./cmd/buildx; \

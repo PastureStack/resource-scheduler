@@ -1,11 +1,12 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
-cd $(dirname $0)/..
+cd "$(dirname "$0")/.."
 
 echo Running tests
 
-PACKAGES=". $(find -name '*.go' | xargs -I{} dirname {} |  cut -f2 -d/ | sort -u | grep -Ev '(^\.$|.git|vendor|bin)' | sed -e 's!^!./!' -e 's!$!/...!')"
-
-[ "${ARCH}" == "amd64" ] && RACE=-race
-go test ${RACE} -cover -tags=test ${PACKAGES}
+test_args=(-mod=vendor -cover -tags=test)
+if [ "${ARCH:-amd64}" = amd64 ]; then
+    test_args+=(-race)
+fi
+go test "${test_args[@]}" ./...

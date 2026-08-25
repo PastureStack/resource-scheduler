@@ -1,11 +1,12 @@
 package scheduler
 
 import (
+	"errors"
+	"fmt"
 	"math/rand"
 	"time"
 
-	"github.com/pkg/errors"
-	"github.com/rancher/log"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -141,13 +142,13 @@ func (p *PortResourcePool) ReserveIPPort(ip string, port int64, protocol string,
 			// Host Label only has 0.0.0.0, and container A use 0.0.0.0:8080:8080, container B use 192.168.1.1:8080:8080, should fail.
 			if _, ok := p.PortBindingMapTCP[defaultIP]; ok {
 				if portMap[defaultIP][port] != "" {
-					return errors.Errorf("Can not reserve Port %v on IP %v, port is used by %v", port, ip, defaultIP)
+					return fmt.Errorf("Can not reserve Port %v on IP %v, port is used by %v", port, ip, defaultIP)
 				}
 			}
 			//Host Label 192.168.1.1, 192.168.1.2, Container A use 0.0.0.0:8080:8080(ghost map), container B use 192.168.1.3:8080:8080, should fail.
 			if _, ok := p.GhostMapTCP[defaultIP]; ok {
 				if ghostMap[defaultIP][port] != "" {
-					return errors.Errorf("Can not reserve Port %v on IP %v, port is used by %v", port, ip, defaultIP)
+					return fmt.Errorf("Can not reserve Port %v on IP %v, port is used by %v", port, ip, defaultIP)
 				}
 			}
 			if _, ok := ghostMap[ip]; !ok {
@@ -166,7 +167,7 @@ func (p *PortResourcePool) ReserveIPPort(ip string, port int64, protocol string,
 				// the instance ID is equal to the id in the map, return nil
 				return nil
 			}
-			return errors.Errorf("Port %v is already used in ip %v on protocol %v", port, ip, protocol)
+			return fmt.Errorf("Port %v is already used in ip %v on protocol %v", port, ip, protocol)
 		}
 		// in this case, 0.0.0.0 is not on the pool so there must be multiple ip on the host
 		// reserve all ips on the specified port
@@ -203,7 +204,7 @@ func (p *PortResourcePool) ReserveIPPort(ip string, port int64, protocol string,
 		if ip == defaultIP {
 			for gip, m := range ghostMap {
 				if m[port] != "" {
-					return errors.Errorf("Can not reserve Port %v on IP %v, Port is used by IP %v", port, ip, gip)
+					return fmt.Errorf("Can not reserve Port %v on IP %v, Port is used by IP %v", port, ip, gip)
 				}
 			}
 		}
@@ -214,7 +215,7 @@ func (p *PortResourcePool) ReserveIPPort(ip string, port int64, protocol string,
 	if instanceUUID == portMap[ip][port] {
 		return nil
 	}
-	return errors.Errorf("Port %v is already used in ip %v on protocol %v", port, ip, protocol)
+	return fmt.Errorf("Port %v is already used in ip %v on protocol %v", port, ip, protocol)
 }
 
 func (p *PortResourcePool) ReleasePort(ip string, port int64, protocol string, uuid string) {

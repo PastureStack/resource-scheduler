@@ -7,7 +7,7 @@ import (
 	"github.com/PastureStack/resource-scheduler/internal/metadata"
 	"github.com/PastureStack/resource-scheduler/scheduler"
 	"github.com/rancher/go-rancher/v2"
-	"github.com/rancher/log"
+	log "github.com/sirupsen/logrus"
 )
 
 func WatchMetadata(client metadata.Client, updater scheduler.ResourceUpdater, rclient *client.RancherClient) error {

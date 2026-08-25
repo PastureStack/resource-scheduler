@@ -1,7 +1,7 @@
 .RECIPEPREFIX := >
 TARGETS := $(shell ls scripts)
 
-DAPPER_IMAGE ?= pasturestack-resource-scheduler-dapper:go1.26.6-docker29.7.2-buildx0.36.1
+DAPPER_IMAGE ?= pasturestack-resource-scheduler-dapper:go1.27.0-docker29.7.2-buildx0.36.1
 DAPPER_HOST_ARCH ?= amd64
 DOCKER_VERSION ?= 29.7.2
 BUILDX_VERSION ?= 0.36.1
@@ -38,10 +38,6 @@ $(TARGETS): .dapper
 >  -e SOURCE_DATE_EPOCH \
 >  $(DAPPER_IMAGE) $@
 
-trash: deps
-
-trash-keep: deps
-
 deps: .dapper
 >docker run --rm \
 >  -v $(CURDIR):$(DAPPER_SOURCE) \
@@ -53,4 +49,4 @@ deps: .dapper
 
 .DEFAULT_GOAL := ci
 
-.PHONY: .dapper $(TARGETS) trash trash-keep deps
+.PHONY: .dapper $(TARGETS) deps

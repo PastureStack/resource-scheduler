@@ -2,7 +2,7 @@ package scheduler
 
 import (
 	"github.com/PastureStack/resource-scheduler/internal/metadata"
-	"github.com/rancher/log"
+	log "github.com/sirupsen/logrus"
 )
 
 type ResourceUpdater interface {

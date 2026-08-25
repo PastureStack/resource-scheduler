@@ -6,6 +6,7 @@ cd "$(dirname "$0")/.."
 
 mkdir -p bin
 CGO_ENABLED=0 go build \
+    -mod=vendor \
     -trimpath \
     -buildvcs=false \
     -ldflags "-buildid= -X main.VERSION=${VERSION} -s -w" \
