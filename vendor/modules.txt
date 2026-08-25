@@ -12,11 +12,11 @@ github.com/kr/pretty
 ## explicit
 github.com/kr/text
 # github.com/rancher/event-subscriber v0.0.0-20170216231139-9a4724dc5dfe => ./third_party/event-subscriber
-## explicit; go 1.27.0
+## explicit; go 1.26.0
 github.com/rancher/event-subscriber/events
 github.com/rancher/event-subscriber/locks
 # github.com/rancher/go-rancher v0.1.1-0.20161220063330-2c43ff300f3e => ./third_party/go-rancher
-## explicit; go 1.27.0
+## explicit; go 1.26.0
 github.com/rancher/go-rancher/v2
 # github.com/sirupsen/logrus v1.10.1
 ## explicit; go 1.23
