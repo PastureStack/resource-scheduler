@@ -21,7 +21,7 @@ UBUNTU_SNAPSHOT=${UBUNTU_SNAPSHOT:-20260808T000000Z}
 ./scripts/build
 
 docker buildx build \
-    --load \
+    --output "type=docker,rewrite-timestamp=true" \
     --provenance=false \
     --network "${DOCKER_BUILD_NETWORK:-host}" \
     --build-arg IMAGE_VERSION="${TAG}" \
