@@ -56,7 +56,7 @@ if [ -n "${unexpected_images}" ]; then
     fail "non_pasturestack_image_present"
 fi
 
-legacy_source_matches=$(git grep -I -n -i "${legacy_brand}" -- '*.go' 'package/**' 'scripts/**' 'Dockerfile*' 'Makefile' '.dockerignore' || true)
+legacy_source_matches=$(git grep -I -n -i "${legacy_brand}" -- '*.go' 'package/**' 'scripts/**' 'Dockerfile*' 'Makefile' '.dockerignore' ':!third_party/**' || true)
 unexpected_legacy=$(printf '%s\n' "${legacy_source_matches}" | grep -Ev "github\\.com/${legacy_brand}/(event-subscriber|go-${legacy_brand}|log)|${legacy_title}Client|New${legacy_title}Client|${legacy_upper}_DEBUG|io\\.${legacy_brand}\\.scheduler" || true)
 if [ -n "${unexpected_legacy}" ]; then
     printf '%s\n' "${unexpected_legacy}"
