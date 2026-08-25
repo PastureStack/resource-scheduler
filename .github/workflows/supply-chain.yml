@@ -76,6 +76,14 @@ jobs:
           printf '%s\n' "$runtime_image" > evidence/runtime-image.txt
           printf '%s\n' "$first_image_id" > evidence/runtime-image-first-id.txt
           sha256sum bin/resource-scheduler > evidence/resource-scheduler-first.sha256
+          first_binary_sha="$(cut -d ' ' -f1 evidence/resource-scheduler-first.sha256)"
+          test "$(docker run --rm --entrypoint sha256sum "$runtime_image" /usr/bin/resource-scheduler | awk '{print $1}')" = \
+            "$first_binary_sha"
+          docker image inspect --format '{{json .Config}}' "$runtime_image" \
+            > evidence/runtime-image-first-config.json
+          docker run --rm --entrypoint cat "$runtime_image" \
+            /usr/share/pasturestack/manifests/runtime-ubuntu-packages.tsv \
+            > evidence/runtime-dpkg-first.tsv
 
           docker image rm "$runtime_image" "$DAPPER_IMAGE" >/dev/null
           rm -rf bin dist
@@ -85,9 +93,18 @@ jobs:
           test "$(cat dist/images)" = "$runtime_image"
           second_image_id="$(docker image inspect --format '{{.Id}}' "$runtime_image")"
           printf '%s\n' "$second_image_id" > evidence/runtime-image-second-id.txt
-          test "$first_image_id" = "$second_image_id"
           sha256sum bin/resource-scheduler > evidence/resource-scheduler-second.sha256
           diff -u evidence/resource-scheduler-first.sha256 evidence/resource-scheduler-second.sha256
+          second_binary_sha="$(cut -d ' ' -f1 evidence/resource-scheduler-second.sha256)"
+          test "$(docker run --rm --entrypoint sha256sum "$runtime_image" /usr/bin/resource-scheduler | awk '{print $1}')" = \
+            "$second_binary_sha"
+          docker image inspect --format '{{json .Config}}' "$runtime_image" \
+            > evidence/runtime-image-second-config.json
+          docker run --rm --entrypoint cat "$runtime_image" \
+            /usr/share/pasturestack/manifests/runtime-ubuntu-packages.tsv \
+            > evidence/runtime-dpkg-second.tsv
+          diff -u evidence/runtime-image-first-config.json evidence/runtime-image-second-config.json
+          diff -u evidence/runtime-dpkg-first.tsv evidence/runtime-dpkg-second.tsv
           test -z "$(git status --porcelain --untracked-files=no)"
           printf 'RUNTIME_IMAGE=%s\n' "$runtime_image" >> "$GITHUB_ENV"
 

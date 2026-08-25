@@ -7,7 +7,7 @@ toolchain go1.27.0
 require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/rancher/go-rancher v0.1.1-0.20161220063330-2c43ff300f3e
-	github.com/sirupsen/logrus v1.10.1
+	github.com/sirupsen/logrus v1.10.2
 )
 
 require golang.org/x/sys v0.47.0 // indirect

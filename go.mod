@@ -8,7 +8,7 @@ require (
 	github.com/go-viper/mapstructure/v2 v2.5.0
 	github.com/rancher/event-subscriber v0.0.0-20170216231139-9a4724dc5dfe
 	github.com/rancher/go-rancher v0.1.1-0.20161220063330-2c43ff300f3e
-	github.com/sirupsen/logrus v1.10.1
+	github.com/sirupsen/logrus v1.10.2
 	github.com/urfave/cli/v3 v3.11.0
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c
 )
