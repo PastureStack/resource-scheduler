@@ -36,6 +36,7 @@ $(TARGETS): .dapper
 >  -e IMAGE_REVISION \
 >  -e IMAGE_CREATED \
 >  -e SOURCE_DATE_EPOCH \
+>  -e GITHUB_EVENT_NAME \
 >  $(DAPPER_IMAGE) $@
 
 deps: .dapper
