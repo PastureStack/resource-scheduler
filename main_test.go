@@ -30,6 +30,9 @@ func TestControlPlanePingURL(t *testing.T) {
 		if err != nil || actual != expected {
 			t.Errorf("controlPlanePingURL(%q) = %q, %v; want %q", input, actual, err, expected)
 		}
+		if !controlPlanePingURLPattern.MatchString(actual) {
+			t.Errorf("validated ping URL did not match the outbound policy: %q", actual)
+		}
 	}
 }
 
