@@ -113,7 +113,7 @@ jobs:
         run: |
           set -euo pipefail
           snapshot="$(sed -n "s/^UBUNTU_APT_SNAPSHOT='\([^']*\)'$/\1/p" ubuntu-apt.lock)"
-          test "$snapshot" = 20260808T000000Z
+          test "$snapshot" = 20260825T000000Z
 
           docker run --rm --entrypoint cat "$DAPPER_IMAGE" \
             /usr/share/pasturestack/manifests/dapper-ubuntu-packages.tsv \
