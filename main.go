@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -20,7 +21,10 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var VERSION = "v0.1.0-dev"
+var (
+	VERSION                    = "v0.1.0-dev"
+	controlPlanePingURLPattern = regexp.MustCompile(`^https?://(?:\[[0-9A-Fa-f:.%]+\]|[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)(?::[0-9]{1,5})?(?:/[A-Za-z0-9._~!$&'()*+,;=:@%/-]*)?$`)
+)
 
 func main() {
 	metadataAddress := os.Getenv("PASTURESTACK_METADATA_ADDRESS")
@@ -207,6 +211,11 @@ func newHealthHandler(metadataClient metadata.Client, controlPlaneURL string, pi
 		if _, err := metadataClient.GetVersion(); err != nil {
 			log.Errorf("Health check could not reach metadata: %v", err)
 			http.Error(response, "metadata is unavailable", http.StatusServiceUnavailable)
+			return
+		}
+		if !controlPlanePingURLPattern.MatchString(pingURL) {
+			log.Error("Health check rejected an invalid control-plane ping URL")
+			http.Error(response, "control plane is unavailable", http.StatusServiceUnavailable)
 			return
 		}
 		pingResponse, err := pingClient.Get(pingURL)
