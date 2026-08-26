@@ -22,7 +22,7 @@ reject_pattern() {
 bash -n scripts/build scripts/check-build-downloads scripts/ci scripts/entry scripts/package scripts/test scripts/test-package-scripts scripts/validate scripts/version \
     scripts/check-migration-policy package/pasturestack-entrypoint.sh package/update-pasturestack-ca
 
-require_pattern Dockerfile.dapper 'ARG UBUNTU_IMAGE=ubuntu:26\.04@sha256:678c6550cc43645e08669028bc177f50be4e7c5b8cca677067b1914d4afc7a03' "dapper_base_not_pinned"
+require_pattern Dockerfile.dapper 'ARG UBUNTU_IMAGE=ubuntu:26\.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b' "dapper_base_not_pinned"
 require_pattern Dockerfile.dapper 'ARG GO_VERSION=1\.27\.0' "go_version_not_current"
 require_pattern Dockerfile.dapper 'GO_LINUX_AMD64_SHA256=675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685' "go_amd64_sha_not_current"
 require_pattern Dockerfile.dapper 'GO_LINUX_ARM64_SHA256=51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda' "go_arm64_sha_not_current"
@@ -50,7 +50,7 @@ require_pattern Makefile 'UBUNTU_SNAPSHOT \?= 20260825T000000Z' "make_snapshot_n
 require_pattern Makefile 'DAPPER_SOURCE \?= /go/src/github\.com/PastureStack/resource-scheduler' "dapper_source_not_canonical"
 reject_pattern Dockerfile.dapper 'curl[^|]*\|[[:space:]]*tar' "pipe_to_tar_download"
 
-require_pattern package/Dockerfile 'ARG UBUNTU_IMAGE=ubuntu:26\.04@sha256:678c6550cc43645e08669028bc177f50be4e7c5b8cca677067b1914d4afc7a03' "runtime_base_not_pinned"
+require_pattern package/Dockerfile 'ARG UBUNTU_IMAGE=ubuntu:26\.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b' "runtime_base_not_pinned"
 require_pattern package/Dockerfile 'ARG UBUNTU_SNAPSHOT=20260825T000000Z' "runtime_snapshot_not_pinned"
 require_pattern package/Dockerfile 'Acquire::https::CaInfo "/etc/ssl/certs/ca-certificates\.crt"' "runtime_snapshot_ca_not_enforced"
 require_pattern package/Dockerfile 'libcap2-bin="\$\{UBUNTU_APT_LIBCAP2_BIN_VERSION\}"' "runtime_packages_not_version_pinned"
