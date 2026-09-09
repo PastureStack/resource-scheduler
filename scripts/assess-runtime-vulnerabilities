@@ -1,0 +1,58 @@
+#!/bin/bash
+set -euo pipefail
+
+report=${1:?usage: assess-runtime-vulnerabilities REPORT_JSON OUTPUT_DIR SUBJECT}
+output_dir=${2:?usage: assess-runtime-vulnerabilities REPORT_JSON OUTPUT_DIR SUBJECT}
+subject=${3:?usage: assess-runtime-vulnerabilities REPORT_JSON OUTPUT_DIR SUBJECT}
+
+mkdir -p "${output_dir}"
+
+total=$(jq '[.Results[]?.Vulnerabilities[]?] | length' "${report}")
+secrets=$(jq '[.Results[]?.Secrets[]?] | length' "${report}")
+pending=$(jq '[.Results[]?.Vulnerabilities[]? |
+    select((.Severity == "LOW" or .Severity == "MEDIUM") and ((.FixedVersion // "") == ""))] | length' "${report}")
+actionable=$(jq '[.Results[]?.Vulnerabilities[]? |
+    select((.Severity != "LOW" and .Severity != "MEDIUM") or ((.FixedVersion // "") != ""))] | length' "${report}")
+
+jq -r '.Results[]?.Vulnerabilities[]? |
+    select((.Severity == "LOW" or .Severity == "MEDIUM") and ((.FixedVersion // "") == "")) |
+    [.VulnerabilityID, .PkgName, .InstalledVersion, (.FixedVersion // ""), .Severity, (.PkgIdentifier.PURL // "")] | @tsv' \
+    "${report}" | LC_ALL=C sort -u > "${output_dir}/runtime-vendor-unfixed.tsv"
+
+jq -n \
+    --slurpfile report "${report}" \
+    --arg subject "${subject}" \
+    --arg timestamp "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+    '{
+      "@context":"https://openvex.dev/ns/v0.2.0",
+      "@id":"https://github.com/PastureStack/resource-scheduler/security/openvex/runtime-vendor-unfixed",
+      author:"PastureStack Security",
+      timestamp:$timestamp,
+      version:1,
+      "x-pasturestack-policy":"Pending vendor fix; re-evaluate when Ubuntu publishes a fixed package, the base digest changes, or vulnerability intelligence changes.",
+      statements:[
+        $report[0].Results[]?.Vulnerabilities[]?
+        | select((.Severity == "LOW" or .Severity == "MEDIUM") and ((.FixedVersion // "") == ""))
+        | {
+            vulnerability:{name:.VulnerabilityID},
+            products:[{"@id":$subject}],
+            status:"under_investigation",
+            impact_statement:("Ubuntu has not published a fixed version for " + .PkgName + " " + .InstalledVersion + "; the finding remains registered and is not represented as resolved.")
+          }
+      ]
+    }' > "${output_dir}/runtime-vendor-unfixed.openvex.json"
+
+printf 'runtime_secrets=%s\nruntime_vulnerabilities=%s\nruntime_vendor_unfixed_low_medium=%s\nruntime_actionable=%s\n' \
+    "${secrets}" "${total}" "${pending}" "${actionable}" | tee "${output_dir}/runtime-risk-summary.txt"
+
+test "${secrets}" -eq 0
+test "${total}" -eq "${pending}"
+test "${actionable}" -eq 0
+test "$(jq '.statements | length' "${output_dir}/runtime-vendor-unfixed.openvex.json")" -eq "${pending}"
+jq -e 'all(.statements[];
+    .status == "under_investigation" and
+    (.products | length) == 1 and
+    (.impact_statement | contains("not represented as resolved")))' \
+    "${output_dir}/runtime-vendor-unfixed.openvex.json" >/dev/null
+
+echo "RESOURCE_SCHEDULER_RUNTIME_RISK_OK secrets=0 total=${total} vendor_unfixed=${pending} actionable=0"

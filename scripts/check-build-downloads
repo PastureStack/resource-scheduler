@@ -19,7 +19,7 @@ reject_pattern() {
     fi
 }
 
-bash -n scripts/build scripts/check-build-downloads scripts/ci scripts/entry scripts/package scripts/test scripts/test-package-scripts scripts/validate scripts/version \
+bash -n scripts/assess-runtime-vulnerabilities scripts/build scripts/check-build-downloads scripts/ci scripts/entry scripts/package scripts/test scripts/test-package-scripts scripts/validate scripts/version \
     scripts/check-migration-policy package/pasturestack-entrypoint.sh package/update-pasturestack-ca
 
 require_pattern Dockerfile.dapper 'ARG UBUNTU_IMAGE=ubuntu:26\.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b' "dapper_base_not_pinned"
@@ -49,6 +49,7 @@ require_pattern Dockerfile.dapper "if grep -F \\$'dep\\\\tgithub.com/docker/dock
 require_pattern Dockerfile.dapper 'ARG UBUNTU_SNAPSHOT=20260909T000000Z' "dapper_snapshot_not_pinned"
 require_pattern Dockerfile.dapper 'ADD --checksum=sha256:6077d27c6b6f8b23590cb01ff877ed8c804a67a5442cc32b5a33da10d2bd0e90' "dapper_ca_bootstrap_not_pinned"
 require_pattern Dockerfile.dapper 'COPY ubuntu-apt\.lock /usr/share/pasturestack/manifests/ubuntu-apt\.lock' "dapper_apt_lock_not_copied"
+require_pattern Dockerfile.dapper 'apt-get upgrade -y --no-install-recommends' "dapper_base_packages_not_updated"
 require_pattern Dockerfile.dapper 'gcc="\$\{UBUNTU_APT_GCC_VERSION\}"' "dapper_gcc_not_version_pinned"
 require_pattern Dockerfile.dapper 'linux-libc-dev="\$\{UBUNTU_APT_LINUX_LIBC_DEV_VERSION\}"' "dapper_linux_libc_dev_not_version_pinned"
 require_pattern Dockerfile.dapper 'dpkg-query -W' "dapper_resolved_package_manifest_missing"
@@ -60,6 +61,7 @@ reject_pattern Dockerfile.dapper 'curl[^|]*\|[[:space:]]*tar' "pipe_to_tar_downl
 require_pattern package/Dockerfile 'ARG UBUNTU_IMAGE=ubuntu:26\.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b' "runtime_base_not_pinned"
 require_pattern package/Dockerfile 'ARG UBUNTU_SNAPSHOT=20260909T000000Z' "runtime_snapshot_not_pinned"
 require_pattern package/Dockerfile 'Acquire::https::CaInfo "/etc/ssl/certs/ca-certificates\.crt"' "runtime_snapshot_ca_not_enforced"
+require_pattern package/Dockerfile 'apt-get upgrade -y --no-install-recommends' "runtime_base_packages_not_updated"
 require_pattern package/Dockerfile 'libcap2-bin="\$\{UBUNTU_APT_LIBCAP2_BIN_VERSION\}"' "runtime_packages_not_version_pinned"
 require_pattern package/Dockerfile 'runtime-ubuntu-packages\.tsv' "runtime_resolved_package_manifest_missing"
 require_pattern package/Dockerfile '/var/log/alternatives\.log /var/log/lastlog /var/log/faillog /var/cache/ldconfig/aux-cache' "runtime_nondeterministic_state_not_removed"
@@ -95,6 +97,10 @@ require_pattern .github/workflows/supply-chain.yml 'actions/checkout@3d3c42e5aac
 require_pattern .github/workflows/supply-chain.yml 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' "artifact_action_not_commit_pinned"
 require_pattern .github/workflows/supply-chain.yml 'aquasec/trivy:0\.74\.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969' "trivy_image_not_digest_pinned"
 require_pattern .github/workflows/supply-chain.yml 'govulncheck@v1\.7\.0' "govulncheck_not_version_pinned"
+require_pattern .github/workflows/supply-chain.yml 'scripts/assess-runtime-vulnerabilities' "runtime_risk_assessment_missing"
+require_pattern scripts/assess-runtime-vulnerabilities 'runtime_secrets=%s' "runtime_secret_gate_missing"
+require_pattern scripts/assess-runtime-vulnerabilities 'runtime_actionable=%s' "runtime_actionable_gate_missing"
+require_pattern scripts/assess-runtime-vulnerabilities 'status:"under_investigation"' "vendor_unfixed_status_missing"
 require_pattern .github/workflows/supply-chain.yml "stat -c '%u:%g' bin/resource-scheduler" "output_ownership_gate_missing"
 require_pattern .github/workflows/supply-chain.yml 'diff -u toolchain/buildx-security\.patch evidence/buildx-security\.patch' "buildx_patch_evidence_missing"
 require_pattern .github/workflows/supply-chain.yml '9d424e752f24ea0e34ccd80340428f067ae8109204c401c93786a2b0be6ea993  evidence/buildx-security\.patch' "buildx_patch_evidence_sha_missing"

@@ -85,7 +85,11 @@ jobs:
             -v "$cache:/root/.cache/trivy" \
             "$TRIVY_IMAGE" image --skip-db-update --offline-scan \
             --scanners vuln,secret --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL \
-            --exit-code 1 "$RUNTIME_IMAGE"
+            --format json \
+            --output "/release/resource-scheduler-${RELEASE_TAG#v}-security.json" "$RUNTIME_IMAGE"
+          bash scripts/assess-runtime-vulnerabilities \
+            "$release_dir/resource-scheduler-${RELEASE_TAG#v}-security.json" \
+            "$release_dir" "$RUNTIME_IMAGE"
           docker run --rm --network none \
             -v /var/run/docker.sock:/var/run/docker.sock \
             -v "$PWD/$release_dir:/release" \
@@ -108,7 +112,11 @@ jobs:
             sha256sum \
               "resource-scheduler-${RELEASE_TAG#v}-linux-amd64.tar.xz" \
               "resource-scheduler-${RELEASE_TAG#v}-image.cdx.json" \
+              "resource-scheduler-${RELEASE_TAG#v}-security.json" \
               "resource-scheduler-${RELEASE_TAG#v}-ubuntu-packages.tsv" \
+              runtime-risk-summary.txt \
+              runtime-vendor-unfixed.tsv \
+              runtime-vendor-unfixed.openvex.json \
               > SHA256SUMS
           )
 
@@ -146,10 +154,14 @@ jobs:
           set -euo pipefail
           gh release create "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --verify-tag \
             --title "Resource Scheduler ${RELEASE_TAG#v}" \
-            --notes 'Maintained resource scheduler runtime published from a pure numeric version, with tests, vulnerability gate, SBOM, package inventory, checksums, and build provenance.' \
+            --notes 'Maintained resource scheduler runtime published from a pure numeric version, with tests, SBOM, package inventory, full vulnerability evidence, an explicit register of vendor-unfixed Low/Medium findings, checksums, and build provenance.' \
             "dist/release/resource-scheduler-${RELEASE_TAG#v}-linux-amd64.tar.xz" \
             "dist/release/resource-scheduler-${RELEASE_TAG#v}-image.cdx.json" \
+            "dist/release/resource-scheduler-${RELEASE_TAG#v}-security.json" \
             "dist/release/resource-scheduler-${RELEASE_TAG#v}-ubuntu-packages.tsv" \
+            dist/release/runtime-risk-summary.txt \
+            dist/release/runtime-vendor-unfixed.tsv \
+            dist/release/runtime-vendor-unfixed.openvex.json \
             dist/release/SHA256SUMS
 
       - name: Clean run-owned resources
@@ -158,9 +170,15 @@ jobs:
         run: |
           set +e
           docker logout ghcr.io >/dev/null 2>&1
+          owner="$(id -u):$(id -g)"
+          cache="$RUNNER_TEMP/resource-scheduler-release-trivy-cache"
+          if [ -d "$cache" ] && docker image inspect "$TRIVY_IMAGE" >/dev/null 2>&1; then
+            docker run --rm --volume "$cache:/target" --entrypoint chown \
+              "$TRIVY_IMAGE" -R "$owner" /target >/dev/null 2>&1
+          fi
           for image in "${RUNTIME_IMAGE:-}" "$DAPPER_IMAGE" "$TRIVY_IMAGE"; do
             if [ -n "$image" ] && docker image inspect "$image" >/dev/null 2>&1; then
               docker image rm -f "$image" >/dev/null 2>&1
             fi
           done
-          rm -rf -- bin dist "$RUNNER_TEMP/resource-scheduler-release-trivy-cache"
+          rm -rf -- bin dist "$cache"

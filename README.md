@@ -6,7 +6,7 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 **Upstream:** [`rancher/scheduler`](https://github.com/rancher/scheduler). This GitHub fork retains the upstream Git history, authorship, dates, and license notices. PastureStack maintenance is consolidated into one commit after the preserved upstream boundary.
 
-The current public release and Catalog image are `v0.8.17`.
+The current release candidate and next Catalog image are `v0.8.18`.
 
 ## Runtime image
 
@@ -24,9 +24,9 @@ The native command is `resource-scheduler`. A `scheduler` executable symlink rem
 
 ## Build and test
 
-The reviewed build uses Go 1.27.0 to compile Docker CLI 29.7.2 and Docker Buildx 0.36.1 from checksum-pinned source. A small checksum-locked Buildx patch removes its sole compiled dependency on the legacy Docker module; the two security-sensitive Buildx modules are then pinned to `github.com/moby/go-archive` 0.3.0 and `golang.org/x/mod` 0.40.0, with the final binary metadata checked in CI. The Ubuntu base image is digest-pinned; direct packages are version-pinned in `ubuntu-apt.lock` against the fixed `20260909T000000Z` Canonical snapshot, and each built image records the complete resolved `dpkg` inventory. BuildKit receives the source commit time through `SOURCE_DATE_EPOCH`, and CI rejects differing binary hashes or image IDs across clean rebuilds.
+The reviewed build uses Go 1.27.0 to compile Docker CLI 29.7.2 and Docker Buildx 0.36.1 from checksum-pinned source. A small checksum-locked Buildx patch removes its sole compiled dependency on the legacy Docker module; the two security-sensitive Buildx modules are then pinned to `github.com/moby/go-archive` 0.3.0 and `golang.org/x/mod` 0.40.0, with the final binary metadata checked in CI. The Ubuntu base image is digest-pinned; all inherited base packages are updated from the fixed `20260909T000000Z` Canonical snapshot before the direct packages pinned in `ubuntu-apt.lock` are installed, and each built image records the complete resolved `dpkg` inventory. BuildKit receives the source commit time through `SOURCE_DATE_EPOCH`, and CI rejects differing binary hashes or image IDs across clean rebuilds.
 
-The dependency graph is declared in `go.mod`, checksum-bound by `go.sum`, and committed in the standard module-aware `vendor` tree for reproducible offline builds. Security CI produces short-lived source and runtime CycloneDX SBOMs, runs binary reachability analysis, and blocks runtime Critical or High vulnerabilities and detected secrets.
+The dependency graph is declared in `go.mod`, checksum-bound by `go.sum`, and committed in the standard module-aware `vendor` tree for reproducible offline builds. Security CI produces short-lived source and runtime CycloneDX SBOMs, runs binary reachability analysis, and blocks detected secrets, every High/Critical runtime finding, and any finding for which Ubuntu has published a fixed package. Low/Medium findings without an available Ubuntu fix remain visible as `under_investigation` in the release risk register and OpenVEX artifact; they are not represented as resolved and are re-evaluated when the vendor, base digest, or vulnerability data changes.
 
 ```bash
 make test
@@ -34,7 +34,7 @@ make validate
 bash scripts/check-build-downloads
 go list -mod=vendor ./...
 bash scripts/check-migration-policy
-VERSION_OVERRIDE=v0.8.17 IMAGE_NAMESPACE=pasturestack make package
+VERSION_OVERRIDE=v0.8.18 IMAGE_NAMESPACE=pasturestack make package
 ```
 
 CI validates source and dependency locks, tests and reproducible builds, and generates short-lived security evidence. Releases are published only from an annotated, pure numeric SemVer tag that resolves to the reviewed commit.
