@@ -6,6 +6,10 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 **Upstream:** [`rancher/scheduler`](https://github.com/rancher/scheduler). This GitHub fork retains the upstream Git history, authorship, dates, and license notices. PastureStack maintenance is consolidated into one commit after the preserved upstream boundary.
 
+The current public release and Catalog image are `v0.8.16`. This source tree
+targets the next numeric candidate, `v0.8.17`; publishing remains a separate
+operation after the candidate release gate passes.
+
 ## Runtime image
 
 The maintained image is published from this repository as:
