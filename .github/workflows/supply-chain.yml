@@ -113,7 +113,7 @@ jobs:
         run: |
           set -euo pipefail
           snapshot="$(sed -n "s/^UBUNTU_APT_SNAPSHOT='\([^']*\)'$/\1/p" ubuntu-apt.lock)"
-          test "$snapshot" = 20260825T000000Z
+          test "$snapshot" = 20260909T000000Z
 
           docker run --rm --entrypoint cat "$DAPPER_IMAGE" \
             /usr/share/pasturestack/manifests/dapper-ubuntu-packages.tsv \
@@ -129,7 +129,7 @@ jobs:
             > evidence/runtime-dpkg.tsv
 
           for manifest in evidence/dapper-dpkg.tsv evidence/runtime-dpkg.tsv; do
-            grep -F $'metadata\tubuntu_snapshot\t-\t20260825T000000Z' "$manifest" >/dev/null
+            grep -F $'metadata\tubuntu_snapshot\t-\t20260909T000000Z' "$manifest" >/dev/null
             test "$(grep -c '^package' "$manifest")" -gt 0
           done
           grep -F $'gcc\t4:15.2.0-5ubuntu1\t15.2.0' evidence/dapper-gcc.tsv >/dev/null
@@ -156,11 +156,12 @@ jobs:
             exit 1
           fi
           grep -F 'go1.27.0' evidence/docker-cli-go-version.txt >/dev/null
-          grep -F $'dep\tgolang.org/x/text\tv0.40.0\t' evidence/docker-cli-go-version.txt >/dev/null
-          grep -F $'dep\tgoogle.golang.org/grpc\tv1.82.1\t' evidence/docker-cli-go-version.txt >/dev/null
+          grep -F $'dep\tgolang.org/x/text\tv0.41.0\t' evidence/docker-cli-go-version.txt >/dev/null
+          grep -F $'dep\tgoogle.golang.org/grpc\tv1.83.2\t' evidence/docker-cli-go-version.txt >/dev/null
           grep -F $'dep\tgithub.com/moby/go-archive\tv0.3.0\t' evidence/buildx-go-version.txt >/dev/null
           grep -F $'dep\tgolang.org/x/mod\tv0.40.0\t' evidence/buildx-go-version.txt >/dev/null
-          grep -F $'package\tlinux-libc-dev:amd64\tamd64\t7.0.0-30.30' evidence/dapper-dpkg.tsv >/dev/null
+          grep -F $'dep\tgoogle.golang.org/grpc\tv1.83.2\t' evidence/buildx-go-version.txt >/dev/null
+          grep -F $'package\tlinux-libc-dev:amd64\tamd64\t7.0.0-31.31' evidence/dapper-dpkg.tsv >/dev/null
           docker run --rm --entrypoint go --volume "$PWD:/work:ro" "$DAPPER_IMAGE" \
             version -m /work/bin/resource-scheduler \
             > evidence/resource-scheduler-go-version.txt
