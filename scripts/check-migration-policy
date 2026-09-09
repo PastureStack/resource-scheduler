@@ -35,7 +35,8 @@ if git ls-files | grep -Eq "package/(${legacy_brand}-entrypoint\\.sh|update-${le
 fi
 
 for required in README.md ORIGIN.md COMPATIBILITY.md SECURITY.md THIRD_PARTY_NOTICES.md LICENSE \
-    internal/metadata/client.go internal/metadata/types.go package/pasturestack-entrypoint.sh package/update-pasturestack-ca scripts/test-package-scripts; do
+    internal/metadata/client.go internal/metadata/types.go package/pasturestack-entrypoint.sh package/update-pasturestack-ca \
+    scripts/assess-runtime-vulnerabilities scripts/test-package-scripts; do
     [ -f "${required}" ] || fail "missing_${required//\//_}"
 done
 

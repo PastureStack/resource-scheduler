@@ -1,5 +1,14 @@
 # Release Notes
 
+## 0.8.18
+
+- Update every runtime package available from the fixed Ubuntu snapshot.
+- Preserve the full all-severity runtime scan and explicitly register Low/Medium
+  findings for which Ubuntu has not published a fixed package; keep them marked
+  `under_investigation` instead of weakening the scan or claiming resolution.
+- Block release whenever a fixed package is available or a High/Critical
+  runtime finding remains.
+
 ## 0.8.17
 
 - Update the checksum-pinned Go, Docker CLI, Buildx, gRPC, and Ubuntu package

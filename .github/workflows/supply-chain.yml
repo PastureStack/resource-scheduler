@@ -53,6 +53,7 @@ jobs:
             scripts/build \
             scripts/entry \
             scripts/package \
+            scripts/assess-runtime-vulnerabilities \
             scripts/check-build-downloads \
             scripts/check-migration-policy \
             .github/workflows/release.yml \
@@ -249,6 +250,10 @@ jobs:
           runtime_critical="$(jq '[.Results[]?.Vulnerabilities[]? | select(.Severity == "CRITICAL")] | length' evidence/runtime-security.json)"
           runtime_high="$(jq '[.Results[]?.Vulnerabilities[]? | select(.Severity == "HIGH")] | length' evidence/runtime-security.json)"
           runtime_vulnerabilities="$(jq '[.Results[]?.Vulnerabilities[]?] | length' evidence/runtime-security.json)"
+          bash scripts/assess-runtime-vulnerabilities \
+            evidence/runtime-security.json evidence "$RUNTIME_IMAGE"
+          runtime_vendor_unfixed="$(sed -n 's/^runtime_vendor_unfixed_low_medium=//p' evidence/runtime-risk-summary.txt)"
+          runtime_actionable="$(sed -n 's/^runtime_actionable=//p' evidence/runtime-risk-summary.txt)"
           dapper_secrets="$(jq '[.Results[]?.Secrets[]?] | length' evidence/dapper-security.json)"
           dapper_unreviewed="$(jq '[.Results[]?.Vulnerabilities[]? |
             select(.Severity == "CRITICAL" or .Severity == "HIGH") |
@@ -286,12 +291,13 @@ jobs:
                   }
               ]
             }' > evidence/dapper.openvex.json
-          printf 'source_secrets=%s\nruntime_secrets=%s\nruntime_vulnerabilities=%s\nruntime_critical=%s\nruntime_high=%s\ndapper_secrets=%s\ndapper_unreviewed=%s\n' \
-            "$source_secrets" "$runtime_secrets" "$runtime_vulnerabilities" "$runtime_critical" "$runtime_high" \
+          printf 'source_secrets=%s\nruntime_secrets=%s\nruntime_vulnerabilities=%s\nruntime_vendor_unfixed=%s\nruntime_actionable=%s\nruntime_critical=%s\nruntime_high=%s\ndapper_secrets=%s\ndapper_unreviewed=%s\n' \
+            "$source_secrets" "$runtime_secrets" "$runtime_vulnerabilities" "$runtime_vendor_unfixed" "$runtime_actionable" "$runtime_critical" "$runtime_high" \
             "$dapper_secrets" "$dapper_unreviewed" | tee evidence/security-summary.txt
           test "$source_secrets" -eq 0
           test "$runtime_secrets" -eq 0
-          test "$runtime_vulnerabilities" -eq 0
+          test "$runtime_actionable" -eq 0
+          test "$runtime_vulnerabilities" -eq "$runtime_vendor_unfixed"
           test "$runtime_critical" -eq 0
           test "$runtime_high" -eq 0
           test "$dapper_secrets" -eq 0

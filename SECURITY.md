@@ -22,7 +22,8 @@ Resource Scheduler receives scoped control-plane credentials, consumes host and 
 - Apply the checksum-recorded Buildx patch and reject the build if the resulting binary still records the legacy Docker module.
 - Keep the runtime base image digest-pinned. Resolve exact direct-package versions from the dated Canonical snapshot in `ubuntu-apt.lock`, and retain the complete resolved `dpkg` inventory in each build and runtime image.
 - Verify that `go.mod`, `go.sum`, and `vendor/modules.txt` agree by compiling and testing with `-mod=vendor`.
-- Run unit tests, race tests, `go vet`, formatting checks, build-policy checks, migration-policy checks, secret scanning, an SBOM inventory, and High/Critical vulnerability scanning before publishing.
+- Run unit tests, race tests, `go vet`, formatting checks, build-policy checks, migration-policy checks, secret scanning, an SBOM inventory, and all-severity vulnerability scanning before publishing.
+- Block every runtime High/Critical finding and every finding with a vendor-published fixed version. Preserve vendor-unfixed Low/Medium findings in the release scan, risk register, and OpenVEX as `under_investigation`; never label them fixed or not affected.
 - A High or Critical finding may be classified as not affected only when CI proves it is an unfixed `linux-libc-dev` header finding in the disposable builder, emits exact-package OpenVEX evidence that expires on 2026-09-15, and proves the package is absent from the runtime image. Any fixed or different builder finding remains blocking.
 - Publish a new immutable version when source or dependencies change; do not replace an existing release digest.
 
