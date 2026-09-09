@@ -1,5 +1,14 @@
 # Release Notes
 
+## 0.8.17
+
+- Update the checksum-pinned Go, Docker CLI, Buildx, gRPC, and Ubuntu package
+  inputs used by the maintained build and runtime images.
+- Produce reproducible runtime images and complete source, builder, and runtime
+  dependency evidence from the reviewed release commit.
+- Enforce pure numeric SemVer release tags and publish the image, SBOMs,
+  checksums, and build provenance from the same annotated tag.
+
 ## 0.8.16
 
 - Reconnect the control-plane event subscriber after a clean disconnect or an

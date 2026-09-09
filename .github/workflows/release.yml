@@ -1,0 +1,157 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: resource-scheduler-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      DAPPER_IMAGE: local/resource-scheduler-release-dapper:${{ github.sha }}
+      TARGET_REPOSITORY: ghcr.io/pasturestack/resource-scheduler
+      TRIVY_IMAGE: ghcr.io/aquasecurity/trivy:0.74.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969
+
+    steps:
+      - name: Check out immutable tag
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Validate pure numeric release identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_TYPE" = tag
+          [[ "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          test "$(git cat-file -t "refs/tags/$GITHUB_REF_NAME")" = tag
+          test "$(git rev-list -n 1 "$GITHUB_REF_NAME")" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain)"
+
+      - name: Build, test, and package exact tag
+        shell: bash
+        env:
+          VERSION_OVERRIDE: ${{ github.ref_name }}
+          TAG: ${{ github.ref_name }}
+          REPO: ghcr.io/pasturestack
+        run: |
+          set -euo pipefail
+          make ci DAPPER_IMAGE="$DAPPER_IMAGE"
+          runtime_image="$(cat dist/images)"
+          test "$runtime_image" = "$TARGET_REPOSITORY:$GITHUB_REF_NAME"
+          test "$(docker image inspect --format '{{index .Config.Labels \"org.opencontainers.image.version\"}}' "$runtime_image")" = "$GITHUB_REF_NAME"
+          test "$(docker image inspect --format '{{index .Config.Labels \"org.opencontainers.image.revision\"}}' "$runtime_image")" = "$GITHUB_SHA"
+          printf 'RUNTIME_IMAGE=%s\n' "$runtime_image" >> "$GITHUB_ENV"
+
+      - name: Scan release image and create release evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          release_dir=dist/release
+          release_root="$release_dir/resource-scheduler-${GITHUB_REF_NAME#v}-linux-amd64"
+          mkdir -p "$release_root"
+          cp bin/resource-scheduler LICENSE COMPATIBILITY.md ORIGIN.md SECURITY.md THIRD_PARTY_NOTICES.md "$release_root/"
+          cp -R LICENSES "$release_root/third-party-licenses"
+
+          docker pull "$TRIVY_IMAGE"
+          cache="$RUNNER_TEMP/resource-scheduler-release-trivy-cache"
+          mkdir -p "$cache"
+          docker run --rm -v "$cache:/root/.cache/trivy" "$TRIVY_IMAGE" image --download-db-only
+          docker run --rm --network none \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "$PWD/$release_dir:/release" \
+            -v "$cache:/root/.cache/trivy" \
+            "$TRIVY_IMAGE" image --skip-db-update --offline-scan \
+            --scanners vuln,secret --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL \
+            --exit-code 1 "$RUNTIME_IMAGE"
+          docker run --rm --network none \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "$PWD/$release_dir:/release" \
+            -v "$cache:/root/.cache/trivy" \
+            "$TRIVY_IMAGE" image --skip-db-update --offline-scan --format cyclonedx \
+            --output "/release/resource-scheduler-${GITHUB_REF_NAME#v}-image.cdx.json" "$RUNTIME_IMAGE"
+          docker run --rm --entrypoint cat "$RUNTIME_IMAGE" \
+            /usr/share/pasturestack/manifests/runtime-ubuntu-packages.tsv \
+            > "$release_dir/resource-scheduler-${GITHUB_REF_NAME#v}-ubuntu-packages.tsv"
+          jq -e '.bomFormat == "CycloneDX" and (.serialNumber | length > 0) and ([.components[]?] | length > 0)' \
+            "$release_dir/resource-scheduler-${GITHUB_REF_NAME#v}-image.cdx.json" >/dev/null
+
+          source_epoch="$(git show -s --format=%ct HEAD)"
+          find "$release_root" -exec touch -h -d "@${source_epoch}" {} +
+          tar --sort=name --mtime="@${source_epoch}" --owner=0 --group=0 --numeric-owner \
+            -C "$release_dir" -cJf "$release_dir/resource-scheduler-${GITHUB_REF_NAME#v}-linux-amd64.tar.xz" \
+            "resource-scheduler-${GITHUB_REF_NAME#v}-linux-amd64"
+          (
+            cd "$release_dir"
+            sha256sum \
+              "resource-scheduler-${GITHUB_REF_NAME#v}-linux-amd64.tar.xz" \
+              "resource-scheduler-${GITHUB_REF_NAME#v}-image.cdx.json" \
+              "resource-scheduler-${GITHUB_REF_NAME#v}-ubuntu-packages.tsv" \
+              > SHA256SUMS
+          )
+
+      - name: Publish immutable runtime image
+        id: publish
+        shell: bash
+        env:
+          GHCR_TOKEN: ${{ secrets.GHCR_PUBLISH_TOKEN || github.token }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker push "$RUNTIME_IMAGE"
+          reference="$(docker image inspect --format '{{index .RepoDigests 0}}' "$RUNTIME_IMAGE")"
+          digest="${reference#*@}"
+          [[ "$digest" =~ ^sha256:[0-9a-f]{64}$ ]]
+          printf 'digest=%s\n' "$digest" >> "$GITHUB_OUTPUT"
+
+      - name: Attest release evidence
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-checksums: dist/release/SHA256SUMS
+
+      - name: Attest runtime image
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-name: ${{ env.TARGET_REPOSITORY }}
+          subject-digest: ${{ steps.publish.outputs.digest }}
+          push-to-registry: true
+
+      - name: Publish GitHub release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --verify-tag \
+            --title "Resource Scheduler ${GITHUB_REF_NAME#v}" \
+            --notes 'Maintained resource scheduler runtime published from a pure numeric version, with tests, vulnerability gate, SBOM, package inventory, checksums, and build provenance.' \
+            "dist/release/resource-scheduler-${GITHUB_REF_NAME#v}-linux-amd64.tar.xz" \
+            "dist/release/resource-scheduler-${GITHUB_REF_NAME#v}-image.cdx.json" \
+            "dist/release/resource-scheduler-${GITHUB_REF_NAME#v}-ubuntu-packages.tsv" \
+            dist/release/SHA256SUMS
+
+      - name: Clean run-owned resources
+        if: always()
+        shell: bash
+        run: |
+          set +e
+          docker logout ghcr.io >/dev/null 2>&1
+          for image in "${RUNTIME_IMAGE:-}" "$DAPPER_IMAGE" "$TRIVY_IMAGE"; do
+            if [ -n "$image" ] && docker image inspect "$image" >/dev/null 2>&1; then
+              docker image rm -f "$image" >/dev/null 2>&1
+            fi
+          done
+          rm -rf -- bin dist "$RUNNER_TEMP/resource-scheduler-release-trivy-cache"

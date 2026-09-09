@@ -55,6 +55,7 @@ jobs:
             scripts/package \
             scripts/check-build-downloads \
             scripts/check-migration-policy \
+            .github/workflows/release.yml \
             .github/workflows/supply-chain.yml \
             > evidence/source-inputs.sha256
           go list -mod=vendor ./... > evidence/module-packages.txt

@@ -6,9 +6,7 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 **Upstream:** [`rancher/scheduler`](https://github.com/rancher/scheduler). This GitHub fork retains the upstream Git history, authorship, dates, and license notices. PastureStack maintenance is consolidated into one commit after the preserved upstream boundary.
 
-The current public release and Catalog image are `v0.8.16`. This source tree
-targets the next numeric candidate, `v0.8.17`; publishing remains a separate
-operation after the candidate release gate passes.
+The current public release and Catalog image are `v0.8.17`.
 
 ## Runtime image
 
@@ -39,7 +37,7 @@ bash scripts/check-migration-policy
 VERSION_OVERRIDE=v0.8.17 IMAGE_NAMESPACE=pasturestack make package
 ```
 
-CI validates source and dependency locks, tests and reproducible builds, and generates short-lived security evidence. Publishing remains a separate, explicitly authorized operation.
+CI validates source and dependency locks, tests and reproducible builds, and generates short-lived security evidence. Releases are published only from an annotated, pure numeric SemVer tag that resolves to the reviewed commit.
 
 The scheduling test suite includes repeated allocation of the same host-port
 reservation. Retries for one resource UUID are idempotent, while a different
