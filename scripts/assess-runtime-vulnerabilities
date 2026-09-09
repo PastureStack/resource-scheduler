@@ -8,6 +8,7 @@ subject=${3:?usage: assess-runtime-vulnerabilities REPORT_JSON OUTPUT_DIR SUBJEC
 mkdir -p "${output_dir}"
 
 total=$(jq '[.Results[]?.Vulnerabilities[]?] | length' "${report}")
+secrets=$(jq '[.Results[]?.Secrets[]?] | length' "${report}")
 pending=$(jq '[.Results[]?.Vulnerabilities[]? |
     select((.Severity == "LOW" or .Severity == "MEDIUM") and ((.FixedVersion // "") == ""))] | length' "${report}")
 actionable=$(jq '[.Results[]?.Vulnerabilities[]? |
@@ -41,9 +42,10 @@ jq -n \
       ]
     }' > "${output_dir}/runtime-vendor-unfixed.openvex.json"
 
-printf 'runtime_vulnerabilities=%s\nruntime_vendor_unfixed_low_medium=%s\nruntime_actionable=%s\n' \
-    "${total}" "${pending}" "${actionable}" | tee "${output_dir}/runtime-risk-summary.txt"
+printf 'runtime_secrets=%s\nruntime_vulnerabilities=%s\nruntime_vendor_unfixed_low_medium=%s\nruntime_actionable=%s\n' \
+    "${secrets}" "${total}" "${pending}" "${actionable}" | tee "${output_dir}/runtime-risk-summary.txt"
 
+test "${secrets}" -eq 0
 test "${total}" -eq "${pending}"
 test "${actionable}" -eq 0
 test "$(jq '.statements | length' "${output_dir}/runtime-vendor-unfixed.openvex.json")" -eq "${pending}"
@@ -53,4 +55,4 @@ jq -e 'all(.statements[];
     (.impact_statement | contains("not represented as resolved")))' \
     "${output_dir}/runtime-vendor-unfixed.openvex.json" >/dev/null
 
-echo "RESOURCE_SCHEDULER_RUNTIME_RISK_OK total=${total} vendor_unfixed=${pending} actionable=0"
+echo "RESOURCE_SCHEDULER_RUNTIME_RISK_OK secrets=0 total=${total} vendor_unfixed=${pending} actionable=0"

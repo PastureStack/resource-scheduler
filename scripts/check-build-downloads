@@ -98,6 +98,7 @@ require_pattern .github/workflows/supply-chain.yml 'actions/upload-artifact@043f
 require_pattern .github/workflows/supply-chain.yml 'aquasec/trivy:0\.74\.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969' "trivy_image_not_digest_pinned"
 require_pattern .github/workflows/supply-chain.yml 'govulncheck@v1\.7\.0' "govulncheck_not_version_pinned"
 require_pattern .github/workflows/supply-chain.yml 'scripts/assess-runtime-vulnerabilities' "runtime_risk_assessment_missing"
+require_pattern scripts/assess-runtime-vulnerabilities 'runtime_secrets=%s' "runtime_secret_gate_missing"
 require_pattern scripts/assess-runtime-vulnerabilities 'runtime_actionable=%s' "runtime_actionable_gate_missing"
 require_pattern scripts/assess-runtime-vulnerabilities 'status:"under_investigation"' "vendor_unfixed_status_missing"
 require_pattern .github/workflows/supply-chain.yml "stat -c '%u:%g' bin/resource-scheduler" "output_ownership_gate_missing"
