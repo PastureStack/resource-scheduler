@@ -158,9 +158,15 @@ jobs:
         run: |
           set +e
           docker logout ghcr.io >/dev/null 2>&1
+          owner="$(id -u):$(id -g)"
+          cache="$RUNNER_TEMP/resource-scheduler-release-trivy-cache"
+          if [ -d "$cache" ] && docker image inspect "$TRIVY_IMAGE" >/dev/null 2>&1; then
+            docker run --rm --volume "$cache:/target" --entrypoint chown \
+              "$TRIVY_IMAGE" -R "$owner" /target >/dev/null 2>&1
+          fi
           for image in "${RUNTIME_IMAGE:-}" "$DAPPER_IMAGE" "$TRIVY_IMAGE"; do
             if [ -n "$image" ] && docker image inspect "$image" >/dev/null 2>&1; then
               docker image rm -f "$image" >/dev/null 2>&1
             fi
           done
-          rm -rf -- bin dist "$RUNNER_TEMP/resource-scheduler-release-trivy-cache"
+          rm -rf -- bin dist "$cache"
