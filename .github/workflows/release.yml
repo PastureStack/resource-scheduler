@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing annotated pure numeric release tag to resume
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -12,7 +18,7 @@ permissions:
   attestations: write
 
 concurrency:
-  group: resource-scheduler-release-${{ github.ref }}
+  group: resource-scheduler-release-${{ inputs.release_tag || github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -23,11 +29,13 @@ jobs:
       DAPPER_IMAGE: local/resource-scheduler-release-dapper:${{ github.sha }}
       TARGET_REPOSITORY: ghcr.io/pasturestack/resource-scheduler
       TRIVY_IMAGE: ghcr.io/aquasecurity/trivy:0.74.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969
+      RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
 
     steps:
       - name: Check out immutable tag
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ inputs.release_tag || github.ref }}
           fetch-depth: 0
           persist-credentials: false
 
@@ -35,25 +43,26 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$GITHUB_REF_TYPE" = tag
-          [[ "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
-          test "$(git cat-file -t "refs/tags/$GITHUB_REF_NAME")" = tag
-          test "$(git rev-list -n 1 "$GITHUB_REF_NAME")" = "$GITHUB_SHA"
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          test "$(git cat-file -t "refs/tags/$RELEASE_TAG")" = tag
+          release_commit="$(git rev-list -n 1 "$RELEASE_TAG")"
+          test "$(git rev-parse HEAD)" = "$release_commit"
+          printf 'RELEASE_COMMIT=%s\n' "$release_commit" >> "$GITHUB_ENV"
           test -z "$(git status --porcelain)"
 
       - name: Build, test, and package exact tag
         shell: bash
         env:
-          VERSION_OVERRIDE: ${{ github.ref_name }}
-          TAG: ${{ github.ref_name }}
+          VERSION_OVERRIDE: ${{ inputs.release_tag || github.ref_name }}
+          TAG: ${{ inputs.release_tag || github.ref_name }}
           REPO: ghcr.io/pasturestack
         run: |
           set -euo pipefail
           make ci DAPPER_IMAGE="$DAPPER_IMAGE"
           runtime_image="$(cat dist/images)"
-          test "$runtime_image" = "$TARGET_REPOSITORY:$GITHUB_REF_NAME"
-          test "$(docker image inspect --format '{{index .Config.Labels \"org.opencontainers.image.version\"}}' "$runtime_image")" = "$GITHUB_REF_NAME"
-          test "$(docker image inspect --format '{{index .Config.Labels \"org.opencontainers.image.revision\"}}' "$runtime_image")" = "$GITHUB_SHA"
+          test "$runtime_image" = "$TARGET_REPOSITORY:$RELEASE_TAG"
+          test "$(docker image inspect --format '{{index .Config.Labels "org.opencontainers.image.version"}}' "$runtime_image")" = "$RELEASE_TAG"
+          test "$(docker image inspect --format '{{index .Config.Labels "org.opencontainers.image.revision"}}' "$runtime_image")" = "$RELEASE_COMMIT"
           printf 'RUNTIME_IMAGE=%s\n' "$runtime_image" >> "$GITHUB_ENV"
 
       - name: Scan release image and create release evidence
@@ -61,7 +70,7 @@ jobs:
         run: |
           set -euo pipefail
           release_dir=dist/release
-          release_root="$release_dir/resource-scheduler-${GITHUB_REF_NAME#v}-linux-amd64"
+          release_root="$release_dir/resource-scheduler-${RELEASE_TAG#v}-linux-amd64"
           mkdir -p "$release_root"
           cp bin/resource-scheduler LICENSE COMPATIBILITY.md ORIGIN.md SECURITY.md THIRD_PARTY_NOTICES.md "$release_root/"
           cp -R LICENSES "$release_root/third-party-licenses"
@@ -82,24 +91,24 @@ jobs:
             -v "$PWD/$release_dir:/release" \
             -v "$cache:/root/.cache/trivy" \
             "$TRIVY_IMAGE" image --skip-db-update --offline-scan --format cyclonedx \
-            --output "/release/resource-scheduler-${GITHUB_REF_NAME#v}-image.cdx.json" "$RUNTIME_IMAGE"
+            --output "/release/resource-scheduler-${RELEASE_TAG#v}-image.cdx.json" "$RUNTIME_IMAGE"
           docker run --rm --entrypoint cat "$RUNTIME_IMAGE" \
             /usr/share/pasturestack/manifests/runtime-ubuntu-packages.tsv \
-            > "$release_dir/resource-scheduler-${GITHUB_REF_NAME#v}-ubuntu-packages.tsv"
+            > "$release_dir/resource-scheduler-${RELEASE_TAG#v}-ubuntu-packages.tsv"
           jq -e '.bomFormat == "CycloneDX" and (.serialNumber | length > 0) and ([.components[]?] | length > 0)' \
-            "$release_dir/resource-scheduler-${GITHUB_REF_NAME#v}-image.cdx.json" >/dev/null
+            "$release_dir/resource-scheduler-${RELEASE_TAG#v}-image.cdx.json" >/dev/null
 
           source_epoch="$(git show -s --format=%ct HEAD)"
           find "$release_root" -exec touch -h -d "@${source_epoch}" {} +
           tar --sort=name --mtime="@${source_epoch}" --owner=0 --group=0 --numeric-owner \
-            -C "$release_dir" -cJf "$release_dir/resource-scheduler-${GITHUB_REF_NAME#v}-linux-amd64.tar.xz" \
-            "resource-scheduler-${GITHUB_REF_NAME#v}-linux-amd64"
+            -C "$release_dir" -cJf "$release_dir/resource-scheduler-${RELEASE_TAG#v}-linux-amd64.tar.xz" \
+            "resource-scheduler-${RELEASE_TAG#v}-linux-amd64"
           (
             cd "$release_dir"
             sha256sum \
-              "resource-scheduler-${GITHUB_REF_NAME#v}-linux-amd64.tar.xz" \
-              "resource-scheduler-${GITHUB_REF_NAME#v}-image.cdx.json" \
-              "resource-scheduler-${GITHUB_REF_NAME#v}-ubuntu-packages.tsv" \
+              "resource-scheduler-${RELEASE_TAG#v}-linux-amd64.tar.xz" \
+              "resource-scheduler-${RELEASE_TAG#v}-image.cdx.json" \
+              "resource-scheduler-${RELEASE_TAG#v}-ubuntu-packages.tsv" \
               > SHA256SUMS
           )
 
@@ -135,12 +144,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --verify-tag \
-            --title "Resource Scheduler ${GITHUB_REF_NAME#v}" \
+          gh release create "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --verify-tag \
+            --title "Resource Scheduler ${RELEASE_TAG#v}" \
             --notes 'Maintained resource scheduler runtime published from a pure numeric version, with tests, vulnerability gate, SBOM, package inventory, checksums, and build provenance.' \
-            "dist/release/resource-scheduler-${GITHUB_REF_NAME#v}-linux-amd64.tar.xz" \
-            "dist/release/resource-scheduler-${GITHUB_REF_NAME#v}-image.cdx.json" \
-            "dist/release/resource-scheduler-${GITHUB_REF_NAME#v}-ubuntu-packages.tsv" \
+            "dist/release/resource-scheduler-${RELEASE_TAG#v}-linux-amd64.tar.xz" \
+            "dist/release/resource-scheduler-${RELEASE_TAG#v}-image.cdx.json" \
+            "dist/release/resource-scheduler-${RELEASE_TAG#v}-ubuntu-packages.tsv" \
             dist/release/SHA256SUMS
 
       - name: Clean run-owned resources

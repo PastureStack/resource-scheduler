@@ -43,7 +43,7 @@ grep -Fq "PastureStack is an independent community effort to preserve, audit, an
 grep -Fq 'ad28c1d94b7f1b1814fa6404886398b4f4094d64' ORIGIN.md || fail "upstream_boundary_missing"
 grep -Fq 'ghcr.io/pasturestack/resource-scheduler' README.md || fail "public_image_missing"
 grep -Fq 'v0.8.17' README.md || fail "current_numeric_release_missing"
-grep -Fq "[[ \"\$GITHUB_REF_NAME\" =~ ^v[0-9]+\\.[0-9]+\\.[0-9]+\$ ]]" .github/workflows/release.yml || fail "numeric_release_gate_missing"
+grep -Fq "[[ \"\$RELEASE_TAG\" =~ ^v[0-9]+\\.[0-9]+\\.[0-9]+\$ ]]" .github/workflows/release.yml || fail "numeric_release_gate_missing"
 
 if git grep -I -n -E "${legacy_brand}-1\\.6-|${retired_short}" -- ':!vendor/**' ':!LICENSES/**' >/tmp/resource-scheduler-policy-matches 2>/dev/null; then
     cat /tmp/resource-scheduler-policy-matches
