@@ -160,6 +160,7 @@ jobs:
           grep -F $'dep\tgoogle.golang.org/grpc\tv1.83.2\t' evidence/docker-cli-go-version.txt >/dev/null
           grep -F $'dep\tgithub.com/moby/go-archive\tv0.3.0\t' evidence/buildx-go-version.txt >/dev/null
           grep -F $'dep\tgolang.org/x/mod\tv0.40.0\t' evidence/buildx-go-version.txt >/dev/null
+          grep -F $'dep\tgoogle.golang.org/grpc\tv1.83.2\t' evidence/buildx-go-version.txt >/dev/null
           grep -F $'package\tlinux-libc-dev:amd64\tamd64\t7.0.0-31.31' evidence/dapper-dpkg.tsv >/dev/null
           docker run --rm --entrypoint go --volume "$PWD:/work:ro" "$DAPPER_IMAGE" \
             version -m /work/bin/resource-scheduler \

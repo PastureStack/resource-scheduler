@@ -29,6 +29,8 @@ ARG BUILDX_SOURCE_SHA256=fb28b5c2a198d05482f0656dfb7ee161240a904e36697bf7108e5d5
 ARG BUILDX_SECURITY_PATCH_SHA256=9d424e752f24ea0e34ccd80340428f067ae8109204c401c93786a2b0be6ea993
 ARG BUILDX_GO_ARCHIVE_VERSION=v0.3.0
 ARG BUILDX_X_MOD_VERSION=v0.40.0
+ARG BUILDX_UPSTREAM_GRPC_VERSION=v1.82.1
+ARG BUILDX_GRPC_VERSION=v1.83.2
 ARG UBUNTU_SNAPSHOT=20260909T000000Z
 ARG GO_LINUX_AMD64_SHA256=675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685
 ARG GO_LINUX_ARM64_SHA256=51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda
@@ -150,13 +152,15 @@ RUN set -eux; \
     cd /tmp/buildx-src; \
     git apply --check /usr/share/pasturestack/patches/buildx-security.patch; \
     git apply /usr/share/pasturestack/patches/buildx-security.patch; \
+    grep -F "google.golang.org/grpc ${BUILDX_UPSTREAM_GRPC_VERSION}" go.mod; \
     go mod edit -droprequire=github.com/docker/docker; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=https://proxy.golang.org GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod \
-        go get "github.com/moby/go-archive@${BUILDX_GO_ARCHIVE_VERSION}" "golang.org/x/mod@${BUILDX_X_MOD_VERSION}"; \
+        go get "github.com/moby/go-archive@${BUILDX_GO_ARCHIVE_VERSION}" "golang.org/x/mod@${BUILDX_X_MOD_VERSION}" "google.golang.org/grpc@${BUILDX_GRPC_VERSION}"; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=https://proxy.golang.org GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go mod download; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go mod verify; \
     test "$(GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go list -m -f '{{.Version}}' github.com/moby/go-archive)" = "${BUILDX_GO_ARCHIVE_VERSION}"; \
     test "$(GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go list -m -f '{{.Version}}' golang.org/x/mod)" = "${BUILDX_X_MOD_VERSION}"; \
+    test "$(GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go list -m -f '{{.Version}}' google.golang.org/grpc)" = "${BUILDX_GRPC_VERSION}"; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go list -deps ./cmd/buildx > /tmp/buildx-deps.txt; \
     if grep '^github.com/docker/docker/' /tmp/buildx-deps.txt; then \
         echo 'patched Buildx still compiles github.com/docker/docker' >&2; \
@@ -175,6 +179,7 @@ RUN set -eux; \
     fi; \
     grep -F $'dep\tgithub.com/moby/go-archive\t'"${BUILDX_GO_ARCHIVE_VERSION}"$'\t' /usr/share/pasturestack/manifests/buildx-go-version.txt; \
     grep -F $'dep\tgolang.org/x/mod\t'"${BUILDX_X_MOD_VERSION}"$'\t' /usr/share/pasturestack/manifests/buildx-go-version.txt; \
+    grep -F $'dep\tgoogle.golang.org/grpc\t'"${BUILDX_GRPC_VERSION}"$'\t' /usr/share/pasturestack/manifests/buildx-go-version.txt; \
     rm -rf /tmp/buildx-src /tmp/buildx.tar.gz /tmp/buildx-deps.txt /tmp/buildx-go-mod /tmp/go-build-cache
 
 RUN set -eux; \
