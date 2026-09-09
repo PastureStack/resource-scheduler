@@ -15,12 +15,12 @@ if [ -n "${personal_matches}" ]; then
     fail "personal_marker_in_tracked_tree"
 fi
 
-unexpected_workflows=$(find .github/workflows -maxdepth 1 -type f -print | sed 's|^\./||' | grep -Ev '^\.github/workflows/(repository-integrity|supply-chain)\.yml$' || true)
+unexpected_workflows=$(find .github/workflows -maxdepth 1 -type f -print | sed 's|^\./||' | grep -Ev '^\.github/workflows/(release|repository-integrity|supply-chain)\.yml$' || true)
 if [ -n "${unexpected_workflows}" ]; then
     printf '%s\n' "${unexpected_workflows}"
     fail "unreviewed_workflow_present"
 fi
-for workflow in .github/workflows/repository-integrity.yml .github/workflows/supply-chain.yml; do
+for workflow in .github/workflows/release.yml .github/workflows/repository-integrity.yml .github/workflows/supply-chain.yml; do
     [ -f "${workflow}" ] || fail "missing_${workflow//\//_}"
 done
 legacy_brand='ran''cher'
@@ -42,6 +42,8 @@ done
 grep -Fq "PastureStack is an independent community effort to preserve, audit, and modernize the ${legacy_title} 1.6 ecosystem. It is not affiliated with or endorsed by ${legacy_title} Labs or SUSE." README.md || fail "independence_notice_missing"
 grep -Fq 'ad28c1d94b7f1b1814fa6404886398b4f4094d64' ORIGIN.md || fail "upstream_boundary_missing"
 grep -Fq 'ghcr.io/pasturestack/resource-scheduler' README.md || fail "public_image_missing"
+grep -Fq 'v0.8.17' README.md || fail "current_numeric_release_missing"
+grep -Fq "[[ \"\$GITHUB_REF_NAME\" =~ ^v[0-9]+\\.[0-9]+\\.[0-9]+\$ ]]" .github/workflows/release.yml || fail "numeric_release_gate_missing"
 
 if git grep -I -n -E "${legacy_brand}-1\\.6-|${retired_short}" -- ':!vendor/**' ':!LICENSES/**' >/tmp/resource-scheduler-policy-matches 2>/dev/null; then
     cat /tmp/resource-scheduler-policy-matches
@@ -50,7 +52,7 @@ fi
 rm -f /tmp/resource-scheduler-policy-matches
 
 image_matches=$(git grep -I -n 'ghcr\.io/' -- ':!vendor/**' ':!LICENSES/**' || true)
-unexpected_images=$(printf '%s\n' "${image_matches}" | grep -Ev 'ghcr\.io/(pasturestack/|\$\{IMAGE_NAMESPACE:-pasturestack\})' || true)
+unexpected_images=$(printf '%s\n' "${image_matches}" | grep -Ev 'ghcr\.io/(pasturestack($|/)|\$\{IMAGE_NAMESPACE:-pasturestack\}|aquasecurity/trivy:0\.74\.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969)' || true)
 if [ -n "${unexpected_images}" ]; then
     printf '%s\n' "${unexpected_images}"
     fail "non_pasturestack_image_present"
