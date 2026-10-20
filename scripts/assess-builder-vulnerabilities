@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+"""Classify exact, reviewed kernel-header metadata matches; preserve raw scans."""
+import datetime
+import hashlib
+import json
+import pathlib
+import re
+import sys
+
+
+def assess(report, review, owned_inventory, runtime_inventory):
+    if review.get("schemaVersion") != 1 or review.get("status") != "reviewed_not_affected":
+        raise ValueError("a reviewed applicability ledger is required; date exceptions are unsupported")
+    package = review["package"]
+    expected = package["name"] + ":" + package["architecture"]
+    lines = [line.split("\t", 3) for line in owned_inventory.splitlines()]
+    if not lines or lines[0] != ["package", expected, package["version"]]:
+        raise ValueError("installed header package/version/architecture drift")
+    owned = {}
+    for row in lines[1:]:
+        if len(row) != 4 or row[0] != "file" or row[1] in owned:
+            raise ValueError("invalid or duplicate owned-file evidence")
+        _, path, digest, kind = row
+        if not re.fullmatch(r"[0-9a-f]{64}", digest):
+            raise ValueError("invalid owned-file digest")
+        if "ELF" in kind or re.search(r"(?:^|/)(?:vmlinuz|vmlinux)|\.ko(?:\.|$)", path):
+            raise ValueError("kernel or executable payload is present")
+        if not (path.startswith("/usr/include/") and path.endswith(".h") or
+                path in ("/usr/share/doc/linux-libc-dev/copyright",
+                         "/usr/share/doc/linux-libc-dev/changelog.Debian.gz")):
+            raise ValueError("unexpected non-header payload")
+        owned[path] = digest
+    identity = "".join(path + "\t" + owned[path] + "\n" for path in sorted(owned))
+    if (len(owned) != package["ownedFileCount"] or
+            hashlib.sha256(identity.encode()).hexdigest() != package["ownedFilesSHA256"]):
+        raise ValueError("installed owned-file content differs from the reviewed official deb")
+    for line in runtime_inventory.splitlines():
+        fields = line.split("\t")
+        if len(fields) > 1 and fields[0] == "package" and fields[1].split(":")[0] == package["name"]:
+            raise ValueError("builder header package is present in the runtime")
+    reviewed = {}
+    for entry in review["entries"]:
+        paths = entry.get("programFiles", [])
+        if (entry["cve"] in reviewed or not paths or
+                any("/uapi/" in path or ".." in path.split("/") or
+                    path.startswith("/") or "/" + path in owned for path in paths)):
+            raise ValueError("missing, duplicate, exported-UAPI, or present vulnerable source evidence")
+        reviewed[entry["cve"]] = entry
+    statements, unfixed, blockers = [], [], []
+    seen = set()
+    for result in report.get("Results", []):
+        for finding in result.get("Vulnerabilities", []):
+            cve = finding["VulnerabilityID"]
+            severity = finding.get("Severity")
+            if finding.get("FixedVersion"):
+                blockers.append(cve + ":vendor_fixed")
+            elif severity in ("HIGH", "CRITICAL"):
+                entry = reviewed.get(cve)
+                if (not entry or finding["PkgName"] != package["name"] or
+                        finding["InstalledVersion"] != package["version"] or
+                        finding.get("PkgIdentifier", {}).get("PURL") != package["purl"] or
+                        severity != entry["severity"]):
+                    blockers.append(cve + ":unreviewed_high_critical")
+                elif cve not in seen:
+                    seen.add(cve)
+                    statements.append({
+                        "vulnerability": {"name": cve},
+                        "products": [{"@id": package["purl"],
+                                      "hashes": {"sha-256": package["archiveSHA256"]}}],
+                        "status": "not_affected",
+                        "justification": "vulnerable_code_not_present",
+                        "impact_statement": "The exact reviewed user-space header package contains none of the Linux CNA kernel implementation or private-header files: " + ", ".join(entry["programFiles"]) + ". Its installed file identity matches the official Canonical deb, contains no ELF/kernel payload, and is absent from the runtime. Host kernel applicability is outside this statement.",
+                    })
+            elif severity in ("LOW", "MEDIUM", "UNKNOWN"):
+                unfixed.append(finding)
+            else:
+                blockers.append(cve + ":unknown_severity")
+    if blockers:
+        raise ValueError("blocking builder findings: " + ", ".join(blockers))
+    return statements, unfixed
+
+
+def main():
+    report_path, review_path, owned_path, runtime_path, output = map(pathlib.Path, sys.argv[1:])
+    review = json.loads(review_path.read_text(encoding="utf-8"))
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    statements, unfixed = assess(report, review, owned_path.read_text(encoding="utf-8"), runtime_path.read_text(encoding="utf-8"))
+    output.mkdir(parents=True, exist_ok=True)
+    vex = {
+        "@context": "https://openvex.dev/ns/v0.2.0",
+        "@id": "https://github.com/PastureStack/resource-scheduler/security/openvex/reviewed-builder-headers",
+        "author": "PastureStack Security",
+        "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
+        "version": 1,
+        "x-pasturestack-owned-files-sha256": review["package"]["ownedFilesSHA256"],
+        "x-pasturestack-review-sha256": hashlib.sha256(review_path.read_bytes()).hexdigest(),
+        "statements": statements,
+    }
+    (output / "dapper.openvex.json").write_text(json.dumps(vex, indent=2) + "\n", encoding="utf-8")
+    rows = ["VulnerabilityID\tPkgName\tInstalledVersion\tSeverity\tDisposition\tOfficialSource\n"]
+    for row in unfixed:
+        official = ("https://pkg.go.dev/vuln/" + row["VulnerabilityID"] if row["VulnerabilityID"].startswith("GO-")
+                    else row.get("DataSource", {}).get("URL") or row.get("PrimaryURL") or "")
+        rows.append("\t".join((row["VulnerabilityID"], row["PkgName"], row["InstalledVersion"], row["Severity"], "under_investigation", official)) + "\n")
+    (output / "dapper-vendor-unfixed.tsv").write_text("".join(rows), encoding="utf-8")
+    unknown = sum(row["Severity"] == "UNKNOWN" for row in unfixed)
+    print(f"RESOURCE_SCHEDULER_BUILDER_RISK_OK reviewed_not_affected={len(statements)} vendor_unfixed={len(unfixed)} vendor_unfixed_unknown={unknown} actionable=0")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (ValueError, KeyError, OSError) as error:
+        print("RESOURCE_SCHEDULER_BUILDER_RISK_FAIL " + str(error), file=sys.stderr)
+        sys.exit(1)

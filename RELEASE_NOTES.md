@@ -1,5 +1,17 @@
 # Release Notes
 
+## 0.8.19 candidate
+
+- Rebuild with the official Go 1.27.2 security release and checksum-verified archives.
+- Refresh the dated Canonical snapshot to `20261020T000000Z`, including the
+  official curl, OpenSSL, Perl, Git, and Linux API header package updates.
+- Preserve the runtime security gate and replace the expired builder-header
+  exception with exact-CVE, package, archive, and installed-content applicability
+  evidence. Unknown or changed High/Critical findings remain blocking; the host
+  kernel is outside that package-only assessment.
+- Verify the packaged scheduler's non-root port-80 health endpoint and the
+  liveness/readiness behavior with isolated CI fixtures.
+
 ## 0.8.18
 
 - Update every runtime package available from the fixed Ubuntu snapshot.

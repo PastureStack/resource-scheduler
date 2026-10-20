@@ -1,0 +1,2703 @@
+{
+  "schemaVersion": 1,
+  "status": "reviewed_not_affected",
+  "reviewedAt": "2026-10-20",
+  "package": {
+    "name": "linux-libc-dev",
+    "version": "7.0.0-38.38",
+    "architecture": "amd64",
+    "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
+    "archiveUrl": "https://snapshot.ubuntu.com/ubuntu/20261020T000000Z/pool/main/l/linux/linux-libc-dev_7.0.0-38.38_amd64.deb",
+    "archiveSHA256": "0498bc9510149ef06abd6c09b8932e43c5bc71b68634b4b8f84488b2e0a20e82",
+    "ownedFilesSHA256": "a6f559e4ea9513c0e55d668fe8ab631a916639efb532cdd7d87b886ac6a41ca6",
+    "ownedFileCount": 1041,
+    "elfCount": 0
+  },
+  "scope": "Disposable Ubuntu builder package only; no runtime or host-kernel applicability statement.",
+  "entries": [
+    {
+      "cve": "CVE-2022-50240",
+      "severity": "HIGH",
+      "title": "android: binder: stop saving a pointer to the VMA",
+      "programFiles": [
+        "drivers/android/binder_alloc.c",
+        "drivers/android/binder_alloc.h",
+        "drivers/android/binder_alloc_selftest.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2022/50xxx/CVE-2022-50240.json",
+      "cnaSha256": "a9efe408f15503529c18ce9ac53d37b390d441e220c8825c3d146411259c6bda",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2022-50240",
+      "ubuntuSha256": "ecac6315fc26d3dfa6dfa4c7e277c49633cb264af26f39e6c6bb0aea87dcd168",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2025-40190",
+      "severity": "HIGH",
+      "title": "ext4: guard against EA inode refcount underflow in xattr update",
+      "programFiles": [
+        "fs/ext4/xattr.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2025/40xxx/CVE-2025-40190.json",
+      "cnaSha256": "7788f374f4838ddd052b6d684da23ef5f7457b34e084c3aa33dc754560de986a",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2025-40190",
+      "ubuntuSha256": "242b88656fa77706e47e969ccab3492c127d4441ca7c1fcafb15a26ecbaa452b",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-100074",
+      "severity": "HIGH",
+      "title": "bpf: Mark bpf_refcount field as unique",
+      "programFiles": [
+        "kernel/bpf/btf.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/100xxx/CVE-2026-100074.json",
+      "cnaSha256": "c1dfdca9991b9786e13b2c93e140b99f96ef4bb86b740ed66500ac5b931a672a",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-100074",
+      "ubuntuSha256": "25407208ec1699bfe94e46128633c9ad14a8d1a1fdcacce8ce691266661cbdb4",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-68103",
+      "severity": "HIGH",
+      "title": "drm/amdgpu: reject mapping a reserved doorbell to a new queue",
+      "programFiles": [
+        "drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/68xxx/CVE-2026-68103.json",
+      "cnaSha256": "1da44bac6aa887df2721b04083977d3f50f5046fa1dc68b9ab97ee2be2d0a0e2",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-68103",
+      "ubuntuSha256": "d020954b9a885d795f545096e4821301e1fa0e35bf54f37c00f4041341f05e25",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-68451",
+      "severity": "HIGH",
+      "title": "s390/zcrypt: Validate length for CCA ECC private key requests",
+      "programFiles": [
+        "drivers/s390/crypto/zcrypt_ccamisc.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/68xxx/CVE-2026-68451.json",
+      "cnaSha256": "393f101075c0f3ce856daf8f1db523be18769ff9d9f2903489312783ebe6a9b6",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-68451",
+      "ubuntuSha256": "52e117c6bb90ccbeeb4c1afce98e381454c7e72e59dc9c684e7f072d5dc41f9e",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-72198",
+      "severity": "HIGH",
+      "title": "ntfs: reject non-resident records for resident-only attributes",
+      "programFiles": [
+        "fs/ntfs/attrib.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/72xxx/CVE-2026-72198.json",
+      "cnaSha256": "bc3f7f0e3f66c08e15b94b93692860623bd01484d1d5255eae15eab3f18f1692",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-72198",
+      "ubuntuSha256": "945211ae7839af0294bbd80345d3d6f6b9efa98d7fddcdb0b0c14983cdf1734e",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-72497",
+      "severity": "HIGH",
+      "title": "RDMA/bnxt_re: Add a max slot check for SQ",
+      "programFiles": [
+        "drivers/infiniband/hw/bnxt_re/ib_verbs.c",
+        "drivers/infiniband/hw/bnxt_re/qplib_sp.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/72xxx/CVE-2026-72497.json",
+      "cnaSha256": "c53e168ef73d7ab28bf444d656499159b8dd5d703d5637755d6153a3644ac2ab",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-72497",
+      "ubuntuSha256": "7cdee7b0a1b21fb6d6fb4d035766377f46b04bdca2b9e585f98ef7e8e5c3f205",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74446",
+      "severity": "HIGH",
+      "title": "drm/amdkfd: hold event_mutex while checkpointing CRIU events",
+      "programFiles": [
+        "drivers/gpu/drm/amd/amdkfd/kfd_events.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74446.json",
+      "cnaSha256": "405cd8b8ca877e015affb4fc8150dd3ae1be1378467dc1da3e2e0b3903216cf9",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74446",
+      "ubuntuSha256": "09e119fa40e1edb6b8960afb987f9d9ab2253313f296b14a9ea44525029fa932",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74454",
+      "severity": "HIGH",
+      "title": "drm/vc4: Supply the overflow slot size in BPOS, not the whole bin BO size",
+      "programFiles": [
+        "drivers/gpu/drm/vc4/vc4_irq.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74454.json",
+      "cnaSha256": "5f5e3bbe859fa85f068daabbeaede458d215e4d12496fc2b3440f6af64f079bd",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74454",
+      "ubuntuSha256": "5c3fa5a3b59370fadf1646f7b14491a78eeeefd4e1f058fddf25009b9c3c917e",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74465",
+      "severity": "HIGH",
+      "title": "net: openvswitch: fix potential UAF on meter attach failure",
+      "programFiles": [
+        "net/openvswitch/meter.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74465.json",
+      "cnaSha256": "1bdb16af45fb52fb3a344475d2acdcc992fd04af6c225300858ab7cb6e97f3a8",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74465",
+      "ubuntuSha256": "757b669b47d4077bbd0e78ba405b9d3c881fb204e4d5c42ada29eb5a34e71f44",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74470",
+      "severity": "HIGH",
+      "title": "scsi: scsi_debug: Fix REPORT ZONES alloc_len underflow OOB write",
+      "programFiles": [
+        "drivers/scsi/scsi_debug.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74470.json",
+      "cnaSha256": "f625db3ffad192c48a678683cb9df3268551723d8f719b436db8ebb6755debb0",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74470",
+      "ubuntuSha256": "da2738bae583d017621b12b441037373a369488dabea8887a77e1f3444354cc3",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74506",
+      "severity": "HIGH",
+      "title": "afs: Fix UAF when sending a message",
+      "programFiles": [
+        "fs/afs/internal.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74506.json",
+      "cnaSha256": "74d58ac3c7e4b89f932b3b495b60b6280ebfda6517c26182d5dfd0465a080e8c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74506",
+      "ubuntuSha256": "7e62976eb2e5e0f9e8ee6f3ed54b9e86fd24c27fd7f1e204828e1354dcca1081",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74510",
+      "severity": "HIGH",
+      "title": "Bluetooth: mgmt: fix UAF in pair command cancellation",
+      "programFiles": [
+        "net/bluetooth/mgmt.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74510.json",
+      "cnaSha256": "ba7bf8584acfa06f3b094c1719c9d503fea4ecabda326a257e6457317209dc4d",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74510",
+      "ubuntuSha256": "ea688a7d7cedf49c1a9115491217b10504110edeb67a2a952a18ed7f118642af",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74522",
+      "severity": "HIGH",
+      "title": "ksmbd: fix use-after-free in __close_file_table_ids()",
+      "programFiles": [
+        "fs/smb/server/vfs_cache.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74522.json",
+      "cnaSha256": "0dd54f5912fe5ab2e2c37758743d1af71e9c888d784dcf214cffc590585268a7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74522",
+      "ubuntuSha256": "09a50f384a4e7551726cbd7f40c180fcd6b4bf724e63680020c294c1fa743d6b",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74529",
+      "severity": "HIGH",
+      "title": "Bluetooth: hci_sync: hold conn in hci_connect_pa_sync() callback",
+      "programFiles": [
+        "net/bluetooth/hci_sync.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74529.json",
+      "cnaSha256": "1c8fdf6919ef4a6724b109f88c5417e6301c4917749c6c74a475ffcd31df015f",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74529",
+      "ubuntuSha256": "3b10e255281739d48b47daf31ff30099764cfeb5b8748b9be90ad790e3ac4f51",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74530",
+      "severity": "HIGH",
+      "title": "Bluetooth: hci_sync: hold conn in hci_connect_big_sync() callback",
+      "programFiles": [
+        "net/bluetooth/hci_sync.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74530.json",
+      "cnaSha256": "8922007dda758d1b79bc858941881a8d3c4a30e0e2c90214d0c1f4c464826336",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74530",
+      "ubuntuSha256": "8240f99cd7f54c3ca327382322afffe25e3c012be1c751ae44f785a30d53add5",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74533",
+      "severity": "HIGH",
+      "title": "Bluetooth: ISO: fix race of kfree vs kref_get_unless_zero",
+      "programFiles": [
+        "include/net/bluetooth/hci_core.h",
+        "net/bluetooth/hci_conn.c",
+        "net/bluetooth/iso.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74533.json",
+      "cnaSha256": "90f0a25257b0dd08b540f83e5807b3309ed39305feece715a08809d77b909cc0",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74533",
+      "ubuntuSha256": "dc6838ebac9351f6244e3afafbe16d2d461e36e4ccf5973f616237e6c7fc76ad",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74534",
+      "severity": "HIGH",
+      "title": "Bluetooth: ISO: fix refcounting of iso_conn",
+      "programFiles": [
+        "net/bluetooth/iso.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74534.json",
+      "cnaSha256": "57860458370255992a2af89dabdf6a1d0b27e250fa2b2da7532d13dbd0fe63b7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74534",
+      "ubuntuSha256": "89fccfb9c7917e77ed3712c3aef6c5731ba5c68dd7e25c332ca88ca69ae0cc60",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74535",
+      "severity": "HIGH",
+      "title": "Bluetooth: ISO: avoid deadlocks in iso_sock_timeout",
+      "programFiles": [
+        "net/bluetooth/iso.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74535.json",
+      "cnaSha256": "ceecbccc2b42d769413bd4ee811f237ede88cd0609d5f4d34b9efb2994fe53d4",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74535",
+      "ubuntuSha256": "91e042fec0d69fae808781552596dd4932a3d4b59c5203a1e1acde80ee58a0c2",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74537",
+      "severity": "HIGH",
+      "title": "Bluetooth: ISO: hold sk properly in iso_conn_ready",
+      "programFiles": [
+        "net/bluetooth/iso.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74537.json",
+      "cnaSha256": "dbe78ecfe44bad2090c863cdd2b670aa1d4b6103f36904cf7071704dbc6e1163",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74537",
+      "ubuntuSha256": "d749a02cc352b4c1782aad78d0f32f5d9a398970688df33ea64dcfec2f8077f9",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74565",
+      "severity": "HIGH",
+      "title": "netfilter: nf_tables: make nft_object rhltable per table",
+      "programFiles": [
+        "include/net/netfilter/nf_tables.h",
+        "net/netfilter/nf_tables_api.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74565.json",
+      "cnaSha256": "b66299838e169400f57de46a5c7d56c061603b961e4cccfb98b843030f643adf",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74565",
+      "ubuntuSha256": "7bc072ee3f2572d3deee4decefff481a575449ce9c88322a9ced772a05375df6",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74578",
+      "severity": "HIGH",
+      "title": "crypto: algif_skcipher - force synchronous processing on trees without ctx->state",
+      "programFiles": [
+        "crypto/algif_skcipher.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74578.json",
+      "cnaSha256": "0b7f3fb861d70111737832b4fc1eda9bf01871a6e35d35458bce1c152e8d8f66",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74578",
+      "ubuntuSha256": "44a83fdd6eeb0455ce89d9187e6ff0b6da99c67b4b39462d761b1838f1fc4105",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74677",
+      "severity": "HIGH",
+      "title": "net: usb: ipheth: fix carrier_work UAF on disconnect",
+      "programFiles": [
+        "drivers/net/usb/ipheth.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74677.json",
+      "cnaSha256": "ac3cd18b98bba0097822eaa8aebeee23e69b40b4163ec21195a6e0dc89bdb2d6",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74677",
+      "ubuntuSha256": "7ab9f2d246ba2d1e6f015dfe4e260ceaedb3e8552779135dba9ebf44bff32db1",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74684",
+      "severity": "HIGH",
+      "title": "net: tap: set skb->dev before parsing virtio net header in tap_get_user_xdp()",
+      "programFiles": [
+        "drivers/net/tap.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74684.json",
+      "cnaSha256": "24d3794508c1b59c2cb5e08e71de54f095917117562ba6cb51c723ac2a7b2cfc",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74684",
+      "ubuntuSha256": "33fa8466a7546afc72636f5c8b88607cc61130d94b60a2af5c48dd054422275e",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74700",
+      "severity": "HIGH",
+      "title": "net/sched: cls_api: Always acquire rtnl_lock when destroying locked classifiers",
+      "programFiles": [
+        "net/sched/cls_api.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74700.json",
+      "cnaSha256": "b6dd181aa8ccb8dfe483de4c18a0384d849850963d95d3db1401729c994de2a4",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74700",
+      "ubuntuSha256": "e8b358091aa245683812e4a98fa13e6e75105b2a7ffd108fb3d3d92735d8a326",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74714",
+      "severity": "HIGH",
+      "title": "bpf: tcp: Fix use-after-free in bpf_iter_tcp_established_batch()",
+      "programFiles": [
+        "net/ipv4/tcp_ipv4.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74714.json",
+      "cnaSha256": "ef49c37fc717748921c21acb5eab8999682a77f82770cb21d1b8fcacf91297fc",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74714",
+      "ubuntuSha256": "5df1f57c580ac5793d98f948fec77e3186c9c2bd62f19e936286d144bcbe8469",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74715",
+      "severity": "HIGH",
+      "title": "bpf: Fix netns reference imbalance in conntrack kfuncs",
+      "programFiles": [
+        "net/netfilter/nf_conntrack_bpf.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74715.json",
+      "cnaSha256": "0405ae5e2ff24c51f9890bbcad2b8ed217eb8e0a7244e8342d3c31d3dbe4499f",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74715",
+      "ubuntuSha256": "15b7587af30cd99d9fbc5683f5ba87ecc1229580346b216d7165cfa837ae7119",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74723",
+      "severity": "HIGH",
+      "title": "btrfs: lzo: reject inline extents without valid headers",
+      "programFiles": [
+        "fs/btrfs/lzo.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74723.json",
+      "cnaSha256": "b1f7b0c03aed9f45275fff64e41d1c072143e6c4f698a910c786a4ca87346d42",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74723",
+      "ubuntuSha256": "4f1b1a5721cc6df0527d0b9636b9f1d005db4fc149b00a9f098c1f28f1985758",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74724",
+      "severity": "HIGH",
+      "title": "ipvs: avoid out-of-bounds write in ip_vs_nat_icmp",
+      "programFiles": [
+        "include/net/ip_vs.h",
+        "net/netfilter/ipvs/ip_vs_core.c",
+        "net/netfilter/ipvs/ip_vs_xmit.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74724.json",
+      "cnaSha256": "26356737fd6f40b2a8015d9d0458a5accfafcea969f66e0115a862112a4a5339",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74724",
+      "ubuntuSha256": "baa21b86a6aee837c5a777646d278d685e70069e8ac5a720b038a8d6cca6d459",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74744",
+      "severity": "HIGH",
+      "title": "ipvlan: inherit needed_headroom and needed_tailroom from phy_dev",
+      "programFiles": [
+        "drivers/net/ipvlan/ipvlan_main.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74744.json",
+      "cnaSha256": "96f5f299095fc0be5c90009843b7aa2712783a3f0d1e6728a9f39fc7ea920842",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74744",
+      "ubuntuSha256": "7ac19a1d4d7816b650c3fb9b6f2c1de105563b18a18fec22228d0d52a32794f2",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-74752",
+      "severity": "HIGH",
+      "title": "sctp: validate cookie AUTH state before use",
+      "programFiles": [
+        "include/net/sctp/auth.h",
+        "net/sctp/auth.c",
+        "net/sctp/sm_make_chunk.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/74xxx/CVE-2026-74752.json",
+      "cnaSha256": "78a6f08851bb3c5e575e1bb08112f37b5771b2f8e360c961b184c520cfb6b4f0",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-74752",
+      "ubuntuSha256": "4e9ab3e6d02d214f3531ac4c4b15d599112a2a612203ebb34127be2669d99943",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80551",
+      "severity": "HIGH",
+      "title": "s390/vfio_ccw: Ensure first IDAW remains constant",
+      "programFiles": [
+        "drivers/s390/cio/vfio_ccw_cp.c",
+        "drivers/s390/cio/vfio_ccw_cp.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80551.json",
+      "cnaSha256": "512dd1f5850750e6530800a19a17c3486443e16a5affbaea403ff8835f051b59",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80551",
+      "ubuntuSha256": "4e0583b39ca509ed1c9ebc1692131dace47ef2278fc782fa7a5d0e1beb79dfca",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80554",
+      "severity": "HIGH",
+      "title": "s390/vfio_ccw: Limit the number of channel program segments",
+      "programFiles": [
+        "drivers/s390/cio/vfio_ccw_cp.c",
+        "drivers/s390/cio/vfio_ccw_cp.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80554.json",
+      "cnaSha256": "a166c6ca7b5895e2e97f4ad066315b7e2f979f2a55fce311c91c89ff9f70aeed",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80554",
+      "ubuntuSha256": "52f1e922af6c01a3b2837309433fda1c0949e035d0be93015f3ea0c61a179f54",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80681",
+      "severity": "HIGH",
+      "title": "vxlan: re-fetch eth header after route_shortcircuit()",
+      "programFiles": [
+        "drivers/net/vxlan/vxlan_core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80681.json",
+      "cnaSha256": "6add3efdc25c55c519e3c1f0083ac64181e148dd868cc5cf379babf1f8e40278",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80681",
+      "ubuntuSha256": "0896a33b3271b226a627f22a54d155f83bf8dbd6f3052fb9bbf0a71e652af00f",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80683",
+      "severity": "HIGH",
+      "title": "Bluetooth: SCO: give the socket its own sco_conn reference",
+      "programFiles": [
+        "net/bluetooth/sco.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80683.json",
+      "cnaSha256": "d26881e9dc82460e0106836d654ed324d652944196e08c608335127144194371",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80683",
+      "ubuntuSha256": "6871146b26a91bfe516ddba2e6d917a8a2924012ba6dadc979966b3e54a65328",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80691",
+      "severity": "HIGH",
+      "title": "scsi: target: iblock: Fix wrong PR ops NULL check for PREEMPT/RELEASE",
+      "programFiles": [
+        "drivers/target/target_core_iblock.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80691.json",
+      "cnaSha256": "1090b5a147a4a918293ce075f406c5abe25cf29e362d9cd0df53c79e0411b01f",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80691",
+      "ubuntuSha256": "22a43116ba5b8ece9a122792e8f403cca62af3a85161a742c93f8c5f7c3983eb",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80692",
+      "severity": "HIGH",
+      "title": "Bluetooth: hci_sync: hold conn in hci_connect_acl/le_sync() callbacks",
+      "programFiles": [
+        "net/bluetooth/hci_sync.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80692.json",
+      "cnaSha256": "23515ecb68d4c3f703a6b00126180f3ec192ba6a65968165c722fe5a31a09408",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80692",
+      "ubuntuSha256": "b775adae03f10e79012deddc975ae5a64310a49011fa6d58fc9e4cad958b08e2",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80693",
+      "severity": "HIGH",
+      "title": "idpf: bound interrupt-vector register fill to the allocated array",
+      "programFiles": [
+        "drivers/net/ethernet/intel/idpf/idpf_dev.c",
+        "drivers/net/ethernet/intel/idpf/idpf_vf_dev.c",
+        "drivers/net/ethernet/intel/idpf/idpf_virtchnl.c",
+        "drivers/net/ethernet/intel/idpf/idpf_virtchnl.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80693.json",
+      "cnaSha256": "86813e3a8d710e805122dd2ae905cbc8923a5eea901e8611f3afbaf24ff7a9fc",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80693",
+      "ubuntuSha256": "6906dec40f902c9148fbae78ba17954dbc7c3cd2b9acb8d4e256bb38e49d7dd1",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80700",
+      "severity": "HIGH",
+      "title": "drm/vmwgfx: validate external BO copy bounds for both stride paths",
+      "programFiles": [
+        "drivers/gpu/drm/vmwgfx/vmwgfx_blit.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80700.json",
+      "cnaSha256": "6324cf5d0cc75a8b10795ac4994f061b60e15cc6deea5653d7732a805f989e75",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80700",
+      "ubuntuSha256": "342425c65a5e3c0866acc98fa950e5d972b6bbedf70bd365a31104c074dbd0d9",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80702",
+      "severity": "HIGH",
+      "title": "drm/vmwgfx: fix guest_memory_dirty bitfield clobbered as size",
+      "programFiles": [
+        "drivers/gpu/drm/vmwgfx/vmwgfx_resource.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80702.json",
+      "cnaSha256": "98c20168369a8912fbcb2730666213e1ef72f1ad2bd7ba840a200ee8b0e6d5a9",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80702",
+      "ubuntuSha256": "dcae920e853b15289c21a7d120063f560bd9702ce4ef08024707482684d5ae82",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80710",
+      "severity": "HIGH",
+      "title": "s390/dasd: Fix undersized format-check buffer",
+      "programFiles": [
+        "drivers/s390/block/dasd_eckd.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80710.json",
+      "cnaSha256": "415ff1b405da938276f3764ed470f4b9b87dbf6b0b6eab5f8bceef67a090c7f6",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80710",
+      "ubuntuSha256": "3166d2023d03b322805cc7f3074d77c9126320c081e6f4e4ddc3e541e24de89a",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80714",
+      "severity": "HIGH",
+      "title": "ipvs: do not propagate one-packet flag to synced conns",
+      "programFiles": [
+        "net/netfilter/ipvs/ip_vs_conn.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80714.json",
+      "cnaSha256": "eba3a5edeab28cc7e39b84d220780b2ad0390a15e8ec34177a433805af83ebe9",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80714",
+      "ubuntuSha256": "021b8d12265d15d0b798a793aeb28e89c867738cdd0430accb1d8b3223d20cef",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80716",
+      "severity": "HIGH",
+      "title": "ALSA: pcm: wake linked drain waiters on unlink",
+      "programFiles": [
+        "sound/core/pcm_native.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80716.json",
+      "cnaSha256": "187f6400604ddd06afbc72dc0ae581913d3d23506f343f2417127cdb12393adf",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80716",
+      "ubuntuSha256": "b98f77ec05655c10f5b43abdf40065c003143e6a218ee904f87e75fa4e36d5c5",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80718",
+      "severity": "HIGH",
+      "title": "mm/percpu-km: fix bitmap overflow and accounting in pcpu_create_chunk()",
+      "programFiles": [
+        "mm/percpu-km.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80718.json",
+      "cnaSha256": "c70d551e9ae7de87c7792556383f2a3679444569ca3196f6be5dd32a08210926",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80718",
+      "ubuntuSha256": "e9b6cb23187630b73cf7cb09d6ccd7281189ba4e4ea9249bcd516d3ef4e4220e",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80721",
+      "severity": "HIGH",
+      "title": "Bluetooth: ISO: ensure no dangling hcon references in iso_conn",
+      "programFiles": [
+        "net/bluetooth/iso.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80721.json",
+      "cnaSha256": "4a3d92f26041a3a6f2b15d1f779ae53506da9385f38c76663b4f2249f2704897",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80721",
+      "ubuntuSha256": "d02ddf435756af04d4b17babd6d9515d2f4b433d5629cdf35ab12baae278e501",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80837",
+      "severity": "HIGH",
+      "title": "netfilter: nf_tables: don't queue packet path object notifications",
+      "programFiles": [
+        "net/netfilter/nf_tables_api.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80837.json",
+      "cnaSha256": "82125737da927930170404282ad10f6094e01e17f4395a2ddf71693369da88e8",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80837",
+      "ubuntuSha256": "0b462c70f54cc37b5259db15ff24fd79bd5b6e6ee6974165bc076f752b6440d4",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80841",
+      "severity": "HIGH",
+      "title": "net/packet: defer vmalloc TX_RING free until skbs finish",
+      "programFiles": [
+        "net/packet/af_packet.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80841.json",
+      "cnaSha256": "0ce21315ec3d154b18aba91d04ad866bc1c55c60dd1ea5ba7bbdde81a183b726",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80841",
+      "ubuntuSha256": "f4702640f2ab1db4e0874a4f7b502c6fda4f666a89ca541433490b887ed696ba",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80852",
+      "severity": "HIGH",
+      "title": "tls: device: fix out-of-bounds write in tls_append_frag()",
+      "programFiles": [
+        "net/tls/tls_device.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80852.json",
+      "cnaSha256": "a53a304a118ed5a2344e3101493724164c2e9b1feb002f4edcb8b5c940fef13f",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80852",
+      "ubuntuSha256": "9b3d6e04b96d63b48dbd36ec398a731b13692cdec47706a419325031c8814e02",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80864",
+      "severity": "HIGH",
+      "title": "RDMA/rxe: Fix responder UAF on IB_QP_MAX_DEST_RD_ATOMIC modify_qp",
+      "programFiles": [
+        "drivers/infiniband/sw/rxe/rxe_qp.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80864.json",
+      "cnaSha256": "8eed7d2ff5b7c64d5fe63b69e2f9235cf9ebb96505f94bd24c505959bcb866d6",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80864",
+      "ubuntuSha256": "a67c93232f444c06faf4629db61b2244c4caaf22d4daab2bd4ca0fc1a77bbf46",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80891",
+      "severity": "HIGH",
+      "title": "KVM: s390: pci: Validate AIBV and AISB before pinning guest pages",
+      "programFiles": [
+        "arch/s390/kvm/pci.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80891.json",
+      "cnaSha256": "28a77ccfb74c149b440189445c9dc77dca1fe6ce5c3aca60e1ea5fadc32a210b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80891",
+      "ubuntuSha256": "52a8afc9bf9caf833a2b157a005b6ea03376ac62a5a33888fbfb81b9a71a68ea",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80905",
+      "severity": "HIGH",
+      "title": "net: tap: fix wrong transport_header when sending VLAN-tagged frame",
+      "programFiles": [
+        "drivers/net/tap.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80905.json",
+      "cnaSha256": "d82769ad833ff95b961423fdc7834c68e54a186211037c05b637bb1a2f7c2d75",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80905",
+      "ubuntuSha256": "df2f14aeeb93d243b2048b33a91a43ff77988e607f8d3653f15c98500c4c4dce",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80937",
+      "severity": "HIGH",
+      "title": "wifi: mt76: mt7915: bound the device EEPROM address before the EFUSE copy",
+      "programFiles": [
+        "drivers/net/wireless/mediatek/mt76/mt7915/mcu.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80937.json",
+      "cnaSha256": "c0a3ea3abc27573e1289d05a3f85c498c4436dafbbeb2e1536928d4442d1dc1c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80937",
+      "ubuntuSha256": "d81955575d9efb37a3c0c41550e01d54658e6c2732456d80c4413af64dfc4451",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80980",
+      "severity": "HIGH",
+      "title": "net/smc: stop killed, freed and out_of_sync sharing a byte",
+      "programFiles": [
+        "net/smc/smc.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80980.json",
+      "cnaSha256": "f2d171953321fbdf2715116ed1427c5135596a9d01b540fab33f88091cd4191d",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80980",
+      "ubuntuSha256": "b34ea9c4db72662c0527986dc526b81640a3837cfd7554377040a070f74c8dbc",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80982",
+      "severity": "HIGH",
+      "title": "net/smc: fix use-after-free in smc_rx_pipe_buf_release()",
+      "programFiles": [
+        "net/smc/smc_rx.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80982.json",
+      "cnaSha256": "b350efa0420992b06ae9b3765bad8a9a74d08dee3e9f79b7c24aad2f9e5927f1",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80982",
+      "ubuntuSha256": "511a5d8d449423399f85314ffcb282d5f55963dc08db0237c64976da0cd2a1c8",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-80991",
+      "severity": "HIGH",
+      "title": "net: ravb: serialize PTP clock teardown",
+      "programFiles": [
+        "drivers/net/ethernet/renesas/ravb.h",
+        "drivers/net/ethernet/renesas/ravb_main.c",
+        "drivers/net/ethernet/renesas/ravb_ptp.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/80xxx/CVE-2026-80991.json",
+      "cnaSha256": "c5c792e985406100e3d230aeae1a0b3e24e4a7d0daa13c903cdb4369040c08d7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-80991",
+      "ubuntuSha256": "93a8fccc02fcd4b6a7e811e6c7066f1df32f123ef0ffe08004b8d87da435177f",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89448",
+      "severity": "HIGH",
+      "title": "iommu/vt-d: Force requesting ACS when tboot is enabled",
+      "programFiles": [
+        "drivers/iommu/intel/dmar.c",
+        "drivers/iommu/intel/iommu.c",
+        "drivers/iommu/intel/iommu.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89448.json",
+      "cnaSha256": "e4600e90f3ed10f2ddba6dcd655c475d427f9cfc714d520ba4ae6f64f85914f6",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89448",
+      "ubuntuSha256": "d072f085c67318e757fcc80c13086cc488f6a15312440a96b7f5d60dd1eaa1d9",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89481",
+      "severity": "HIGH",
+      "title": "nvme-tcp: fix host memory disclosure on R2T for a read command",
+      "programFiles": [
+        "drivers/nvme/host/tcp.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89481.json",
+      "cnaSha256": "34927c89475c3890e6aa48b150f8e9cba55a8a7645a09c4972e3fc7f1c7c02b7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89481",
+      "ubuntuSha256": "035c3040772c9a165e60745a68639a25cdc30ef9375ee44e91ac509262e51a32",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89492",
+      "severity": "HIGH",
+      "title": "ocfs2: validate directory-index entry counts when reading metadata",
+      "programFiles": [
+        "fs/ocfs2/dir.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89492.json",
+      "cnaSha256": "dbdfe0cf34e89fe2ad0c086698a901e9fc7a1f2dbe4ee5a0f22910eabeb8adba",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89492",
+      "ubuntuSha256": "f3e1a2bdc515e04f8d1924fc0e2121f66cfb0198faa5c7386a646ee7d8dbf9c0",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89520",
+      "severity": "HIGH",
+      "title": "sched/core: Make core-sched flips wait for in-flight selections",
+      "programFiles": [
+        "kernel/sched/core.c",
+        "kernel/sched/sched.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89520.json",
+      "cnaSha256": "a758e152e41134d96528db0a8861f2b0a85136fe658afbe9ebadc878c2cbbdda",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89520",
+      "ubuntuSha256": "a94169efd42fa3a0c337e12cce7f6239405fcdc3ba7d9ae7dca8ab2e0858c05f",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89526",
+      "severity": "HIGH",
+      "title": "svcrdma: Validate Read chunk positions before reconstruction",
+      "programFiles": [
+        "net/sunrpc/xprtrdma/svc_rdma_rw.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89526.json",
+      "cnaSha256": "096c358eb86f7a845d3ec97c9be9aecad3f4940d9a55197e922b3ec76d77b0b7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89526",
+      "ubuntuSha256": "cd169b745a8d050a2838e6a3c157bbe23e3cdc030ba71110f76a166900267781",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89528",
+      "severity": "HIGH",
+      "title": "svcrdma: Reject Read lists that exceed the page budget",
+      "programFiles": [
+        "net/sunrpc/xprtrdma/svc_rdma_recvfrom.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89528.json",
+      "cnaSha256": "849fc8a5ebc2278f4d9b2ea0c5a75f8de019581efc7006279da9d60e5408488b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89528",
+      "ubuntuSha256": "e02d5fa4dcb258bc81c4d398779ac8e75ea30b3a68340dd55123dd4ba229f1b9",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89530",
+      "severity": "CRITICAL",
+      "title": "svcrdma: Reject inline replies that overflow the pull-up buffer",
+      "programFiles": [
+        "net/sunrpc/xprtrdma/svc_rdma_sendto.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89530.json",
+      "cnaSha256": "05a87b9341562d71ec9f8ec759a7130879e184549212663ccbda553ce4bb2aea",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89530",
+      "ubuntuSha256": "6d06544ed7e2b5b0742677e8d751f14eb9f598fae93f5f2e4b25aa38b460f66c",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89531",
+      "severity": "HIGH",
+      "title": "svcrdma: Reject connection when transport allocation fails",
+      "programFiles": [
+        "net/sunrpc/xprtrdma/svc_rdma_transport.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89531.json",
+      "cnaSha256": "00379cd0c3d4794b54f8260990dddfced350650276c86adfab28f4bfd1dc366b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89531",
+      "ubuntuSha256": "8e4c799db30165c4993c6c9b8dbdcbe1149db7b7ed7f5340ccd5b56d7fb542b5",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89537",
+      "severity": "HIGH",
+      "title": "SUNRPC: Reject short RFC 4121 MIC tokens in gss_krb5_verify_mic_v2",
+      "programFiles": [
+        "net/sunrpc/auth_gss/gss_krb5_unseal.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89537.json",
+      "cnaSha256": "7f1d201486ceea12b99f72555398f493197d6a52836d226e6952a712bc43121a",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89537",
+      "ubuntuSha256": "c238681976f108a3cdd69334e07872b8d5ec82dbd1872962ef00353eaa75522c",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89544",
+      "severity": "HIGH",
+      "title": "SUNRPC: fix gssx_dec_option_array error path bugs",
+      "programFiles": [
+        "net/sunrpc/auth_gss/gss_rpc_xdr.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89544.json",
+      "cnaSha256": "cdb4b34fb9fbfd747f4f92667176ab8b96986dbd954b4896d1eb4208e69faf17",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89544",
+      "ubuntuSha256": "b08a4c895d9c6f996a8859248246c8f49b519628f217bbf045e57e13a04a00c6",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89550",
+      "severity": "HIGH",
+      "title": "SUNRPC: svcauth_gss: enforce krb5 token minimum length",
+      "programFiles": [
+        "net/sunrpc/auth_gss/svcauth_gss.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89550.json",
+      "cnaSha256": "7e1a7549deb338191ae2e2ebdf3da25bcb1d0d358f5338c2129735cbe2b68f00",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89550",
+      "ubuntuSha256": "90d2390201926aac6c00e533ce7c0d146a207148535628bf5cb4f8696db06a68",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89564",
+      "severity": "HIGH",
+      "title": "ip: orphan prefetched skbs before multicast forwarding",
+      "programFiles": [
+        "net/ipv4/ipmr.c",
+        "net/ipv6/ip6_input.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89564.json",
+      "cnaSha256": "90a3e0b673f982796c8ec758aa3081d3f0c8a06587982e5b9fae5b3f46444177",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89564",
+      "ubuntuSha256": "3d072788b006471387e7bad5784c3405b3b051b5f524c2377bbc6b9fc1b72a2f",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89565",
+      "severity": "HIGH",
+      "title": "ipip: fix skb leak in collect_md mode when metadata_dst allocation fails",
+      "programFiles": [
+        "net/ipv4/ipip.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89565.json",
+      "cnaSha256": "e4c386944cc334ba48e2925edf30c87412de249ab2d39b760a3258b1457977c9",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89565",
+      "ubuntuSha256": "6e80f818e0f2a8c1a7ac3c3a2115575871dcedcbfa5c3176d04891eb1701c38f",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89580",
+      "severity": "HIGH",
+      "title": "bpf: Disable preemption in __bpf_get_stack",
+      "programFiles": [
+        "kernel/bpf/stackmap.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89580.json",
+      "cnaSha256": "85c636ccb13452009344e6c98520635e850b8c0e58c79f6af304853ad88c38cb",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89580",
+      "ubuntuSha256": "168a4a481c1b0d3e6bf082cb2a01e924097b13460343d06803069a62a6aff215",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89622",
+      "severity": "HIGH",
+      "title": "HID: mcp2221: clear rxbuf after I2C/SMBus transfer completes",
+      "programFiles": [
+        "drivers/hid/hid-mcp2221.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89622.json",
+      "cnaSha256": "0d410330ccbc9cd23059240c53a0e8d4e0fb8b84c610879bac5217c2218ec5df",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89622",
+      "ubuntuSha256": "c2a087b0ce64c2d8f3a5fdd05b654e1713c83155f4accab9ba08e706d9a77fba",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89631",
+      "severity": "HIGH",
+      "title": "smb: client: reject a tree connect response whose byte count is too small",
+      "programFiles": [
+        "fs/smb/client/cifssmb.c",
+        "fs/smb/client/trace.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89631.json",
+      "cnaSha256": "9b1ec6892119f1e74e3d31e863b72f3b92327a0c989bd612a35a71b98bc58730",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89631",
+      "ubuntuSha256": "b6edc47e28186674d555fad8448650edd204583bc654080d2b45e556ad4b9f48",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89633",
+      "severity": "HIGH",
+      "title": "smb: client: fix OOB read/write from unvalidated DataOffset in coalesce_t2()",
+      "programFiles": [
+        "fs/smb/client/smb1transport.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89633.json",
+      "cnaSha256": "d7b1c0f901a05fb8931d70eb11c52413c98f7af9080f01a4974b17c6df3b6d5e",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89633",
+      "ubuntuSha256": "b07a434875e7574dbc91ab7eec07ea9a42dbaf557c12ce0a60baa58a61b015b3",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89637",
+      "severity": "HIGH",
+      "title": "smb: client: fix UAF and buffer leak in cifs_check_trans2() for malformed secondary T2",
+      "programFiles": [
+        "fs/smb/client/smb1transport.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89637.json",
+      "cnaSha256": "01e4d03a5ad52e2ed1b6bfdf72b823021f55a093548822aeeda70909150d3644",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89637",
+      "ubuntuSha256": "e959989c2e0bc55435e610a0b91a5a16269903809c15669ac308860b9806e7eb",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89638",
+      "severity": "HIGH",
+      "title": "smb: client: clear setuid/setgid bit on write with cifsacl/modefromsid/posix extensions",
+      "programFiles": [
+        "fs/smb/client/inode.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89638.json",
+      "cnaSha256": "a08ade285b8100690dfbc382f27233ecdc3f89c9b9eec1e615318e8971d2784b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89638",
+      "ubuntuSha256": "8e461951c3b677554f28500ea1d42fc5231d8a0499d4af4d3e3c3f9d384d77f1",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89652",
+      "severity": "CRITICAL",
+      "title": "ceph: bound copied dentry name length in NFS export get_name",
+      "programFiles": [
+        "fs/ceph/export.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89652.json",
+      "cnaSha256": "3e59848897b6eadbac044653570f180c08ce418066a62ce5db6fca6c2d5b7fad",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89652",
+      "ubuntuSha256": "6d30753a78cfe9ab161dbf5ffc9022b2ff7464f9a804d7488db51ca146ca0993",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89659",
+      "severity": "CRITICAL",
+      "title": "NFSD: Prevent client use-after-free during delegation revoke",
+      "programFiles": [
+        "fs/nfsd/netns.h",
+        "fs/nfsd/nfs4state.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89659.json",
+      "cnaSha256": "63436461c410daa740793a1960e82e21cdd36fa2323c5cb5bbaf3845fc789581",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89659",
+      "ubuntuSha256": "80aac88b7bf3af3112f86c7bca46f652f37c88b618c2b14e07bdc12bd72cbb29",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89675",
+      "severity": "HIGH",
+      "title": "nfsd: fix UAF in async copy cancel and shutdown",
+      "programFiles": [
+        "fs/nfsd/nfs4proc.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89675.json",
+      "cnaSha256": "703cf00c3e85e5c41d1d9aee02425dc40179e7dbf3f62fc29375549be20158f1",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89675",
+      "ubuntuSha256": "b0143f7951e7c34c52ce9cef9ae459fd24d46642f64c007aa39aa258e3a59d45",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89676",
+      "severity": "HIGH",
+      "title": "nfsd: fix stale s2s_cp_stateids IDR entry for async COPY",
+      "programFiles": [
+        "fs/nfsd/nfs4proc.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89676.json",
+      "cnaSha256": "ce5470f45f9068cf3e5611769ff13244d20fca6dd3964c9448cc102ad42d5d76",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89676",
+      "ubuntuSha256": "be009d7d8fbcde0acdbb9efd5eabb1e865f91bbef9b762295b5550717e34664c",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89680",
+      "severity": "HIGH",
+      "title": "nfsd: fix nfsd_file leak on inter-server COPY setup failure",
+      "programFiles": [
+        "fs/nfsd/nfs4proc.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89680.json",
+      "cnaSha256": "cfa23d2e657ac1d64e02908ee3bf06935cfcd013ee11684ec8fb635b743166e6",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89680",
+      "ubuntuSha256": "71298df73a106e9e8ee1a77de843b89a48d6a317f79e04a26c5a93c8549298f6",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89685",
+      "severity": "HIGH",
+      "title": "nfsd: fix clock domain mismatch in clients_still_reclaiming()",
+      "programFiles": [
+        "fs/nfsd/netns.h",
+        "fs/nfsd/nfs4state.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89685.json",
+      "cnaSha256": "a3ccb9ce9c85c4844aa4fa54c3588834723839ebe19eb2f302c9aa2bbd3b6988",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89685",
+      "ubuntuSha256": "47171131cb95b1bfb6ad5ad080b99e384da0569da7d53cd7906589fe6666fe1a",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89707",
+      "severity": "HIGH",
+      "title": "nfsd: release path refs on follow_down() error",
+      "programFiles": [
+        "fs/nfsd/vfs.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89707.json",
+      "cnaSha256": "fefe476e976ecdbd24a68538b589c5a41902101a492754d4444999aa483943af",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89707",
+      "ubuntuSha256": "a235cd2f54e00d1af2ba64d6792a730cd96ecae6e7561eaeddfb86a4eb264d13",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89708",
+      "severity": "CRITICAL",
+      "title": "nfsd: RCU-protect cl_cb_session to fix use-after-free on session teardown",
+      "programFiles": [
+        "fs/nfsd/nfs4callback.c",
+        "fs/nfsd/nfs4state.c",
+        "fs/nfsd/state.h",
+        "fs/nfsd/trace.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89708.json",
+      "cnaSha256": "534db3f2421d5edcc344de4efa4d2e1114bd5c35650c1f5421df405145ca3c5f",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89708",
+      "ubuntuSha256": "a7b783cff1a8762e97a45b4b4bd2fc1b69e4a44e70e7760290dc59ae943c5449",
+      "ubuntuBinaryExcluded": true
+    },
+    {
+      "cve": "CVE-2026-89788",
+      "severity": "HIGH",
+      "title": "ksmbd: fix tree connection use-after-free in smb2_tree_connect()",
+      "programFiles": [
+        "fs/smb/server/mgmt/tree_connect.c",
+        "fs/smb/server/smb2pdu.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89788.json",
+      "cnaSha256": "a2d59a2ca41687a06315ae89584b4b5504d7bea39cac3321ace0d3bada629550",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89788",
+      "ubuntuSha256": "e7e64a5e1b1b7edd625220325bdc8547bc1aeacab3a0436184ff0a237f1b007b",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-89803",
+      "severity": "HIGH",
+      "title": "drm/nouveau: unsubscribe the channel-kill event before the fence context",
+      "programFiles": [
+        "drivers/gpu/drm/nouveau/nouveau_chan.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89803.json",
+      "cnaSha256": "9f4584657e84664dd7d2abf6701ac16ae4383ffe1d20765bfbe1158e5220333a",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89803",
+      "ubuntuSha256": "d1ef9e38fb812b5b4ada37649a128116c62fa80a2e8b42fd0a18174e9939bcdf",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-89805",
+      "severity": "HIGH",
+      "title": "drm/pagemap: Fix folio allocation fallback and use-after-put",
+      "programFiles": [
+        "drivers/gpu/drm/drm_pagemap.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89805.json",
+      "cnaSha256": "0f0b5538af0e22f22d6e89f3b0ac0b15e67b3dcfc6b010401965fe455dd1aed8",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89805",
+      "ubuntuSha256": "2decf1145ba2c1a4bcf5dea263c2a4d17f907b09a9f324ddd4855caabf88488c",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-89810",
+      "severity": "HIGH",
+      "title": "drm/amdkfd: Fix error path at svm_migrate_copy_to_ram",
+      "programFiles": [
+        "drivers/gpu/drm/amd/amdkfd/kfd_migrate.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89810.json",
+      "cnaSha256": "f583451df42271511c9b3a7d298fa38c0e6f8acdda889812b741114d33643009",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89810",
+      "ubuntuSha256": "ad95de76d503c0a8615734f5db9b2015d33246954239ebbbd78be8fd39681564",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-89837",
+      "severity": "HIGH",
+      "title": "f2fs: fix dentry folio leak in find_in_level",
+      "programFiles": [
+        "fs/f2fs/dir.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89837.json",
+      "cnaSha256": "b9086f39db75f3a89de6c61eb42fc260061d85795c89c1b8c3ebfefa83fc4324",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89837",
+      "ubuntuSha256": "2d40168b685c06a76028ca6800cde41085e9f184f21b188df5fa90e0c67ac759",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-89907",
+      "severity": "HIGH",
+      "title": "LoongArch: KVM: Validate MSI data before routing it to EIOINTC",
+      "programFiles": [
+        "arch/loongarch/kvm/intc/pch_pic.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89907.json",
+      "cnaSha256": "51e90db93a8c86d967b9d26d9f611aca08b584572b09ff52f34f1d8d77e0681a",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89907",
+      "ubuntuSha256": "02d1bcbb63e3c1e272df1e3995a10ccc8ed683a35e0f52959c579c8e78088785",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-89913",
+      "severity": "HIGH",
+      "title": "KVM: arm64: vgic-v3: take an LPI reference in vgic_v3_save_pending_tables",
+      "programFiles": [
+        "arch/arm64/kvm/vgic/vgic-v3.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89913.json",
+      "cnaSha256": "e01bb755fad6a5fe64121bf6d656f779eb1dd059dcf813b7fa7c30534b7dec9a",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89913",
+      "ubuntuSha256": "8afe42260d8b6c9ab3382903e9ed599536a1c5cef021ee3c06aac77007303e48",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-89922",
+      "severity": "HIGH",
+      "title": "KVM: s390: Take srcu when importing watchpoint data",
+      "programFiles": [
+        "arch/s390/kvm/kvm-s390.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/89xxx/CVE-2026-89922.json",
+      "cnaSha256": "e47b7db683b863642b5628ae312cd1cbb8469758255565bb76137c3595704164",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-89922",
+      "ubuntuSha256": "d3909345c89709a32629bacd34f16e613ba1667250c6ca03ed685d8ebe2e2211",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90003",
+      "severity": "HIGH",
+      "title": "futex: Prevent rcuwait use-after-free during requeue PI",
+      "programFiles": [
+        "kernel/futex/requeue.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90003.json",
+      "cnaSha256": "9ca9f262d4de0f5f51097ccef134d294fed9032a293c371e7ee99ead1ca9d1da",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90003",
+      "ubuntuSha256": "4c9a6c825aad99b27ef02fee4d47ebc9ea01ecbe06f02788f008bd9485e96462",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90037",
+      "severity": "CRITICAL",
+      "title": "NFSD: Prevent client use-after-free during close_lru reaping",
+      "programFiles": [
+        "fs/nfsd/nfs4state.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90037.json",
+      "cnaSha256": "dc31497d2cbeb81e8c35bbd29783c1a7cac128ad2cad0b43c5e71bf37376931b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90037",
+      "ubuntuSha256": "2ccae1afb73c98e34a4979a3172db4d0987513e53b5ea0800eba257e30cb53ab",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90048",
+      "severity": "HIGH",
+      "title": "fs/ntfs3: fix slab-out-of-bounds write in ni_create_attr_list()",
+      "programFiles": [
+        "fs/ntfs3/frecord.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90048.json",
+      "cnaSha256": "e7a9f225f6c83ba111b0feb81df563dfc5de124c5e14ce9657f44cc72b9d09bb",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90048",
+      "ubuntuSha256": "91a3f282324f50c4e0b0524b936f24a1d48507b7868e622dfc4166201936bc9d",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90057",
+      "severity": "HIGH",
+      "title": "slip: remove slip_hangup() to fix use-after-free in slip_receive_buf()",
+      "programFiles": [
+        "drivers/net/slip/slip.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90057.json",
+      "cnaSha256": "1b4dbc25a0f18e119fdaf8beb969ea9429f951a3ed38d83a04e837e709a73f5c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90057",
+      "ubuntuSha256": "ad9cd474caef645fdf686a6fa3cc5bd3e87e9146ff469a7c81e11d8cbfb03b48",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90092",
+      "severity": "HIGH",
+      "title": "Bluetooth: L2CAP: reject accept queue add unless BT_LISTEN",
+      "programFiles": [
+        "net/bluetooth/l2cap_sock.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90092.json",
+      "cnaSha256": "f61ebe760b8c5df4d509f697f17188e7d2eaccd0ced52706d28bb7eb407e1705",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90092",
+      "ubuntuSha256": "78004c13b0254e775e3dbe165a072ea800ed8bd6d166d79a498f2a9bcd4db75b",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90093",
+      "severity": "HIGH",
+      "title": "Bluetooth: L2CAP: access chan->conn safely in get/setsockopt",
+      "programFiles": [
+        "net/bluetooth/l2cap_sock.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90093.json",
+      "cnaSha256": "604f1116c4c16d0c240544fc44945300e437038701baf92140cf17b8eeecb6d1",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90093",
+      "ubuntuSha256": "02e38456c64ef98ac47a8ad882925ac682c0af20c3ff684fcfdd19fbe452c48c",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90104",
+      "severity": "HIGH",
+      "title": "NFSv4.1: zero referring call lists before decoding",
+      "programFiles": [
+        "fs/nfs/callback_xdr.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90104.json",
+      "cnaSha256": "78d4bfbd8ede79917667d41874ccb1893ba251bf0d00f35540b730d60623bf93",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90104",
+      "ubuntuSha256": "3cb1f12c93c77ba2d8958175b63d90c19e3bdf34a6e9b99a457bb252c357a9a4",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90108",
+      "severity": "HIGH",
+      "title": "net/smc: free stashed qentry before overwrite in REQ_ADD_LINK to ADD_LINK transition",
+      "programFiles": [
+        "net/smc/smc_llc.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90108.json",
+      "cnaSha256": "c90717300e993cb4b8f2bb40d3edfda4c71bf720aa1626cf513492b3185e8976",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90108",
+      "ubuntuSha256": "e0bec587fe73e18ad933b2e5d6362486d28444e6813d4d03e49508718698cf2e",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90111",
+      "severity": "HIGH",
+      "title": "ip6mr: do not clone dst in ip6mr_cache_report()",
+      "programFiles": [
+        "net/ipv6/ip6mr.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90111.json",
+      "cnaSha256": "fc865ac9c40a9015369ef594cbeadd80d6c46b8c5909a672255e0d31bfb0f111",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90111",
+      "ubuntuSha256": "6748bfeb70c1ab682bdb027271130145a9fe93d01f1deb41bb3673a61ddd60c9",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90148",
+      "severity": "HIGH",
+      "title": "NFSv4: Fix incorrect argument passed to nfs4_delete_lease() in nfs4_add_lease()",
+      "programFiles": [
+        "fs/nfs/nfs4proc.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90148.json",
+      "cnaSha256": "78476048e3b0a3464d0e82022028a0e4167e71c041b6db442f3495d060ed0fad",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90148",
+      "ubuntuSha256": "43a8aa3dade73f04b04d6dec24f1fd5277ed857eac388be9c1feced6e8b419c7",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90149",
+      "severity": "HIGH",
+      "title": "NFSv4/flexfiles: fix NULL dereference for NFSv4.0 data servers",
+      "programFiles": [
+        "fs/nfs/flexfilelayout/flexfilelayout.c",
+        "fs/nfs/nfs4session.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90149.json",
+      "cnaSha256": "c24db60865acc1bdf3cfbd0e4b58544cc26fc5f436a1fc9b302b2b72ed427f8f",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90149",
+      "ubuntuSha256": "e48344833f4d308cf98b3995f632d24da1277e78210822a0c1af3c847103c729",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90150",
+      "severity": "HIGH",
+      "title": "pnfs/blocklayout: Fix device leaks on parse failure",
+      "programFiles": [
+        "fs/nfs/blocklayout/dev.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90150.json",
+      "cnaSha256": "40b1cb5cac0ed9019b5e5291fe4ed21707fbbb83de41ce5ab54d81a4a885ee46",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90150",
+      "ubuntuSha256": "454b7229d526a37b0e57161d49591850988538fde568e62c455c9697f95c5cfe",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90152",
+      "severity": "HIGH",
+      "title": "smb/server: fix session leak in ksmbd_session_register()",
+      "programFiles": [
+        "fs/smb/server/mgmt/user_session.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90152.json",
+      "cnaSha256": "f848ae902bd0404c7ed52cfe9ee16b97287048644e36e5833f3f9ea43ca2b3c7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90152",
+      "ubuntuSha256": "38676f31994e466d568b152142a41bfc7db224bf2d9d488f56c16759467f2602",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90155",
+      "severity": "HIGH",
+      "title": "ksmbd: detach blocked lock requests before freeing",
+      "programFiles": [
+        "fs/smb/server/smb2pdu.c",
+        "fs/smb/server/vfs_cache.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90155.json",
+      "cnaSha256": "38a4b790abe72982e5ab68c27b12182629e837218a11163ff6d9ff39afc163c9",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90155",
+      "ubuntuSha256": "f14d9c9e0cb7c09001bf7ee1ffeda02fff50b0f4e42a0e05b2122c25bff1d218",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90161",
+      "severity": "HIGH",
+      "title": "erofs: fix interlaced ztailpacking pclusters",
+      "programFiles": [
+        "fs/erofs/decompressor.c",
+        "fs/erofs/zmap.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90161.json",
+      "cnaSha256": "d76ef8f1754b7e9a58a20246974913b053a28947172fcaf2ca0055d834b328c7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90161",
+      "ubuntuSha256": "8b72653e59286c04b2d7afe652a2ce5066180deca42565ee4a44b5c75c02a490",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90162",
+      "severity": "CRITICAL",
+      "title": "ksmbd: defer publishing granted locks to prevent UAF/double-free race",
+      "programFiles": [
+        "fs/smb/server/smb2pdu.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90162.json",
+      "cnaSha256": "dc423c92109b940ff9b5033f2b8067e5ca29a4b46f827867ad800038f23bc8d4",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90162",
+      "ubuntuSha256": "61c9c215b74e9adcf08d020cbecfd38cbe1e22a5a69854868a21d31dc84aebdb",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90167",
+      "severity": "HIGH",
+      "title": "ksmbd: serialize oplock close with pending break ownership",
+      "programFiles": [
+        "fs/smb/server/oplock.c",
+        "fs/smb/server/oplock.h",
+        "fs/smb/server/smb2pdu.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90167.json",
+      "cnaSha256": "e3ef454582d6d012c1d0ad130322bc604dfcde3bda6f76fca2cc1dff4d84f800",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90167",
+      "ubuntuSha256": "f6deaa503f31b14588674f0338525df1069e5a2600fbb943e2c624dfdb2c7707",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90169",
+      "severity": "HIGH",
+      "title": "ksmbd: free preauth sessions on connection teardown",
+      "programFiles": [
+        "fs/smb/server/connection.c",
+        "fs/smb/server/mgmt/user_session.c",
+        "fs/smb/server/mgmt/user_session.h",
+        "fs/smb/server/smb2ops.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90169.json",
+      "cnaSha256": "bd66f9d1ce4b42d832cea52d98f9d17ef6b3d41aca499c15456bb5442c69cb6c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90169",
+      "ubuntuSha256": "40e1b6e63aa9fd8fb474a435a2cf1e53da18d8f911672370b114b35ae556906b",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90199",
+      "severity": "HIGH",
+      "title": "fs/ntfs3: reject out-of-range evcn in mi_enum_attr()",
+      "programFiles": [
+        "fs/ntfs3/record.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90199.json",
+      "cnaSha256": "fc530b542c992e897762ed1038c4aa51a17fbeb780ef348eb376ca75660fee6f",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90199",
+      "ubuntuSha256": "9f6829b4f721c2a206806774bdec24026c795482bb3811f038d4fe1b3dd2e46f",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90200",
+      "severity": "HIGH",
+      "title": "fs/ntfs3: fix integer overflow in MFT cluster validation",
+      "programFiles": [
+        "fs/ntfs3/super.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90200.json",
+      "cnaSha256": "820a590dde28de068102204fae64e91246de63ac96cb2b6998c9e6869dd48d4f",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90200",
+      "ubuntuSha256": "ac864238a2df1325343e22dbe6c4f31847a7331692f03b7cc01f31df5cd7053f",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90204",
+      "severity": "HIGH",
+      "title": "ocfs2: validate DIO orphan slot during inode read",
+      "programFiles": [
+        "fs/ocfs2/inode.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90204.json",
+      "cnaSha256": "4cd22cf5216e1e4be5e49131230c5448fe3424cb5e31bf0dca2d4db341ac9e28",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90204",
+      "ubuntuSha256": "26ca4b74d0e24005212dbc6dea9bb7bfb88c53ed2bf49f15ba8d6309ca418727",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90205",
+      "severity": "HIGH",
+      "title": "ocfs2: validate orphan slot during inode read",
+      "programFiles": [
+        "fs/ocfs2/inode.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90205.json",
+      "cnaSha256": "2a2c32f03467d4ad8dc12ffd6cf24936476a144d738c15bf2a37d14571153b21",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90205",
+      "ubuntuSha256": "7d655d19e02d58671a4c0e7fadbdc82b7058c3e76458ea3aee8dee30c7d1e741",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90217",
+      "severity": "HIGH",
+      "title": "bpf: Compare iterator types during state pruning",
+      "programFiles": [
+        "kernel/bpf/states.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90217.json",
+      "cnaSha256": "1e84b17fca74747ee55462f86a0567a7cefa8d394ea029845167a7a21782191b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90217",
+      "ubuntuSha256": "bf312fd7d489aee82c4b7934ca75440a0ccc50f89461f2649ac9fb1c005bfe2f",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90227",
+      "severity": "HIGH",
+      "title": "nvme/ioctl: check SUBMIT_IO with nvme_cmd_allowed()",
+      "programFiles": [
+        "drivers/nvme/host/ioctl.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90227.json",
+      "cnaSha256": "176654be5bf47747a8bcbaf8e0ee46c0f0c0909353a54883b0d98109f0acd9c2",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90227",
+      "ubuntuSha256": "edd3b020f42f02e0db9d0797ec82e117f05ab096b1e525f4fb68c369ae67cc38",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90237",
+      "severity": "HIGH",
+      "title": "netfilter: nft_ct: move custom expectation support to helper",
+      "programFiles": [
+        "include/net/netfilter/nf_conntrack_helper.h",
+        "net/netfilter/nf_conntrack_helper.c",
+        "net/netfilter/nft_ct.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90237.json",
+      "cnaSha256": "5d0be9829336f769a919395c7f0dbdfb619619f7020d59759747ac4290345cea",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90237",
+      "ubuntuSha256": "4093fb037a1b3a54333c09c3cb7033836f160252b94fb4699353f43eab11e6ff",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90256",
+      "severity": "HIGH",
+      "title": "Bluetooth: L2CAP: use proto_lock for l2cap_data to fix l2cap_disconn_ind",
+      "programFiles": [
+        "net/bluetooth/l2cap_core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90256.json",
+      "cnaSha256": "5329d06b0779174c229871e7f8833eb3c5cdd47372e88f3acb6ebf6e74d99732",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90256",
+      "ubuntuSha256": "a4dc73fad8e16fcec4aa0ceee664c9a5e77263bc0777f28aea7760bc6c89bbfc",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90313",
+      "severity": "HIGH",
+      "title": "bpf, cgroup: Fix invalid storage access after __cgroup_bpf_attach failed",
+      "programFiles": [
+        "kernel/bpf/cgroup.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90313.json",
+      "cnaSha256": "969d521c4f672eecf9ce895406f60cf1aa6308cb65cc99ef7d9716cabbe7bfc6",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90313",
+      "ubuntuSha256": "5c7fddd8de25573cfa7767c463148bb44d3c509715f7a8ce17eb0ee312c99360",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90317",
+      "severity": "HIGH",
+      "title": "bpf: Invalidate RCU pointers after final spin unlock",
+      "programFiles": [
+        "kernel/bpf/verifier.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90317.json",
+      "cnaSha256": "ac54a0db122fd277cfcee45d974f24e219ff49eab94494755d50aa406d34349a",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90317",
+      "ubuntuSha256": "f0f803cc5563ee862f495b42d69f7c582906d29ce4bd452327424f4ea1fe4278",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90320",
+      "severity": "HIGH",
+      "title": "ocfs2: validate external xattr entries when reading metadata",
+      "programFiles": [
+        "fs/ocfs2/xattr.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90320.json",
+      "cnaSha256": "c7d0ad6e9256c10196f7fbae6b05204eb08dd50e798e10cb97d6654494f84460",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90320",
+      "ubuntuSha256": "76aa8b895fe06454a430f9bba03a2941b86afa18335ca86209b76381964a571b",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90321",
+      "severity": "HIGH",
+      "title": "ocfs2: validate inline xattrs during inode block validation",
+      "programFiles": [
+        "fs/ocfs2/inode.c",
+        "fs/ocfs2/xattr.c",
+        "fs/ocfs2/xattr.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90321.json",
+      "cnaSha256": "a5043ba5c7ceef22c1eea7ea03c467ea8595f069350994cf7e3fad0f62b10ace",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90321",
+      "ubuntuSha256": "b80525cc2a65bc7af187266477bf6eacbfbe1a76b1bb219a2c2a8c79ba8f6f8a",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90324",
+      "severity": "HIGH",
+      "title": "ublk: check import_ubuf() return value",
+      "programFiles": [
+        "drivers/block/ublk_drv.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90324.json",
+      "cnaSha256": "8b3d8d1f9a538d44f3c9748d25ba3cf2ac57916d37c1ab59c919876a1273fc4e",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90324",
+      "ubuntuSha256": "f34f215b37e717ccc7f170ea227255c5b9a6ec81e199bfffd7acaa1e53bc0355",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90343",
+      "severity": "HIGH",
+      "title": "wifi: cfg80211: stop PMSR before P2P and NAN teardown",
+      "programFiles": [
+        "net/wireless/core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90343.json",
+      "cnaSha256": "32c5e0d875abf50e44db99dbc4e05cd3dc528cf8f2ef07dc37648cae6a6501f9",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90343",
+      "ubuntuSha256": "26324c3044922aa76c4ebfae70a37766eb1365b83ae2cc87ab1aebcc6de33f7b",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90375",
+      "severity": "HIGH",
+      "title": "wifi: mt76: fix non-AQL packet accounting for MLO stations",
+      "programFiles": [
+        "drivers/net/wireless/mediatek/mt76/tx.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90375.json",
+      "cnaSha256": "beb5a14c3e647b44cf8f83ac7527c090a494ea69d91a054564b3c097179614e8",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90375",
+      "ubuntuSha256": "30251dfc0c883c4f475610154b78c95217c114418329f654ef358f1b4f586160",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90380",
+      "severity": "HIGH",
+      "title": "wifi: mt76: mt792x: fix use-after-free in mt76_rx_poll_complete",
+      "programFiles": [
+        "drivers/net/wireless/mediatek/mt76/mt7925/main.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90380.json",
+      "cnaSha256": "f9b704e952f67f875e74801747bb26c42fdd1c1e40957271d55192592710deb6",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90380",
+      "ubuntuSha256": "e8afcc999c4bb7ff9b5f08650f6d38468854a9892ccc1693a54e1c4293c8d5bd",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90392",
+      "severity": "HIGH",
+      "title": "bpf: Fix potential UAF when reading bpf link info",
+      "programFiles": [
+        "kernel/bpf/syscall.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90392.json",
+      "cnaSha256": "7ac46ca963461db464cb7120afd6e7d676702cedac777083af2e13178c5dabe8",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90392",
+      "ubuntuSha256": "80f41eb11638e680d3f0bab2fddc004d1d5e72ff17881ebce8e3b32aab1209e2",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90398",
+      "severity": "HIGH",
+      "title": "wifi: ath11k: fix stride mismatch in mac_phy_caps_parse()",
+      "programFiles": [
+        "drivers/net/wireless/ath/ath11k/wmi.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90398.json",
+      "cnaSha256": "38cd27329e498f4b8c388a40c64d52bdce281851cb6be8d0a257bef75db972fc",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90398",
+      "ubuntuSha256": "90ef4482df96b731b04edcb20fd9eac5d0d4dd14e2798e213ddf82e1f8860c33",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-90417",
+      "severity": "HIGH",
+      "title": "RDMA/cxgb4: Fix dereg_skb leak and double free in write_tpt_entry()",
+      "programFiles": [
+        "drivers/infiniband/hw/cxgb4/mem.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/90xxx/CVE-2026-90417.json",
+      "cnaSha256": "d30568fea2fe4d1170a3e4e1bac0dae12c46fb321033adf2ddc75412f8182794",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-90417",
+      "ubuntuSha256": "0726b8e6359e14ef9cf07673041166747646dd0edc5aeb0f35eea723b99ce307",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-92499",
+      "severity": "HIGH",
+      "title": "ext4: validate readdir offset before accessing dirent",
+      "programFiles": [
+        "fs/ext4/dir.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/92xxx/CVE-2026-92499.json",
+      "cnaSha256": "3b46c3771758353b0be08e3ba0e8fa63f80cbd2339f5abe1dd2fabd166987160",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-92499",
+      "ubuntuSha256": "1eb380935b9d2fa7cbe55491683180f13cad7201c2f89250979401e6b400372c",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-92507",
+      "severity": "HIGH",
+      "title": "RDMA/core: Fix potential use after free in ib_dealloc_pd_user()",
+      "programFiles": [
+        "drivers/infiniband/core/verbs.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/92xxx/CVE-2026-92507.json",
+      "cnaSha256": "0deea54c1464ef3526d1050d261ebd277790f122c9c9e32e9ae43ce9ec1791a3",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-92507",
+      "ubuntuSha256": "8bce0761c9b2e2b9e578428cc2d75e174c9b391fb5a7e16e5fa68efe8e12f5fd",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-92509",
+      "severity": "HIGH",
+      "title": "RDMA/core: Fix potential use after free in counter_release()",
+      "programFiles": [
+        "drivers/infiniband/core/counters.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/92xxx/CVE-2026-92509.json",
+      "cnaSha256": "79355d4126e2da16a30d8f302ed88d5f2402a62c348f82e0c504b4e2ddb6b9fb",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-92509",
+      "ubuntuSha256": "7baf1a6b4ebd73e3044aa24745c8358c1d9f9a7a845b1f958b827a10a8717249",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-92510",
+      "severity": "HIGH",
+      "title": "RDMA/core: Fix potential use after free in ib_destroy_srq_user()",
+      "programFiles": [
+        "drivers/infiniband/core/verbs.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/92xxx/CVE-2026-92510.json",
+      "cnaSha256": "f2f1407fa681c2babb75c23dfdee5b54fa206a75b49078e3aa89d268c88b86aa",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-92510",
+      "ubuntuSha256": "26590e4f06116526cb49f708478fa17c3017877b13382ba04da0b4d22525cc1f",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-92511",
+      "severity": "HIGH",
+      "title": "RDMA/core: Fix potential use after free in ib_destroy_cq_user()",
+      "programFiles": [
+        "drivers/infiniband/core/verbs.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/92xxx/CVE-2026-92511.json",
+      "cnaSha256": "1acbe6426f9dc6c8d5b65efd9e51035bf90424b14353172abf61c0ac3362dfc7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-92511",
+      "ubuntuSha256": "4ee50391b76ce22a7a85dd4f7b6af2447fe7473e1755b53c5afb76aa9b4f7942",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-92512",
+      "severity": "HIGH",
+      "title": "RDMA/core: Fix use after free in ib_query_qp()",
+      "programFiles": [
+        "drivers/infiniband/core/verbs.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/92xxx/CVE-2026-92512.json",
+      "cnaSha256": "81f1d02fefbf9ae1e97ff76a99862623f94cb93d3c3a6c80fb8fb23fb6ff1035",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-92512",
+      "ubuntuSha256": "91db096a289670b881c242922d4ca0e023b56524c1a56519d2ad76b24b502f13",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93105",
+      "severity": "HIGH",
+      "title": "esp: do not unref managed frag pages in esp_ssg_unref()",
+      "programFiles": [
+        "net/ipv4/esp4.c",
+        "net/ipv6/esp6.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93105.json",
+      "cnaSha256": "8b65afa1fe64fa39d2b82f4a51aec52a1cc7530cc39386b866967b4434cba143",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93105",
+      "ubuntuSha256": "1b819c88000c639eaf841503b54f43e9bf6ccd71c7fb5af73c3c32257c3a8133",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93125",
+      "severity": "HIGH",
+      "title": "bpf: Reject rdonly/rdwr_buf_size kfunc arguments that exceed u32 max",
+      "programFiles": [
+        "kernel/bpf/verifier.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93125.json",
+      "cnaSha256": "170417b364fe77f954ca30861a85f649e3ceba91c89ac510728869d450eccacc",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93125",
+      "ubuntuSha256": "1e846fe0caa8c2e2c4eca7315b4f7d4a14ecd557ed71b8526de70422817dca34",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93144",
+      "severity": "HIGH",
+      "title": "bpf: Reject writes through untrusted BTF pointers",
+      "programFiles": [
+        "kernel/bpf/verifier.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93144.json",
+      "cnaSha256": "8f9b2cdc3edd3caaea699b8dc234029c2178590b53025a5df28ea667ff2e3405",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93144",
+      "ubuntuSha256": "2c3fe6fb3bcfcd726a004fdc520ab7b577543c8e7a96df9a57941e7921b103f4",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93148",
+      "severity": "HIGH",
+      "title": "bpf: Reject MEM_ALLOC BTF accesses past object bounds",
+      "programFiles": [
+        "include/linux/bpf.h",
+        "kernel/bpf/btf.c",
+        "kernel/bpf/verifier.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93148.json",
+      "cnaSha256": "acf59b25ad683e225ba1390e95252dc7647bfdb88a37500f22b839fbbc7a1fb4",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93148",
+      "ubuntuSha256": "66c5e38a2cdeb21cf62c5b3dea60d558f4ef1bb594b6ba87993d744a7c4fd718",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93154",
+      "severity": "HIGH",
+      "title": "RDMA/irdma: Add refcounting to user ring MRs",
+      "programFiles": [
+        "drivers/infiniband/hw/irdma/utils.c",
+        "drivers/infiniband/hw/irdma/verbs.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93154.json",
+      "cnaSha256": "3e335b62f941636686c41bf3d9602f860c7a0425e2ade50a770d45d4c25579e0",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93154",
+      "ubuntuSha256": "ad2883ed2ada24371c7bac385de10500cdd72b00852f3c4a5ad26d6f85d9ee2d",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93175",
+      "severity": "HIGH",
+      "title": "drm/amd/display: Fix dangling pointer in CRTC reset function",
+      "programFiles": [
+        "drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93175.json",
+      "cnaSha256": "0212f448714e8ecf4ad238825cec2a34a1848f639b69e3c82fb6fd67a2142351",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93175",
+      "ubuntuSha256": "0e62106cefcdfbb63fab85e268d19ee17a6ff7c211bb115ec567a0ee5aaf397d",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93176",
+      "severity": "HIGH",
+      "title": "drm/amd/display: Fix dangling pointer in plane reset function",
+      "programFiles": [
+        "drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93176.json",
+      "cnaSha256": "5493a668c040121ff0043ea2c4f6194595b333ee2dadfae3919afe8de058ec6b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93176",
+      "ubuntuSha256": "387cf66cf8d3416fe2881641213e1e58ceea6aaf09c2d282e8840804e43a997d",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93192",
+      "severity": "HIGH",
+      "title": "drm/v3d: Clear queue->active_job when v3d_fence_create() fails",
+      "programFiles": [
+        "drivers/gpu/drm/v3d/v3d_sched.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93192.json",
+      "cnaSha256": "fe398df5fdeefcfa8af7e6297c73747290d5a6be63403f4b3953117f7c5d13a4",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93192",
+      "ubuntuSha256": "b7d4815df5cc9236d220e897f346d80dbe13e9f351198184edcdc05127237730",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93196",
+      "severity": "HIGH",
+      "title": "nvdimm: virtio_pmem: refcount requests for token lifetime",
+      "programFiles": [
+        "drivers/nvdimm/nd_virtio.c",
+        "drivers/nvdimm/virtio_pmem.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93196.json",
+      "cnaSha256": "b7aa3865cae900fb11d62d2f049c7c95de504a8dffbed26719323f3807e1c3a8",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93196",
+      "ubuntuSha256": "998145c9250781e8162fab6583a2a739a2f9a82b55d68816739c560945a87c3d",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93199",
+      "severity": "HIGH",
+      "title": "i3c: master: Do not treat master device as a duplicate target",
+      "programFiles": [
+        "drivers/i3c/master.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93199.json",
+      "cnaSha256": "ac20905c8698886050c72d79e5c3a33d1b194b2534f7e0d14a8d8621314029e7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93199",
+      "ubuntuSha256": "299b440ffc29e08518208ee30aefa81015bd5887d8635fe6bb759623ec0f871b",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93210",
+      "severity": "HIGH",
+      "title": "smb: client: harden DFS cache against invalid target hints",
+      "programFiles": [
+        "fs/smb/client/dfs_cache.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93210.json",
+      "cnaSha256": "bbe2dc148adf981eff10979e69066a0d4cc8e80a03d4ffb35e76e6b83d909e53",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93210",
+      "ubuntuSha256": "20fcc293b0cd8ca0c015d5f0c1cdd66adfd185f1f2255353e04df9ae52c98450",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93221",
+      "severity": "CRITICAL",
+      "title": "nfsd: convert nfsd_net boolean flags to unsigned long flags word",
+      "programFiles": [
+        "fs/nfsd/netns.h",
+        "fs/nfsd/nfs4proc.c",
+        "fs/nfsd/nfs4recover.c",
+        "fs/nfsd/nfs4state.c",
+        "fs/nfsd/nfsctl.c",
+        "fs/nfsd/nfssvc.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93221.json",
+      "cnaSha256": "2b9e7bdd374e64d2ceaa2fe3a75a4874b8f5af7b98e568fee23e3303ac90199e",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93221",
+      "ubuntuSha256": "f3f2a60107c75bf53ddb18f511721cb4dd2d6c9f7c98f6f35e54cffa07a4821d",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93282",
+      "severity": "HIGH",
+      "title": "ksmbd: fix maximum allowed access checks",
+      "programFiles": [
+        "fs/smb/server/smb2pdu.c",
+        "fs/smb/server/smbacl.c",
+        "fs/smb/server/smbacl.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93282.json",
+      "cnaSha256": "bb20f2da36ad3049a563e07a1aee0c6e7e1d66903f93f4cea7d08f0f83a95d09",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93282",
+      "ubuntuSha256": "47c3da9b68c7dc41c66188d5dac69838c41fa908520235bd75fa5373669f0648",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93787",
+      "severity": "HIGH",
+      "title": "smb: client: bound dirent name against end of SMB response in cifs_filldir",
+      "programFiles": [
+        "fs/smb/client/readdir.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93787.json",
+      "cnaSha256": "83fa4fed9be6b8d146c8d65b7b058042f9f869f0b8b72d791705ce661f7ea35d",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93787",
+      "ubuntuSha256": "2d68fcbd9fede714bf6696eabaf4e4eab8e6cba423a35319943317ccb5033013",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93790",
+      "severity": "HIGH",
+      "title": "wifi: iwlwifi: mvm: fix out-of-bounds tid_data access in BA notif",
+      "programFiles": [
+        "drivers/net/wireless/intel/iwlwifi/mvm/tx.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93790.json",
+      "cnaSha256": "4927f4b3e6a14ef176ac6a6463295d305e385c0f9b9986b09c687f960abad21c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93790",
+      "ubuntuSha256": "a4a0c37ccdb466d1b6a063a5f3df5ecedee3e8b71a009c22d9998aefee4aafca",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93792",
+      "severity": "HIGH",
+      "title": "wifi: iwlwifi: mvm: fix a possible underflow",
+      "programFiles": [
+        "drivers/net/wireless/intel/iwlwifi/mvm/d3.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93792.json",
+      "cnaSha256": "108790db7ae33b495165603755292a0778a62ffc0d5e3ca5fefa0bbd62205102",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93792",
+      "ubuntuSha256": "0ceb8554f692916ee4f6ab7fe68464e1247a0fa85a64dd0e3f94759d291e6a3a",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93796",
+      "severity": "HIGH",
+      "title": "wifi: iwlwifi: pcie: null RX pointers after free",
+      "programFiles": [
+        "drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/rx.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93796.json",
+      "cnaSha256": "940e43291f722bbea5889c93c2259637d615eb031c2a3087a25e19b94552f2e9",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93796",
+      "ubuntuSha256": "7614210cc1d7ba3fca5323ad111f61c9f6650e245cc4fa1342e39d854588e1eb",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93806",
+      "severity": "HIGH",
+      "title": "wifi: cfg80211: validate assoc response length before status and IE access",
+      "programFiles": [
+        "net/wireless/mlme.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93806.json",
+      "cnaSha256": "e684e39f8e53130ebfbe71eb0ce599ee35bdd9350cead4ecf4b4f9bde09d2a62",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93806",
+      "ubuntuSha256": "30d3a4d7549d941bbc621cf7a47a6eda6a57fe8e3e4696ebd39db189fe52d694",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93817",
+      "severity": "HIGH",
+      "title": "perf: Fix addr_filter_ranges lifetime",
+      "programFiles": [
+        "kernel/events/core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93817.json",
+      "cnaSha256": "464720fe531e01588b3602e75a518abbf0cd2dd4487758930b2ceeb5c90e0c39",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93817",
+      "ubuntuSha256": "77159eb06f12e2460b00ddb50c8dacc3bfb6d6759206aa883547b0c5177418e1",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93824",
+      "severity": "HIGH",
+      "title": "tls: reject the combination of TLS and sockmap",
+      "programFiles": [
+        "net/tls/tls_main.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93824.json",
+      "cnaSha256": "58d46699233115c840c5c4ff923eb6d81e4d91f3481f5c52b7578152fecf1c1b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93824",
+      "ubuntuSha256": "e024b744e1db1577df03c5031d8cccbc1ca015e2b02690439d0dd2aa64a20ef6",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-93828",
+      "severity": "HIGH",
+      "title": "exfat: fix handling of damaged volume in exfat_create_upcase_table()",
+      "programFiles": [
+        "fs/exfat/nls.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/93xxx/CVE-2026-93828.json",
+      "cnaSha256": "d433205bab0d6b679a41b79734af8d1189a918dc0a6d6f121598374efaa4061b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-93828",
+      "ubuntuSha256": "80e18123b4784b6ec9ba932bb2362509bba92a5cf87152d01f3c62294aa907a8",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97415",
+      "severity": "HIGH",
+      "title": "btrfs: tree-checker: validate names in ROOT_REF and ROOT_BACKREF",
+      "programFiles": [
+        "fs/btrfs/ioctl.c",
+        "fs/btrfs/tree-checker.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97415.json",
+      "cnaSha256": "5a091fef204d35babde3bd3c4f11000f3dc11538aa9d1327c66b9a1253901a87",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97415",
+      "ubuntuSha256": "60641ef51a5423da2a97efd2e40aa45e059d6bf554c049dbc6a8243f4bcf1ffe",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97429",
+      "severity": "HIGH",
+      "title": "drm/amdkfd: fix UAF race in destroy_queue_cpsch",
+      "programFiles": [
+        "drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97429.json",
+      "cnaSha256": "8f599ba83ccb1230cec9d5af6522ba12b12d5ab029dba00abade4e8420c61792",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97429",
+      "ubuntuSha256": "5583e64e1baf9383e0c30b9a3e38c95f89a1bfd56707650f1295e107f6980681",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97442",
+      "severity": "HIGH",
+      "title": "wifi: ath11k: fix invalid data access in ath11k_dp_rx_h_undecap_nwifi",
+      "programFiles": [
+        "drivers/net/wireless/ath/ath11k/dp_rx.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97442.json",
+      "cnaSha256": "1fbacdf04ed66392c792146491953a901b65dc9de9a565885e94dfe2e215e666",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97442",
+      "ubuntuSha256": "318c3c355bcec44c0959e34dd311950f6db95da2e5854908099b5f2c29db221b",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97493",
+      "severity": "HIGH",
+      "title": "drm/amdgpu: Bound GPIO I2C table entry count from VBIOS",
+      "programFiles": [
+        "drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97493.json",
+      "cnaSha256": "53f6255581c7fe6b01276a1553f6e0a1663da6c258308044804959ddb83cea0c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97493",
+      "ubuntuSha256": "6283918758a1f1fefb0f3c7ead67750d6c5be2099f89e491fa7613d58cf3c3ef",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97497",
+      "severity": "HIGH",
+      "title": "drm/amdkfd: Check bounds for allocate_sdma_queue restore_sdma_id",
+      "programFiles": [
+        "drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97497.json",
+      "cnaSha256": "1c6bb30b25a317e838b7504758a7eb1f6023a36050a30a87713b81efd93f6596",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97497",
+      "ubuntuSha256": "08c18ca06b23b08e04f83c2eb67db6946d9868a6f4f657bf2ecf0f12e0ba7b42",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97513",
+      "severity": "HIGH",
+      "title": "media: chips-media: wave5: Release m2m_ctx after Instance Removed from List",
+      "programFiles": [
+        "drivers/media/platform/chips-media/wave5/wave5-helper.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97513.json",
+      "cnaSha256": "b4987bdf582c29f26770bd02ffa87955d64a747b1e44176f573c9ea76a1656e7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97513",
+      "ubuntuSha256": "2289bf26ea77e2b4c606840f8a15c655b4e535523e5002b32785403b6c9262d0",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97530",
+      "severity": "HIGH",
+      "title": "scsi: qla2xxx: Fix soft lockup polling continuation IOCB signature",
+      "programFiles": [
+        "drivers/scsi/qla2xxx/qla_isr.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97530.json",
+      "cnaSha256": "9d99df86276d9bf61e49d271b24a9cd2520ab6188854919d39f315c87a946af3",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97530",
+      "ubuntuSha256": "60c28960154bb8ab1e390e5d7ad8a6a5059f06a608fd97f868d159d1cbd79812",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97555",
+      "severity": "HIGH",
+      "title": "smb: client: fix heap overflow in DACL owner/group rewrite",
+      "programFiles": [
+        "fs/smb/client/cifsacl.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97555.json",
+      "cnaSha256": "9d6cd2fb58616b76a0e4a62e44be573fff7ca9cafef031556521e0d4b668a41d",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97555",
+      "ubuntuSha256": "0f0c87f7101ec8e5125893ec68b9dbeca52a0f6440b339fff715d4984c107f88",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97557",
+      "severity": "HIGH",
+      "title": "smb: client: avoid leaking refcount in cifs_queue_oplock_break()",
+      "programFiles": [
+        "fs/smb/client/misc.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97557.json",
+      "cnaSha256": "09659edde9df2059ae279a8cb0d5549b902f58410048fe2f08e27f553149a190",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97557",
+      "ubuntuSha256": "8baed1699c6071f57808507824e48b2d7e7cb1e307f73215392ff99fe3d8c546",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97562",
+      "severity": "HIGH",
+      "title": "smb: client: pin DFS superblock in iterator callback",
+      "programFiles": [
+        "fs/smb/client/misc.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97562.json",
+      "cnaSha256": "f03699e31400b76d7800d4c421d9e85ff051ec4fab1d91a69bf2f38b2accbb99",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97562",
+      "ubuntuSha256": "e41a5f257fb949d4e8fa2e19e70e9e781c216b04bdd35e9b13c651ec33d54528",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97564",
+      "severity": "HIGH",
+      "title": "smb: client: reject userspace cifs.idmap descriptions",
+      "programFiles": [
+        "fs/smb/client/cifsacl.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97564.json",
+      "cnaSha256": "4d05d37c93daa52f616e497469b00ab6534a8288bb74d4e93342dc6c43ba56fa",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97564",
+      "ubuntuSha256": "ddfd81da97528e254ebea4544188fb826185dba0405d324d36000a9e0e4532b7",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97565",
+      "severity": "HIGH",
+      "title": "smb: client: reject short READ responses in CIFSSMBRead()",
+      "programFiles": [
+        "fs/smb/client/cifssmb.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97565.json",
+      "cnaSha256": "2cc2c20ff9dbd1deb915324ba466e9688b8eeb3580fd1716482a0fabe2de0a77",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97565",
+      "ubuntuSha256": "60e6c47e330d96fda65587a57aee407de90ab9736124abc9ddf8d2a8197826ef",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97581",
+      "severity": "HIGH",
+      "title": "media: verisilicon: hantro: bound G2 HEVC tile loop to the buffer capacity",
+      "programFiles": [
+        "drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97581.json",
+      "cnaSha256": "f51160bcc7f0383417cf4b3f279ffbeb3620ec905216adadaf3bc4155579ccba",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97581",
+      "ubuntuSha256": "0fcfcad8215927ed5d786c20992b78695dcc2f9bb0997c92c1c18037fbf66810",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97603",
+      "severity": "HIGH",
+      "title": "idpf: disable DIM work before freeing q_vectors",
+      "programFiles": [
+        "drivers/net/ethernet/intel/idpf/idpf_txrx.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97603.json",
+      "cnaSha256": "352a97efa3eea6917c992d273f4c19b1062e188547f2c9b877aa322c03e46c45",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97603",
+      "ubuntuSha256": "6edc58f8018046376c8fd37eada3e8381b6b0e181ab63835bfe223e30d14726b",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97615",
+      "severity": "HIGH",
+      "title": "net: bridge: use option bits for CFM/MRP frame handlers",
+      "programFiles": [
+        "net/bridge/br_cfm.c",
+        "net/bridge/br_device.c",
+        "net/bridge/br_input.c",
+        "net/bridge/br_mrp.c",
+        "net/bridge/br_private.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97615.json",
+      "cnaSha256": "f1dd6407ac0f9e027cc585b98d692758fad974ffdd393cd6446d7a0b68a1e5ac",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97615",
+      "ubuntuSha256": "31f82f048cf6ac87fdaf49c46c8a616457d9c98019d639f5ec8e49823a617185",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97906",
+      "severity": "HIGH",
+      "title": "bootconfig: Fix integer overflow in initrd size check",
+      "programFiles": [
+        "init/main.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97906.json",
+      "cnaSha256": "c7dab0ba2e6c5e518374a75c269e689156dd9d364b182cc2c37d0631bff80f0c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97906",
+      "ubuntuSha256": "c82d69015fc505ef75ef3358c66a539968cffbb070da33a8d9eca71fe377ce8f",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97960",
+      "severity": "HIGH",
+      "title": "perf/x86/intel: Prevent drain_pebs() reentry",
+      "programFiles": [
+        "arch/x86/events/intel/core.c",
+        "arch/x86/events/intel/ds.c",
+        "arch/x86/events/perf_event.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97960.json",
+      "cnaSha256": "f1d0bf349846c2ccb03f82948fb4733a72a5978c8a539474d6dec0633535ee5e",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97960",
+      "ubuntuSha256": "d9af2579d0f5bedb772887b5d00d67c50a600751fc332aea54659a5104badd64",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-97988",
+      "severity": "HIGH",
+      "title": "vhost: invalidate vring access on IOTLB transitions",
+      "programFiles": [
+        "drivers/vhost/net.c",
+        "drivers/vhost/vhost.c",
+        "drivers/vhost/vhost.h",
+        "drivers/vhost/vsock.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/97xxx/CVE-2026-97988.json",
+      "cnaSha256": "0e9b1e348ee8d132f527d577c4235eda9e6bed9cfe88e5719a43a685b41c002e",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-97988",
+      "ubuntuSha256": "9dd193c464702d9d31572732595b7ef8a91d4c67b0217b0b37797eac1058406d",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98017",
+      "severity": "HIGH",
+      "title": "net/sched: defer qdisc freeing after failed creation",
+      "programFiles": [
+        "include/net/sch_generic.h",
+        "net/sched/sch_api.c",
+        "net/sched/sch_generic.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98017.json",
+      "cnaSha256": "9373b640620db199b2725ed3488a1b62851a90b63adc96828c3cacbca4278f3e",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98017",
+      "ubuntuSha256": "689412d466c96dd915e08eb1c8a2378338b7a0d311e4cf07f5602940e162f483",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98019",
+      "severity": "HIGH",
+      "title": "bpf: mark a NULL call argument precise",
+      "programFiles": [
+        "kernel/bpf/verifier.c",
+        "tools/testing/selftests/bpf/progs/verifier_subprog_precision.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98019.json",
+      "cnaSha256": "6f58a6bb3ca843c8d773429af68b30add5be3ece17bc594e736f914ef3acd5bb",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98019",
+      "ubuntuSha256": "4ba4f5589510635912a515e9980445459c3cc89bec0b314f71d49ca756a3495d",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98033",
+      "severity": "HIGH",
+      "title": "bpf: Preserve inner map identity in callback frames",
+      "programFiles": [
+        "kernel/bpf/verifier.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98033.json",
+      "cnaSha256": "79b9cf556658e8dab125c112763392ecb606653eeeff0a31900932e34b0eaa07",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98033",
+      "ubuntuSha256": "3a5ee29798c413f3365403cec678db3df028455ba5abae40fc803b152528d050",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98034",
+      "severity": "HIGH",
+      "title": "bpf: Mark NULL kptr stores precise",
+      "programFiles": [
+        "kernel/bpf/verifier.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98034.json",
+      "cnaSha256": "bc45d4983da7d31b32f70d92940c3d698df8de867246261c451817bb08ac4fc9",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98034",
+      "ubuntuSha256": "8edc8f870894ade3a879620e354b38c91b51bcfefe061f044f3594acdca3a70b",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98041",
+      "severity": "HIGH",
+      "title": "bpf: Don't predict JMP32 pointer vs zero comparisons",
+      "programFiles": [
+        "kernel/bpf/verifier.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98041.json",
+      "cnaSha256": "9a21b3886b65930e2145b2a5e7d8dad4d068c67fe043b6035187c9a08bb34335",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98041",
+      "ubuntuSha256": "709f4ab7d5833d0e15b2894bb77ebe0ed20ebafaa1bb728cc205406cc4f6dbe8",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98056",
+      "severity": "HIGH",
+      "title": "nvme: remove stale namespaces by NSID range during scan",
+      "programFiles": [
+        "drivers/nvme/host/core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98056.json",
+      "cnaSha256": "fd2a331ed87cdc61d2371eedbe4029d70fd84b835d66a38314c8dbd266949533",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98056",
+      "ubuntuSha256": "f815650dde697f38db20077556146f5420b6a32c5267ee9d330a6b5396288f44",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98084",
+      "severity": "HIGH",
+      "title": "bpf: backtracking shouldn't clear outer frame R1-R5 for callbacks",
+      "programFiles": [
+        "kernel/bpf/backtrack.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98084.json",
+      "cnaSha256": "96c00bffe1bff5b1950d0e8416b5175a5e7cdffe3e4f3d4f35d82826bc650518",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98084",
+      "ubuntuSha256": "8a1346041cd8a50f944be3b1fb43f6c440c9faf4f5f9e84b3c390006a5309716",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98085",
+      "severity": "HIGH",
+      "title": "bpf: backtrack_insn(): Handle ld_{abs,ind} subprog exit edge",
+      "programFiles": [
+        "kernel/bpf/backtrack.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98085.json",
+      "cnaSha256": "7c9785ae17dc17487a5d6d7e3331064e098675b8e6cd78185427bbdf4d5431ed",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98085",
+      "ubuntuSha256": "e2acd616e19a9cc435f04e2cdf182e864a8d7689019c41c99c6bed5b67c0c008",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98104",
+      "severity": "HIGH",
+      "title": "net/sched: cls_u32: fix duplicate handle when node ID pool is exhausted",
+      "programFiles": [
+        "net/sched/cls_u32.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98104.json",
+      "cnaSha256": "c3a5370bca3f89d4ef6e3790e4f50dde1d0148f4f70b495e12703eed2f2d40e2",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98104",
+      "ubuntuSha256": "a6f8604caf1a69aaeb1a440f082155dc1eb211e4a264e142709aa1f52a5dfe8a",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98107",
+      "severity": "HIGH",
+      "title": "Bluetooth: L2CAP: fix out-of-bounds write in l2cap_ecred_connect",
+      "programFiles": [
+        "net/bluetooth/l2cap_core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98107.json",
+      "cnaSha256": "55d3ac235907c99e868eaa773cd1ba641b0dd98f18aaa3cd263c4aede693218d",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98107",
+      "ubuntuSha256": "52628f47634fcfe0ba4c0cd772b38fcdf7c7c651f4a2290fe0d5aae6d9e989ac",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98115",
+      "severity": "HIGH",
+      "title": "ksmbd: safely drain sessions during logoff",
+      "programFiles": [
+        "fs/smb/server/connection.c",
+        "fs/smb/server/mgmt/user_session.c",
+        "fs/smb/server/mgmt/user_session.h",
+        "fs/smb/server/smb2pdu.c",
+        "fs/smb/server/vfs_cache.c",
+        "fs/smb/server/vfs_cache.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98115.json",
+      "cnaSha256": "15144697422c5f4a77142075e3d07bb384bec5bc4d845e3a479e9522963afb15",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98115",
+      "ubuntuSha256": "1d7e9a384507e87063c5483e5d0b3c730dd2a4da5928760a2e95d2b2e984183c",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98134",
+      "severity": "HIGH",
+      "title": "bpf: check_cond_jmp_op(): properly infer if register is null",
+      "programFiles": [
+        "kernel/bpf/verifier.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98134.json",
+      "cnaSha256": "caa9ddd208533c1c5829f9fb87d864bc50becb47abd3dfaf592f6125abc52b20",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98134",
+      "ubuntuSha256": "f654433b79775aa3fb4b4ca4276f191fa9fff5633ed397914861f0b17de53a2f",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98164",
+      "severity": "HIGH",
+      "title": "KVM: x86/mmu: Check write tracking in all address spaces",
+      "programFiles": [
+        "arch/x86/kvm/mmu/page_track.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98164.json",
+      "cnaSha256": "27e18dc71e9beb1068c2f07116b9688d37fb711ef2819148d822c7965e61f7e8",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98164",
+      "ubuntuSha256": "638e1d1f5d4e8d1d7788f2d9ed5a24567f5968476a6c51d62c2b3883ef67b7bd",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98167",
+      "severity": "HIGH",
+      "title": "smb: client: fix server->total_read for compound encrypted PDUs",
+      "programFiles": [
+        "fs/smb/client/smb2ops.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98167.json",
+      "cnaSha256": "d206d6e0b73f6f3bb9fe71bd1807b139502251878ed811d7a2a84131515da1b7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98167",
+      "ubuntuSha256": "7e4e4cb1ed15ebcd5c459e8475199a69321e9fe1037a33449b756cec26fdcaf7",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98171",
+      "severity": "HIGH",
+      "title": "smb: client: fix next_buffer UAF and NextCommand bounds in compound PDUs",
+      "programFiles": [
+        "fs/smb/client/smb2ops.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98171.json",
+      "cnaSha256": "4f837e2ee6e558fdfd5258696e5ed60712713b5cec5ee9521873c2275d1dd7b2",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98171",
+      "ubuntuSha256": "8ad62e05fb1a254cd86607630f96039723802d2c077716457ef6abb3661f67da",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98222",
+      "severity": "HIGH",
+      "title": "KEYS: encrypted: fix integer overflow of datablob_len",
+      "programFiles": [
+        "security/keys/encrypted-keys/encrypted.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98222.json",
+      "cnaSha256": "75e77407e4b41a271bff281bc3593c3cf400b5f3c8ce1bb4129ce964ea0e5470",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98222",
+      "ubuntuSha256": "e35ed682ad71492d7cb0915b1449a64af1004453ff8f0da3e130de93bd8c7ca3",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98229",
+      "severity": "HIGH",
+      "title": "xfrm: save input state data before secpath resets",
+      "programFiles": [
+        "net/xfrm/xfrm_input.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98229.json",
+      "cnaSha256": "e3c5aa599abcb3f40612c691a801e30c09e0d9607ddbd5ea59d87fd9ab857a1c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98229",
+      "ubuntuSha256": "6887a9094705a62b775648ba8fa7dc66106ee50f255b29fbf814e1456c36b8e9",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98260",
+      "severity": "HIGH",
+      "title": "exec: Cleanup POSIX timers right after de_thread()",
+      "programFiles": [
+        "fs/exec.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98260.json",
+      "cnaSha256": "0a588d2aef58b9b96cddbbb679e112d440bff515bd3cd052a510e4757f40012a",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98260",
+      "ubuntuSha256": "a591aa4861e13f28cc0912b6a703ee9a48d843a7a081a038c4790f9b0b2277cc",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98283",
+      "severity": "HIGH",
+      "title": "KVM: PPC: Book3S HV: fix use-after-free in kvmhv_emulate_tlbie_all_lpid()",
+      "programFiles": [
+        "arch/powerpc/kvm/book3s_hv_nested.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98283.json",
+      "cnaSha256": "56cab1c9c23c6f3ca58fe5fdce25cd44470b1157cb11154e8c68b9717e2fab7a",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98283",
+      "ubuntuSha256": "975e913099b11392a8088351e59338198d873c08d33141a761e14a03bdfe4fa0",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98332",
+      "severity": "HIGH",
+      "title": "wifi: mac80211: only operate on TDLS peers in the TDLS code",
+      "programFiles": [
+        "net/mac80211/tdls.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98332.json",
+      "cnaSha256": "3e099697f13c14257ccd8f02098d40356ed553ddfb07440b3bc7e9f5d078d873",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98332",
+      "ubuntuSha256": "fbef61eba31d9a19ad80f1b2fdbc0d068aafaa992fb18d87eacc387c1fb1e8ee",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98333",
+      "severity": "HIGH",
+      "title": "wifi: mac80211: reset the LED state when ifup fails",
+      "programFiles": [
+        "net/mac80211/iface.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98333.json",
+      "cnaSha256": "00cc3242cfb8679da7ad8ce40894d1737b1352d558b4b53433507d5a1c1c8678",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98333",
+      "ubuntuSha256": "d61ce3f54df66bd622a988abad5c1c8bb936de3572ecc75cfa1872f8bf13b3e8",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98341",
+      "severity": "HIGH",
+      "title": "wifi: cfg80211: don't free driver-owned scan requests",
+      "programFiles": [
+        "net/wireless/core.c",
+        "net/wireless/core.h",
+        "net/wireless/rdev-ops.h",
+        "net/wireless/scan.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98341.json",
+      "cnaSha256": "7e241eb8b5663fd201a0863b157dd34558234251fb85703239a57e35e3410f90",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98341",
+      "ubuntuSha256": "2751f590c53acb6d8aab50e0c9fd1382bf0e4ceba5f8e1086d298ec3c4046f35",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98359",
+      "severity": "HIGH",
+      "title": "RDMA/core: Reject unregistering netdevs in ib_get_eth_speed",
+      "programFiles": [
+        "drivers/infiniband/core/verbs.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98359.json",
+      "cnaSha256": "49af0c22b4919230545ef0bce7ea82baa6ab0ef457df53798673568012618ffd",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98359",
+      "ubuntuSha256": "f81eeabadd43271379031542582a9788df907ffbd17d338002991f3ff8ff71a9",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98364",
+      "severity": "HIGH",
+      "title": "xfrm: hold net_device reference under RCU in bundle creation",
+      "programFiles": [
+        "net/xfrm/xfrm_policy.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98364.json",
+      "cnaSha256": "2215a2d73fa8a831065ad37311af040ec609727ea5272bcbb2a4c461da05cac7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98364",
+      "ubuntuSha256": "09fa35506b0f3a4f68a0360608c91bddffde7b730ea883e668b8e42428791b9d",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98365",
+      "severity": "CRITICAL",
+      "title": "RDMA/rxe: Fix integer overflow in mr_check_range() leading to OOB access",
+      "programFiles": [
+        "drivers/infiniband/sw/rxe/rxe_mr.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98365.json",
+      "cnaSha256": "a6caacf26e008ebf532bb16854cf60fecaec0704bfb5a79c4908b3a507144f83",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98365",
+      "ubuntuSha256": "419d970c5bc83a5e989b56cbf0c3ac0218298c6590527b5a6fc193a8e7544a23",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98376",
+      "severity": "HIGH",
+      "title": "bpf: Use array_map_meta_equal for percpu array inner map replacement",
+      "programFiles": [
+        "kernel/bpf/arraymap.c",
+        "tools/testing/selftests/bpf/prog_tests/percpu_array_inner_map.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98376.json",
+      "cnaSha256": "29dd445f768c2bbda896bc88d369c14071bced9cb5f19e087a0479c797ff58c0",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98376",
+      "ubuntuSha256": "2c89787da7c104c7914c73cd9ed34f358dd21455fa34ee6c94dbe1090f967cec",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98420",
+      "severity": "HIGH",
+      "title": "ksmbd: follow SMB2 session expiration semantics",
+      "programFiles": [
+        "fs/smb/server/connection.c",
+        "fs/smb/server/connection.h",
+        "fs/smb/server/mgmt/user_session.c",
+        "fs/smb/server/mgmt/user_session.h",
+        "fs/smb/server/proc.c",
+        "fs/smb/server/server.c",
+        "fs/smb/server/smb2pdu.c",
+        "fs/smb/server/smb2pdu.h",
+        "fs/smb/server/stats.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98420.json",
+      "cnaSha256": "3e3ab49b4a599ec52b4d75840b2c66a2c70599be78a32235791a26a59bfbaf83",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98420",
+      "ubuntuSha256": "76dee045dc63e865988cacec84b0596b7aa47d84c2c6c563a7b6f9aff1e957c6",
+      "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98432",
+      "severity": "HIGH",
+      "title": "ipv4: free inet_opt and ireq_opt after an RCU grace period",
+      "programFiles": [
+        "net/ipv4/af_inet.c",
+        "net/ipv4/tcp_ipv4.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98432.json",
+      "cnaSha256": "5fb13274e73fca77929a7e98514a074b0276d03da273f365b2ef01496b88bc54",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98432",
+      "ubuntuSha256": "e480677656c6c75f4bf14ce130b3761805505448aa4de86dd3cc546913204e8e",
+      "ubuntuBinaryExcluded": false
+    }
+  ],
+  "analysisMethod": "Linux CNA programFiles for every listed CVE are kernel implementation or private headers, not exported UAPI; none is shipped in the exact official package. Canonical explicit binary-exclude tags are retained per entry without extrapolating them to other CVEs. CI must match all installed owned-file hashes and reject ELF/kernel payloads and any runtime package before using this classification. Host kernel applicability is outside scope."
+}

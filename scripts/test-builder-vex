@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+"""Exercise positive applicability and fail-closed drift cases."""
+import copy
+import hashlib
+import pathlib
+import runpy
+import unittest
+
+
+assess = runpy.run_path(str(pathlib.Path(__file__).with_name("assess-builder-vulnerabilities")))["assess"]
+
+
+class BuilderGateTests(unittest.TestCase):
+    def setUp(self):
+        self.owned = "package\tlinux-libc-dev:amd64\t7.0.0-38.38\nfile\t/usr/include/linux/fixture.h\t" + "a" * 64 + "\tC source, ASCII text\n"
+        identity = "/usr/include/linux/fixture.h\t" + "a" * 64 + "\n"
+        self.review = {"schemaVersion": 1, "status": "reviewed_not_affected", "package": {
+            "name": "linux-libc-dev", "version": "7.0.0-38.38", "architecture": "amd64",
+            "ownedFileCount": 1, "ownedFilesSHA256": hashlib.sha256(identity.encode()).hexdigest(),
+            "archiveSHA256": "b" * 64, "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04"},
+            "entries": [{"cve": "CVE-fixture", "severity": "HIGH", "programFiles": ["kernel/fixture.c"]}]}
+        self.finding = {"VulnerabilityID": "CVE-fixture", "PkgName": "linux-libc-dev", "InstalledVersion": "7.0.0-38.38",
+                        "PkgIdentifier": {"PURL": self.review["package"]["purl"]}, "Severity": "HIGH"}
+
+    def check(self, finding=None, review=None, owned=None, runtime=""):
+        report = {"Results": [{"Vulnerabilities": [finding or self.finding]}]}
+        return assess(report, review or self.review, owned or self.owned, runtime)
+
+    def test_exact_review_emits_not_affected(self):
+        statements, _ = self.check()
+        self.assertEqual(statements[0]["status"], "not_affected")
+        self.assertEqual(statements[0]["products"][0]["hashes"]["sha-256"], "b" * 64)
+
+    def test_no_findings_is_clean(self):
+        self.assertEqual(assess({"Results": []}, self.review, self.owned, ""), ([], []))
+
+    def test_unknown_cve_package_version_purl_or_fixed_version_blocks(self):
+        for key, value in (("VulnerabilityID", "CVE-new"), ("PkgName", "openssl"),
+                           ("InstalledVersion", "7.0.0-new"), ("FixedVersion", "vendor-fix"),
+                           ("Severity", "CRITICAL"), ("PkgIdentifier", {"PURL": "different"})):
+            with self.subTest(key=key):
+                finding = copy.deepcopy(self.finding)
+                finding[key] = value
+                with self.assertRaises(ValueError):
+                    self.check(finding=finding)
+
+    def test_file_drift_elf_and_runtime_package_block(self):
+        for owned in (self.owned.replace("a" * 64, "c" * 64), self.owned.replace("C source, ASCII text", "ELF 64-bit executable")):
+            with self.assertRaises(ValueError):
+                self.check(owned=owned)
+        with self.assertRaises(ValueError):
+            self.check(runtime="package\tlinux-libc-dev:amd64\tamd64\t7.0.0-38.38\n")
+
+    def test_exported_uapi_and_expired_date_exception_block(self):
+        review = copy.deepcopy(self.review)
+        review["entries"][0]["programFiles"] = ["include/uapi/linux/fixture.h"]
+        with self.assertRaises(ValueError):
+            self.check(review=review)
+        with self.assertRaises(ValueError):
+            self.check(review={"x-pasturestack-expires": "2000-01-01T00:00:00Z", "statements": []})
+
+    def test_vendor_unfixed_medium_retained_and_fixed_low_blocks(self):
+        finding = dict(self.finding, Severity="MEDIUM")
+        self.assertEqual(self.check(finding=finding)[1], [finding])
+        with self.assertRaises(ValueError):
+            self.check(finding=dict(self.finding, Severity="LOW", FixedVersion="vendor-fix"))
+
+    def test_unrated_unfixed_keeps_original_severity(self):
+        finding = dict(self.finding, Severity="UNKNOWN", VulnerabilityID="GO-unrated", PkgName="golang.org/x/crypto")
+        self.assertEqual(self.check(finding=finding), ([], [finding]))
+
+
+if __name__ == "__main__":
+    unittest.main()
