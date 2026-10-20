@@ -2,7 +2,7 @@ ARG SOURCE_DATE_EPOCH
 ARG UBUNTU_IMAGE=ubuntu:26.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b
 FROM ${UBUNTU_IMAGE} AS snapshot-ca-bootstrap
 ADD --checksum=sha256:6077d27c6b6f8b23590cb01ff877ed8c804a67a5442cc32b5a33da10d2bd0e90 \
-    https://snapshot.ubuntu.com/ubuntu/20260909T000000Z/pool/main/c/ca-certificates/ca-certificates_20260601~26.04.1_all.deb \
+    https://snapshot.ubuntu.com/ubuntu/20261020T000000Z/pool/main/c/ca-certificates/ca-certificates_20260601~26.04.1_all.deb \
     /tmp/ca-certificates.deb
 RUN dpkg-deb -x /tmp/ca-certificates.deb /tmp/ca-certificates && \
     cp /tmp/ca-certificates/usr/share/ca-certificates/mozilla/ISRG_Root_X1.crt /snapshot-ca.crt
@@ -13,13 +13,13 @@ COPY ubuntu-apt.lock /usr/share/pasturestack/manifests/ubuntu-apt.lock
 COPY toolchain/buildx-security.patch /usr/share/pasturestack/patches/buildx-security.patch
 
 ARG DAPPER_HOST_ARCH=amd64
-ARG GO_VERSION=1.27.0
+ARG GO_VERSION=1.27.2
 ARG DOCKER_VERSION=29.7.2
 ARG DOCKER_GIT_COMMIT=a7dcaa6fdb6ed04aacbfdc76357fdae01605609e
 ARG DOCKER_SOURCE_DATE_EPOCH=1785922455
 ARG DOCKER_SOURCE_SHA256=6e5c91d3a5a79db78cf989d07727d00e757aa0da4d135a3ce4b86061b83fb511
 ARG DOCKER_UPSTREAM_X_TEXT_VERSION=v0.40.0
-ARG DOCKER_X_TEXT_VERSION=v0.41.0
+ARG DOCKER_X_TEXT_VERSION=v0.42.0
 ARG DOCKER_UPSTREAM_GRPC_VERSION=v1.82.1
 ARG DOCKER_GRPC_VERSION=v1.83.2
 ARG BUILDX_VERSION=0.36.1
@@ -28,12 +28,15 @@ ARG BUILDX_SOURCE_DATE_EPOCH=1785856317
 ARG BUILDX_SOURCE_SHA256=fb28b5c2a198d05482f0656dfb7ee161240a904e36697bf7108e5d517f23854b
 ARG BUILDX_SECURITY_PATCH_SHA256=9d424e752f24ea0e34ccd80340428f067ae8109204c401c93786a2b0be6ea993
 ARG BUILDX_GO_ARCHIVE_VERSION=v0.3.0
-ARG BUILDX_X_MOD_VERSION=v0.40.0
+ARG BUILDX_X_MOD_VERSION=v0.41.0
 ARG BUILDX_UPSTREAM_GRPC_VERSION=v1.82.1
 ARG BUILDX_GRPC_VERSION=v1.83.2
-ARG UBUNTU_SNAPSHOT=20260909T000000Z
-ARG GO_LINUX_AMD64_SHA256=675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685
-ARG GO_LINUX_ARM64_SHA256=51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda
+ARG SECURITY_X_NET_VERSION=v0.60.0
+ARG SECURITY_OTEL_VERSION=v1.45.0
+ARG BUILDX_CONTAINERD_VERSION=v2.3.6
+ARG UBUNTU_SNAPSHOT=20261020T000000Z
+ARG GO_LINUX_AMD64_SHA256=ecbadb99091a3f46e31f5f934b068b1864eafa7995211b39eaddf76996045fe5
+ARG GO_LINUX_ARM64_SHA256=94f3e30b8e374bc285e7dadc11e0865726b9bc6e85b841ccceaabc0214c6b7c8
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HOST_ARCH=${DAPPER_HOST_ARCH} ARCH=${DAPPER_HOST_ARCH}
@@ -125,7 +128,11 @@ RUN set -eux; \
     cp vendor.mod go.mod; \
     cp vendor.sum go.sum; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=https://proxy.golang.org GOSUMDB=sum.golang.org GOMODCACHE=/tmp/docker-go-mod \
-        go get "golang.org/x/text@${DOCKER_X_TEXT_VERSION}" "google.golang.org/grpc@${DOCKER_GRPC_VERSION}"; \
+        go get "golang.org/x/text@${DOCKER_X_TEXT_VERSION}" "google.golang.org/grpc@${DOCKER_GRPC_VERSION}" \
+        "golang.org/x/net@${SECURITY_X_NET_VERSION}" \
+        "go.opentelemetry.io/otel/sdk@${SECURITY_OTEL_VERSION}" \
+        "go.opentelemetry.io/otel/exporters/otlp/otlptrace@${SECURITY_OTEL_VERSION}" \
+        "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc@${SECURITY_OTEL_VERSION}"; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=https://proxy.golang.org GOSUMDB=sum.golang.org GOMODCACHE=/tmp/docker-go-mod go mod download; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/docker-go-mod go mod verify; \
     docker_build_time="$(date -u --date="@${DOCKER_SOURCE_DATE_EPOCH}" +'%Y-%m-%dT%H:%M:%SZ')"; \
@@ -139,6 +146,8 @@ RUN set -eux; \
     test "$(awk 'NR == 1 { print $NF }' /usr/share/pasturestack/manifests/docker-cli-go-version.txt)" = "go${GO_VERSION}"; \
     grep -F $'dep\tgolang.org/x/text\t'"${DOCKER_X_TEXT_VERSION}"$'\t' /usr/share/pasturestack/manifests/docker-cli-go-version.txt; \
     grep -F $'dep\tgoogle.golang.org/grpc\t'"${DOCKER_GRPC_VERSION}"$'\t' /usr/share/pasturestack/manifests/docker-cli-go-version.txt; \
+    grep -F $'dep\tgolang.org/x/net\t'"${SECURITY_X_NET_VERSION}"$'\t' /usr/share/pasturestack/manifests/docker-cli-go-version.txt; \
+    grep -F $'dep\tgo.opentelemetry.io/otel/sdk\t'"${SECURITY_OTEL_VERSION}"$'\t' /usr/share/pasturestack/manifests/docker-cli-go-version.txt; \
     cd /; \
     rm -rf /tmp/docker-cli-src /tmp/docker-cli.tar.gz /tmp/docker-go-mod /tmp/go-build-cache
 
@@ -156,13 +165,19 @@ RUN set -eux; \
     grep -F "google.golang.org/grpc ${BUILDX_UPSTREAM_GRPC_VERSION}" go.mod; \
     go mod edit -droprequire=github.com/docker/docker; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=https://proxy.golang.org GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod \
-        go get "github.com/moby/go-archive@${BUILDX_GO_ARCHIVE_VERSION}" "golang.org/x/mod@${BUILDX_X_MOD_VERSION}" "google.golang.org/grpc@${BUILDX_GRPC_VERSION}"; \
+        go get "github.com/moby/go-archive@${BUILDX_GO_ARCHIVE_VERSION}" "golang.org/x/mod@${BUILDX_X_MOD_VERSION}" "google.golang.org/grpc@${BUILDX_GRPC_VERSION}" \
+        "golang.org/x/net@${SECURITY_X_NET_VERSION}" "github.com/containerd/containerd/v2@${BUILDX_CONTAINERD_VERSION}" \
+        "go.opentelemetry.io/otel/sdk@${SECURITY_OTEL_VERSION}" \
+        "go.opentelemetry.io/otel/exporters/otlp/otlptrace@${SECURITY_OTEL_VERSION}" \
+        "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc@${SECURITY_OTEL_VERSION}" \
+        "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp@${SECURITY_OTEL_VERSION}"; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=https://proxy.golang.org GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go mod download; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go mod verify; \
     test "$(GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go list -m -f '{{.Version}}' github.com/moby/go-archive)" = "${BUILDX_GO_ARCHIVE_VERSION}"; \
     test "$(GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go list -m -f '{{.Version}}' golang.org/x/mod)" = "${BUILDX_X_MOD_VERSION}"; \
     test "$(GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go list -m -f '{{.Version}}' google.golang.org/grpc)" = "${BUILDX_GRPC_VERSION}"; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go list -deps ./cmd/buildx > /tmp/buildx-deps.txt; \
+    cp /tmp/buildx-deps.txt /usr/share/pasturestack/manifests/buildx-deps.txt; \
     if grep '^github.com/docker/docker/' /tmp/buildx-deps.txt; then \
         echo 'patched Buildx still compiles github.com/docker/docker' >&2; \
         exit 1; \
