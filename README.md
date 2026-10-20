@@ -6,9 +6,17 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 **Upstream:** [`rancher/scheduler`](https://github.com/rancher/scheduler). This GitHub fork retains the upstream Git history, authorship, dates, and license notices. PastureStack maintenance is consolidated into one commit after the preserved upstream boundary.
 
-The current published release and Catalog image are `v0.8.18`.
+The current published release is [`v0.8.19`](https://github.com/PastureStack/resource-scheduler/releases/tag/v0.8.19).
+The corresponding Catalog version `5` is recorded in the
+[Catalog update](https://github.com/PastureStack/catalog-templates/pull/18).
 
-The `v0.8.19` candidate refreshes the official Go security release and Ubuntu packages. It is not a published release or a Catalog deployment until its required checks and release workflow complete.
+Release `v0.8.19` refreshes the official Go security release and Ubuntu packages.
+Its actual runtime scan has 0 High/Critical findings, 0 vendor-fixed findings,
+and 0 secrets. The 4 Low and 47 Medium vendor-unfixed findings remain
+`under_investigation` in the release risk register and OpenVEX; they are not
+resolved. Release checksums and the SBOM and image build-provenance attestations
+were verified against the exact signed tag, source commit, and release workflow.
+Publication does not establish a managed-system upgrade or rollback result.
 
 Its disposable builder also selects the official `golang.org/x/net` 0.60.0,
 OpenTelemetry-Go 1.45.0, and containerd 2.3.6 security updates for Docker CLI
@@ -21,6 +29,14 @@ package or content drift, unrelated High/Critical findings, and every
 vendor-fixed builder finding remain blocking. This does not assess the host
 kernel; vendor-unfixed Low/Medium and unrated builder findings retain their
 original severity and `under_investigation` status.
+
+The [native evidence run](https://github.com/PastureStack/resource-scheduler/actions/runs/39357570483)
+retains the raw builder scan: 8 Critical and 192 High header source-package
+matches are separately classified by 200 exact `not_affected` statements.
+Another 2,600 vendor-unfixed package findings remain recorded, including the
+unrated `GO-2026-5932` module advisory. The actual Buildx compilation graph
+contains no `golang.org/x/crypto/openpgp` packages; that fact does not remove
+the module finding or assess any host kernel.
 
 ## Runtime image
 
@@ -38,7 +54,7 @@ The native command is `resource-scheduler`. A `scheduler` executable symlink rem
 
 ## Build and test
 
-The candidate build uses Go 1.27.2 to compile Docker CLI 29.7.2 and Docker Buildx 0.36.1 from checksum-pinned source. A small checksum-locked Buildx patch removes its sole compiled dependency on the legacy Docker module; the security-sensitive Buildx modules are then pinned to `github.com/moby/go-archive` 0.3.0 and `golang.org/x/mod` 0.41.0, with the final binary metadata checked in CI. The Ubuntu base image is digest-pinned; all inherited base packages are updated from the fixed `20261020T000000Z` Canonical snapshot before the direct packages pinned in `ubuntu-apt.lock` are installed, and each built image records the complete resolved `dpkg` inventory. BuildKit receives the source commit time through `SOURCE_DATE_EPOCH`, and CI compares binary hashes, runtime configuration, and resolved package inventories across clean rebuilds.
+The maintained build uses Go 1.27.2 to compile Docker CLI 29.7.2 and Docker Buildx 0.36.1 from checksum-pinned source. A small checksum-locked Buildx patch removes its sole compiled dependency on the legacy Docker module; the security-sensitive Buildx modules are then pinned to `github.com/moby/go-archive` 0.3.0 and `golang.org/x/mod` 0.41.0, with the final binary metadata checked in CI. The Ubuntu base image is digest-pinned; all inherited base packages are updated from the fixed `20261020T000000Z` Canonical snapshot before the direct packages pinned in `ubuntu-apt.lock` are installed, and each built image records the complete resolved `dpkg` inventory. BuildKit receives the source commit time through `SOURCE_DATE_EPOCH`, and CI compares binary hashes, runtime configuration, and resolved package inventories across clean rebuilds.
 
 The dependency graph is declared in `go.mod`, checksum-bound by `go.sum`, and committed in the standard module-aware `vendor` tree for reproducible offline builds. Security CI produces short-lived source and runtime CycloneDX SBOMs, runs binary reachability analysis, and blocks detected secrets, every High/Critical runtime finding, and any finding for which Ubuntu has published a fixed package. Low/Medium findings without an available Ubuntu fix remain visible as `under_investigation` in the release risk register and OpenVEX artifact; they are not represented as resolved and are re-evaluated when the vendor, base digest, or vulnerability data changes.
 
