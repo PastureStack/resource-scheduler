@@ -1,6 +1,6 @@
 # Release Notes
 
-## 0.8.19 candidate
+## 0.8.19
 
 - Rebuild with the official Go 1.27.2 security release and checksum-verified archives.
 - Refresh the dated Canonical snapshot to `20261020T000000Z`, including the
@@ -11,6 +11,10 @@
   kernel is outside that package-only assessment.
 - Verify the packaged scheduler's non-root port-80 health endpoint and the
   liveness/readiness behavior with isolated CI fixtures.
+- Publish the exact signed release tag with checksum-verified image SBOM and
+  build-provenance attestations. The actual runtime has 0 High/Critical,
+  0 vendor-fixed findings, and 0 secrets; 4 Low and 47 Medium vendor-unfixed
+  findings remain `under_investigation` rather than resolved.
 
 ## 0.8.18
 
