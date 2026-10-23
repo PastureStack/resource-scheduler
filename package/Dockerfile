@@ -10,6 +10,8 @@ RUN dpkg-deb -x /tmp/ca-certificates.deb /tmp/ca-certificates && \
 FROM ${UBUNTU_IMAGE}
 COPY --from=snapshot-ca-bootstrap /snapshot-ca.crt /etc/ssl/certs/ca-certificates.crt
 COPY ubuntu-apt.lock /usr/share/pasturestack/manifests/ubuntu-apt.lock
+COPY ubuntu-security-packages.lock /usr/share/pasturestack/manifests/ubuntu-security-packages.lock
+COPY scripts/install-ubuntu-security-updates /usr/local/libexec/pasturestack/install-ubuntu-security-updates
 
 ARG IMAGE_VERSION=dev
 ARG IMAGE_REVISION=unknown
@@ -40,6 +42,7 @@ RUN set -eux; \
     test "$(dpkg-query -W -f='${Version}' ca-certificates)" = '20260816ubuntu0.26.04.1' && \
     test ! -e /usr/share/ca-certificates/mozilla/emSign_ECC_Root_CA_-_G3.crt && \
     rm -f /opt/pasturestack-ca-certificates.deb && \
+    sh /usr/local/libexec/pasturestack/install-ubuntu-security-updates /usr/share/pasturestack/manifests/ubuntu-security-packages.lock /etc/ssl/certs/ca-certificates.crt && \
     for package_and_version in \
         "bash=${UBUNTU_APT_BASH_VERSION}" \
         "ca-certificates=${UBUNTU_APT_CA_CERTIFICATES_VERSION}" \
