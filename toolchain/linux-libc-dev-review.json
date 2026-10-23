@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "status": "reviewed_not_affected",
-  "reviewedAt": "2026-10-20",
+  "reviewedAt": "2026-10-23",
   "package": {
     "name": "linux-libc-dev",
     "version": "7.0.0-38.38",
@@ -2697,6 +2697,1274 @@
       "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98432",
       "ubuntuSha256": "e480677656c6c75f4bf14ce130b3761805505448aa4de86dd3cc546913204e8e",
       "ubuntuBinaryExcluded": false
+    },
+    {
+      "cve": "CVE-2026-98439",
+      "severity": "HIGH",
+      "title": "smb/server: cancel async requests when closing connection",
+      "programFiles": [
+        "fs/smb/server/connection.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98439.json",
+      "cnaSha256": "7c90195aa831e4c162912b0fe258d971a4f58dd4efd1b20a44606b850d89db28",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98439",
+      "ubuntuSha256": "af505653cae6878abc9f377672f4394d0b36ba614b24d34befcea1d8cfe79d12",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98440",
+      "severity": "HIGH",
+      "title": "KVM: arm64: nv: Delay freeing of shadow S2 structures until VM destruction",
+      "programFiles": [
+        "arch/arm64/include/asm/kvm_nested.h",
+        "arch/arm64/kvm/arm.c",
+        "arch/arm64/kvm/nested.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98440.json",
+      "cnaSha256": "6d19aa35be956c075905c7c8dbd135732a3bb86ac5d99026dc802f6c14b30066",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98440",
+      "ubuntuSha256": "946eac986477bb6e96ec68a3209ce357a18e52314d07265a081527e4b2a1c056",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98441",
+      "severity": "HIGH",
+      "title": "net/sched: act_ct: avoid modifying shared unconfirmed ct entry",
+      "programFiles": [
+        "net/sched/act_ct.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98441.json",
+      "cnaSha256": "a720a15553c7b7eec029b8bfd330b3a91b944828b0441f39d347ef38d1943bdb",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98441",
+      "ubuntuSha256": "c408005016b99e103b9c564427d4b4e09b83d4b9b95a10e760fa2696855c488e",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98442",
+      "severity": "HIGH",
+      "title": "net/sched: act_ct: fix helper UAF due to extensions realloc",
+      "programFiles": [
+        "net/sched/act_ct.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98442.json",
+      "cnaSha256": "6d5061c4294da4590b035597ba1da3b3246b3d6d97aeff2d55dd1b5317732bf6",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98442",
+      "ubuntuSha256": "af6d82a9518d548960fea0d1eef31d65c5e692eae6de7f06b8a2f13029d4df51",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98446",
+      "severity": "HIGH",
+      "title": "xfs: don't let hidden_space go negative in xfs_metafile_resv_init",
+      "programFiles": [
+        "fs/xfs/libxfs/xfs_metafile.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98446.json",
+      "cnaSha256": "ef97ffb9e9170e67cb81b716e464088df4fecc2b4b0de6cc01b7e2ee7c01a7e8",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98446",
+      "ubuntuSha256": "b322e7dc9632c686023e1ba521e6fb2ace5092335d71c87fa30ea27e5f7d904c",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98454",
+      "severity": "HIGH",
+      "title": "smb: client: fix create context out-of-bounds reads",
+      "programFiles": [
+        "fs/smb/client/smb2ops.c",
+        "fs/smb/client/smb2pdu.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98454.json",
+      "cnaSha256": "3e33c5dea5c695fb84ce2b9e64386931781df3f96cf7f5afd09256717312c03c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98454",
+      "ubuntuSha256": "491d5ea553f3e4dd616f169ed94b9aa7c435df5ab780faf918d72335d00db7c9",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98456",
+      "severity": "HIGH",
+      "title": "Bluetooth: mgmt: fix race in read_unconf_index_list()",
+      "programFiles": [
+        "net/bluetooth/mgmt.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98456.json",
+      "cnaSha256": "487824a4ee43f052e363c5df9dce7f75c636c597ff89f0a25bec678e936f2ce3",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98456",
+      "ubuntuSha256": "717fef09e433bf6dcbed37e56030f17927cd95dabe3911f0fcaa6300862bfc51",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98457",
+      "severity": "HIGH",
+      "title": "Bluetooth: L2CAP: validate frame length before control and FCS access",
+      "programFiles": [
+        "net/bluetooth/l2cap_core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98457.json",
+      "cnaSha256": "47dd1181b7595b0fc11d70ef06483e9c81ede6690bd795b342d14c6bed1156d3",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98457",
+      "ubuntuSha256": "3fa2f8e858285a030094ddeeeb0ac744df2ebd8a59fef6cfbd3f81c20cc47e7b",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98459",
+      "severity": "HIGH",
+      "title": "Bluetooth: ISO: balance the parent hold in hci_bind_bis()",
+      "programFiles": [
+        "net/bluetooth/hci_conn.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98459.json",
+      "cnaSha256": "ff02f8d822ac3fb2fc1dab9032cf26bb223e45e765a2e10b168b91773d16271e",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98459",
+      "ubuntuSha256": "439032b3ac172d7b9c19cf04feba42e842f51439a15331a89534d55e333c6c5c",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98462",
+      "severity": "HIGH",
+      "title": "Bluetooth: hci_conn: fix CIS hold ownership on reuse",
+      "programFiles": [
+        "net/bluetooth/hci_conn.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98462.json",
+      "cnaSha256": "23721b60ece23eaaee069b2f65c4eef574925fa087b2046c6aa01280e3535886",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98462",
+      "ubuntuSha256": "bf07539e34a6dc5ce7776702fc5cb564523cbfb00be6ad521e0d38ccfc31d1a6",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98464",
+      "severity": "HIGH",
+      "title": "RISC-V: KVM: Synchronize hrtimer callback during teardown",
+      "programFiles": [
+        "arch/riscv/kvm/vcpu_timer.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98464.json",
+      "cnaSha256": "4beedc4309e5988b80407f3f4a3c1ccc5df38ea7b27c59cd3e3c695696afa1b5",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98464",
+      "ubuntuSha256": "79a44f7bd5fa1035e0943c1e90cf94cea9999875597c2c37f151219c9524e343",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98479",
+      "severity": "HIGH",
+      "title": "scsi: libiscsi_tcp: Check the data direction of a Data-In PDU",
+      "programFiles": [
+        "drivers/scsi/libiscsi_tcp.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98479.json",
+      "cnaSha256": "5788e2f2cd4b7b2e9e867908a0288d84a23a180769202b7b6295a0fb420999a8",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98479",
+      "ubuntuSha256": "2f43580582585bb3581d6cca96e7ebafec34c0c08d316c193d5ea69ff75bfb13",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98487",
+      "severity": "HIGH",
+      "title": "net: bridge: mdb: restart port group walk after deletion",
+      "programFiles": [
+        "net/bridge/br_mdb.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98487.json",
+      "cnaSha256": "fbc5017a78115b52e81e8e432608a59abd1d202235383a0876524a3af2e31803",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98487",
+      "ubuntuSha256": "8419d0303ba81d47dfdd0b873e45c61813718dbd1be03548b84a1b2cf51ef396",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98490",
+      "severity": "HIGH",
+      "title": "net: openvswitch: conntrack: fix helper UAF due to extensions realloc",
+      "programFiles": [
+        "net/openvswitch/conntrack.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98490.json",
+      "cnaSha256": "8781a54996cb19d49e673cce479aee0a2f34b23be8d47d0e219fd6ebdbdac749",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98490",
+      "ubuntuSha256": "39f1e7ad0afbaa95cc4c9ccc9d88c7c847e42a0de22d626bb84a1afcc40d479c",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98491",
+      "severity": "HIGH",
+      "title": "net: openvswitch: conntrack: avoid modifying shared unconfirmed ct entry",
+      "programFiles": [
+        "include/net/netfilter/nf_conntrack.h",
+        "net/openvswitch/conntrack.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98491.json",
+      "cnaSha256": "7cace5a3d7425627a64c5b11fcb487433f729e1248d7052e25e6e8130be804e8",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98491",
+      "ubuntuSha256": "5d912071ce581c575b7591384e1ddc181dab16185a88220b1e9a25dd0a8be0ac",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98503",
+      "severity": "HIGH",
+      "title": "packet: use ubuf_info completion for TX_RING packets",
+      "programFiles": [
+        "include/linux/skbuff.h",
+        "net/packet/af_packet.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98503.json",
+      "cnaSha256": "abe3dac544f364a0c527993d1ced17e2d3718e58b80bb88cbc3704a4ff7207c7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98503",
+      "ubuntuSha256": "b8879018c4e6665066d4b27e0a6ae0fc7aba44839b885df9f122a1f0fd9eecf5",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98515",
+      "severity": "HIGH",
+      "title": "drm/nouveau: fix double-free in nvif_vmm_dtor",
+      "programFiles": [
+        "drivers/gpu/drm/nouveau/nouveau_drm.c",
+        "drivers/gpu/drm/nouveau/nvif/vmm.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98515.json",
+      "cnaSha256": "fd8daec82894df6749c80546e8ecfb74b8648793390e1bb688ee9876b76ed9f1",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98515",
+      "ubuntuSha256": "8fd70749446c0cff5c74afdb572db90326fa95bd14d02a49a28684818d0d5886",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98524",
+      "severity": "HIGH",
+      "title": "rds: ib: Clear the sg list when mapping an MR fails",
+      "programFiles": [
+        "net/rds/ib_frmr.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98524.json",
+      "cnaSha256": "212bfc81c6e90df498cb34d93f00efdd48f9d52f7a4e266e34145e31d04f28cc",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98524",
+      "ubuntuSha256": "82da965e416837cc7ec29eff4a6bf7fb43241511a440b1d2316ceed6d822aa5a",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98526",
+      "severity": "HIGH",
+      "title": "llc: reserve device headroom for allocated frames",
+      "programFiles": [
+        "net/llc/llc_sap.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98526.json",
+      "cnaSha256": "4935285f945dc4382f13a311376325075831b9bd377f1ac3a6a34210db91b413",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98526",
+      "ubuntuSha256": "801934d5adaec663d3c8e8ea1274244bbef33d509bb26722ca897f45a539fc65",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98532",
+      "severity": "HIGH",
+      "title": "ipv6: do not let ipv6_find_hdr() return an offset past the packet end",
+      "programFiles": [
+        "net/ipv6/exthdrs_core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98532.json",
+      "cnaSha256": "f6ddfda0576e3c27110dc8e29d3cb530f24a741488838b98d73d7d50041196fa",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98532",
+      "ubuntuSha256": "e3dfc846ecef58b56d050dd40126c3a58a2c58945c5929c834acfdcdb52d3a35",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98548",
+      "severity": "HIGH",
+      "title": "sctp: discard the rest of the packet on a stale-cookie error",
+      "programFiles": [
+        "net/sctp/sm_statefuns.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98548.json",
+      "cnaSha256": "88bd6bdc87d9edaebdd439bcc42af8e2061ed0ff656bcb7e7f29e1477935fbaf",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98548",
+      "ubuntuSha256": "92abf0d5e1224a0a159cdce221e0c610c186095c4133344a7b5c8c2365c9ad64",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98561",
+      "severity": "HIGH",
+      "title": "nfp: hold IPsec RX state under the XArray lock",
+      "programFiles": [
+        "drivers/net/ethernet/netronome/nfp/crypto/ipsec.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98561.json",
+      "cnaSha256": "cf2a4d14dc42d79d6f3e241637d6e818fb31ab94c1d49f5715dbd130a87e7c77",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98561",
+      "ubuntuSha256": "c1544a98de5823a0c54fcb884c1d099b4c7f85873240747d3c346a05484d4a88",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98567",
+      "severity": "HIGH",
+      "title": "net: xps: reject an out of range traffic class",
+      "programFiles": [
+        "net/core/dev.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98567.json",
+      "cnaSha256": "8ecafc49d5dae8d86579bb2e9d18144dac853ad51e40283f1ea789fcf2633c16",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98567",
+      "ubuntuSha256": "bacb5b433738eccda79ffc720a3be49a02219f0f2454f8903e7ecd9b6a39e043",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98568",
+      "severity": "HIGH",
+      "title": "vxlan: use one headroom snapshot for neighbour replies",
+      "programFiles": [
+        "drivers/net/vxlan/vxlan_core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98568.json",
+      "cnaSha256": "8488cd395765a27abe13f218ca1b52be351df5b77dbd4e4311a7caa23cf58003",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98568",
+      "ubuntuSha256": "257e05c1636936a4066d86f9c3a938e2213d177c4cd3fde9d94a3a0770edc97b",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98570",
+      "severity": "HIGH",
+      "title": "net: ipv6: keep room for the mac header in dst_dev_overhead()",
+      "programFiles": [
+        "include/net/dst.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98570.json",
+      "cnaSha256": "0ea72de7b1ed7fdd206c23d826bc86b6a65e1aff01e5393d708469adff367f9a",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98570",
+      "ubuntuSha256": "a8791409ab21901c18fd0c42a9aea0b3bff5316e8836a5bd2430e156e89ef6c7",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98571",
+      "severity": "CRITICAL",
+      "title": "net: stmmac: clear stale buf->page after recycling on skb build failure",
+      "programFiles": [
+        "drivers/net/ethernet/stmicro/stmmac/stmmac_main.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98571.json",
+      "cnaSha256": "16ece7af03e496daefb0a27adcca97e6ac106d56ce3253b8fbc9cfe122d47305",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98571",
+      "ubuntuSha256": "aa9a07ff5f005cfab9d469190359126b7b977762f2253fbf072ccf010218c056",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98572",
+      "severity": "HIGH",
+      "title": "bpf: Fix immediate JMP JEQ/JNE on MIPS32",
+      "programFiles": [
+        "arch/mips/net/bpf_jit_comp32.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98572.json",
+      "cnaSha256": "3ce4b284af061231214aaa5693aef41ec7f8cb38c485ee4483972a14f5a53b43",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98572",
+      "ubuntuSha256": "a747f0cfa62f8b0030a84b96c1501997a5eb189b60ed2a830768bfda48cd06d4",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98573",
+      "severity": "HIGH",
+      "title": "net: skbuff: fix pull-bound underflow in skb_checksum_setup_ipv6()",
+      "programFiles": [
+        "net/core/skbuff.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98573.json",
+      "cnaSha256": "2c81f3b88ddfec794d8c0593e70855ef75784709e65ba4eecb08c0946b2ae56b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98573",
+      "ubuntuSha256": "bdf28b63c09955b63873fe17f196fca14df4f640f22688a9fab5892a4b202804",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98580",
+      "severity": "HIGH",
+      "title": "nfc: llcp: Fix race condition in accept_queue lifecycle",
+      "programFiles": [
+        "net/nfc/llcp_core.c",
+        "net/nfc/llcp_sock.c",
+        "net/nfc/llcp.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98580.json",
+      "cnaSha256": "8672aa5c6538e936da3dd26c592de62951b3671c93c4aa5bc093bbd802bc010c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98580",
+      "ubuntuSha256": "60670f33e21535036a7a25b81b39bd1f4412fceb12c446b41d52768729b0fa6a",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98586",
+      "severity": "HIGH",
+      "title": "sctp: hold asoc or transport before mod_timer() in timer handlers",
+      "programFiles": [
+        "net/sctp/input.c",
+        "net/sctp/sm_sideeffect.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98586.json",
+      "cnaSha256": "51b3b3f35ab228ff272b70fe2c09bbe1ca1b335039047a076b578631891e8ea2",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98586",
+      "ubuntuSha256": "737badce829a493eed75d6a0e81298280ef82672965fa3db288423f52299cf6e",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98588",
+      "severity": "HIGH",
+      "title": "bpf, sockmap: Reject max_entries > INT_MAX in sock_map_alloc",
+      "programFiles": [
+        "net/core/sock_map.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98588.json",
+      "cnaSha256": "58da44f54113ae7d7266b43b0ab1b8148526dd2b494287255ae67ae31d6ace6d",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98588",
+      "ubuntuSha256": "3a4d34e0e3151a6d43b9195ae4e50a89be0f3d09f7b3822453cfaae81bfbb6bc",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98589",
+      "severity": "HIGH",
+      "title": "bpf: Reject pkt arguments in mutating subprogs",
+      "programFiles": [
+        "kernel/bpf/verifier.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98589.json",
+      "cnaSha256": "d672212620fb9ba80576bc54cc2ca318eeaf8321fb8cd8c10df689057e2b6232",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98589",
+      "ubuntuSha256": "b1c0b58724953e62e33d243feb672dc956f2d3e1fd35bcf5e60cbebbb0baec29",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98590",
+      "severity": "HIGH",
+      "title": "bpf: Fix bpf_sock context code generation",
+      "programFiles": [
+        "net/core/filter.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98590.json",
+      "cnaSha256": "0a09e7335191abdc1221fbdd875591cfe4967f0065481417d0f529bc26686dcf",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98590",
+      "ubuntuSha256": "fdc147c67ddc7479b95898f5d51b564758e204b6a86640a83f539964279df0b4",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98591",
+      "severity": "HIGH",
+      "title": "bpf: Fix bounds check for skb-backed dynptrs",
+      "programFiles": [
+        "include/linux/skbuff.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98591.json",
+      "cnaSha256": "cb7358ba0c9bc5c287990a8860e4038fc078904e06133a0183bc30441fc81abe",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98591",
+      "ubuntuSha256": "079e33fee9ace852820370789633ce8b84ebf2bbde076c7c147624f9a34395ab",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98599",
+      "severity": "HIGH",
+      "title": "bpf: Reject non-negative offsets in stack_slot_obj_get_spi()",
+      "programFiles": [
+        "kernel/bpf/verifier.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98599.json",
+      "cnaSha256": "7edf916f12c248f4dd419f9f1d00f92fb441044d2cc79aa684bb6791dd333189",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98599",
+      "ubuntuSha256": "471e9630c1910f8410a21c70d395d0992eae888156782b7e26a3c919f9daec19",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98601",
+      "severity": "HIGH",
+      "title": "Bluetooth: btintel_pcie: validate device-supplied DMA indices",
+      "programFiles": [
+        "drivers/bluetooth/btintel_pcie.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98601.json",
+      "cnaSha256": "3edea7aa60f2d0066a9c9cb4bf354983d3c7e704370c10b2d04bbf640e4796d7",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98601",
+      "ubuntuSha256": "40be91c9c22d06a346ac705b3925980e03ac65a7948f6f492d392487c82f368f",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98606",
+      "severity": "HIGH",
+      "title": "drm/virtio: release the GEM object on virtio_gpu_vram_create() errors",
+      "programFiles": [
+        "drivers/gpu/drm/virtio/virtgpu_vram.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98606.json",
+      "cnaSha256": "71e0ab92b271ff3e1c493cd1685b9cadc9296bfdfda3c64492f1d05821e53ee1",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98606",
+      "ubuntuSha256": "7a8250fb70ec77a8133a065af8b7a25ede9e2d2dcc1d6615dd85518a32ed61e4",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98621",
+      "severity": "CRITICAL",
+      "title": "net: gue: reject invalid REMCSUM offsets",
+      "programFiles": [
+        "include/net/gue.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98621.json",
+      "cnaSha256": "8e26433425d7451a687097685b004fde709186eed3f84787df62511d99634590",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98621",
+      "ubuntuSha256": "36b6ff557eba6d86c99048271f5deb9ae47a7b7b29792a8771533659ead7ad94",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98624",
+      "severity": "HIGH",
+      "title": "netfilter: nfnetlink_queue: hold nfnl mutex in event notifier",
+      "programFiles": [
+        "net/netfilter/nfnetlink_queue.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98624.json",
+      "cnaSha256": "3a14649e3707e5633f72d397d3e03914a88539695470b7514457d7e2567551cd",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98624",
+      "ubuntuSha256": "3868071a761c837875f7c054e46a7750c0f32e94e55334e1771c9f31301a3a33",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98625",
+      "severity": "HIGH",
+      "title": "netfilter: flowtable: publish HW_DEAD after worker is done",
+      "programFiles": [
+        "net/netfilter/nf_flow_table_offload.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98625.json",
+      "cnaSha256": "84edcab357ae72db9bf00e7212083fd4892d4274453689fccf18800a774eb302",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98625",
+      "ubuntuSha256": "78ce12f9e84c7b7b5e34759c326ce7b746cecf80d18ac8b04cf40d7c50cb4342",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98626",
+      "severity": "HIGH",
+      "title": "bpf: Restrict CO-RE poisoning to relocatable instructions",
+      "programFiles": [
+        "tools/lib/bpf/relo_core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98626.json",
+      "cnaSha256": "7daf57c5435c67cb906295f37508a6eb0b8904a0e8aa62a9034b614f8540ae26",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98626",
+      "ubuntuSha256": "a9c4cc39ed9521f2bc09fb93ae6773b817525c2a235597047413ba9c4d1e3d4f",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98632",
+      "severity": "HIGH",
+      "title": "Bluetooth: mgmt: Dequeue pending mesh_send_sync entries on cancel",
+      "programFiles": [
+        "net/bluetooth/mgmt.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98632.json",
+      "cnaSha256": "8612575abea4996b7c947217d38bbed689d380ff4963f2924e0c88994f3d8543",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98632",
+      "ubuntuSha256": "4f336c801e6bb08648e1469550b9b92fb0873dcee2c20819593780ba05010dd7",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98634",
+      "severity": "HIGH",
+      "title": "scsi: sd_zbc: Reject disks with too many zones",
+      "programFiles": [
+        "drivers/scsi/sd_zbc.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98634.json",
+      "cnaSha256": "3e6731114b46c4020f3868f8d370a93f3b6ee7b57853b3bdaae5a2dcd41bafcb",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98634",
+      "ubuntuSha256": "eb1e049ee566ed525fe96fbe5952af5866d2cf8897644f2572710e3a1ae54e19",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98635",
+      "severity": "HIGH",
+      "title": "scsi: block: Fix zones_cond out-of-bounds write on zone report",
+      "programFiles": [
+        "block/blk-zoned.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98635.json",
+      "cnaSha256": "caf4e2fff8a6c3c30368463045da26679ff96ab04391ee1041064615ed4d7687",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98635",
+      "ubuntuSha256": "bb9d1bf3e7caa7c5a2a24093d2a84fb4ee52b255751895c4e173b82170a1e38e",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98641",
+      "severity": "HIGH",
+      "title": "bpf, arm64: set up the frame pointer for the exception callback",
+      "programFiles": [
+        "arch/arm64/net/bpf_jit_comp.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98641.json",
+      "cnaSha256": "310406618ad54d39f24639f0511f6a9a02d3934904d58a76cf8798b913c2c48b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98641",
+      "ubuntuSha256": "38cbec93e6045f705835a652a11dffe3d98758c143e9a7541e8443202c76d92a",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98642",
+      "severity": "HIGH",
+      "title": "bpf: Fix UAF due to concurrent consumption of ttrace lists in alloc_bulk",
+      "programFiles": [
+        "kernel/bpf/memalloc.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98642.json",
+      "cnaSha256": "3a57b3398209f2500a3c352ccd7095141793bf17a5198d371f37f7cce1277b7c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98642",
+      "ubuntuSha256": "4433870d99366ce648cb50c006bd554535c7e4c0af49d7aa18121323df10c1ff",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98649",
+      "severity": "HIGH",
+      "title": "KVM: s390: Fix race in _destroy_pages_crste()",
+      "programFiles": [
+        "arch/s390/kvm/gmap/gmap.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98649.json",
+      "cnaSha256": "fc9a015e0a23365f106413b04594b4a23c81b822c160ee9ef290d4786424c2e3",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98649",
+      "ubuntuSha256": "c30c149827f75455cfaf9295b8f54079d35f80dadbb82be3fe728f8288d39d54",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98651",
+      "severity": "HIGH",
+      "title": "KVM: s390: Properly handle NULL pointer in dat_cond_set_storage_key()",
+      "programFiles": [
+        "arch/s390/kvm/dat.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98651.json",
+      "cnaSha256": "4fd31ea13d045cf2396381062d60f28234772216f9161685d93b90bed94fcabe",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98651",
+      "ubuntuSha256": "213e8d8e9efdd4646a885f9957fb8f98e1884b6544b78d59f06eee49d7e75d36",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98652",
+      "severity": "HIGH",
+      "title": "KVM: s390: Add missing srcu in kvm_s390_set_irq_state()",
+      "programFiles": [
+        "arch/s390/kvm/s390/interrupt.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98652.json",
+      "cnaSha256": "400634f446209784823452f27ff674ad0accfd73a73eed8b07cd714e2d45527e",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98652",
+      "ubuntuSha256": "3ef3d9d7f11063cbe38e0650742dd394bf96137fb1daa0de16a0f6acdf89e104",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98689",
+      "severity": "HIGH",
+      "title": "thunderbolt: Don't access a DP tunnel after its DPRX read was canceled",
+      "programFiles": [
+        "drivers/thunderbolt/tb.c",
+        "drivers/thunderbolt/tunnel.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98689.json",
+      "cnaSha256": "c1c28f3f016067439ea49cc88770a738cc1976e1a478e145f1178f7f3138de76",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98689",
+      "ubuntuSha256": "17ac046a7c6a462eea04253ac3b499e700b5adddb068e076f74ed8572c0b4128",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98699",
+      "severity": "HIGH",
+      "title": "wifi: mac80211: fix mesh fast xmit path deletion UAF",
+      "programFiles": [
+        "net/mac80211/mesh_pathtbl.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98699.json",
+      "cnaSha256": "013b0a2d671fe0b7129bd73180a9bcc9ddfea452a0386e9b3ac5ba9ea30693d1",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98699",
+      "ubuntuSha256": "21efa3032d1c21b25d398eefa84c91754d6ecce44fb66c5e9b32c1a73df3a2e1",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98701",
+      "severity": "HIGH",
+      "title": "wifi: mac80211: release mesh path quota on failed additions",
+      "programFiles": [
+        "net/mac80211/mesh_pathtbl.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98701.json",
+      "cnaSha256": "23f3678c190c5192ac14f4a2a7688d66de44e43808a6b76ab587ba48444c5281",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98701",
+      "ubuntuSha256": "50ce5bee1d9cc92bfb1e9f21d43029b80364d4601afac6f1bc482a148c8b0af1",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98702",
+      "severity": "HIGH",
+      "title": "wifi: mac80211: reject invalid 320 MHz CSA bandwidth",
+      "programFiles": [
+        "net/mac80211/spectmgmt.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98702.json",
+      "cnaSha256": "7057e47701632f26c41c50d85b1134f67f9e378f101cbfa992550372bfbb67dd",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98702",
+      "ubuntuSha256": "5e2c6ebf3cd331811287b8c0434929b0bae40015f1ee26cb826235a9fc49c253",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98704",
+      "severity": "HIGH",
+      "title": "wifi: mac80211: keep fallback association elements alive",
+      "programFiles": [
+        "net/mac80211/mlme.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98704.json",
+      "cnaSha256": "9f6645ef29be67a76982555da1d35ecc4ae7cd48c026f5ab7363bdc76a031baf",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98704",
+      "ubuntuSha256": "1bc7306e0761cc745373979f923c4e124badba9e347ab857d5fd7905f7bba185",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98706",
+      "severity": "HIGH",
+      "title": "wifi: mac80211: drain PS delivery work during station teardown",
+      "programFiles": [
+        "net/mac80211/sta_info.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98706.json",
+      "cnaSha256": "6e3ed1b1773701ee83bb3adc8e08b51e10a8ace0745b9ec15d3edc13150212de",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98706",
+      "ubuntuSha256": "742d353e6f4023a797d63a7106b48679cd0dee636c8acafe7a37b3fcd8338a3d",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98707",
+      "severity": "HIGH",
+      "title": "wifi: mac80211: shut down RX BA session timer on teardown",
+      "programFiles": [
+        "net/mac80211/agg-rx.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98707.json",
+      "cnaSha256": "5489301f2ca4bbeff54d01d873f64e49cab8cbd3a9c0a29a27e6303c1d3b47e6",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98707",
+      "ubuntuSha256": "2f6655da2f564a51330e8ab5666a17a287256ca728297606496a2b7bc27e9947",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98708",
+      "severity": "HIGH",
+      "title": "wifi: mac80211: keep paired old chanctx alive",
+      "programFiles": [
+        "net/mac80211/chan.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98708.json",
+      "cnaSha256": "e3358febd0b8a3d0183dbe6ee04e90f83f77584b1ffc91ab14911abe8f566dce",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98708",
+      "ubuntuSha256": "db5f76cd16d595af051be408c4f2ea2aa090179c28f233d1f0a0d1c2fc51fe61",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98709",
+      "severity": "HIGH",
+      "title": "wifi: mac80211: count only matching reservations in reserved switch",
+      "programFiles": [
+        "net/mac80211/chan.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98709.json",
+      "cnaSha256": "a1db2323f86d83a522674b0fa2654b4a6257be8829e80f641374eb01ccd559b8",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98709",
+      "ubuntuSha256": "e1174459f5ca231221e6589c158ab4b2187c471ac7950d546c11dabd7b9f2e12",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98712",
+      "severity": "HIGH",
+      "title": "KVM: arm64: vgic: Take a refcount on IRQs referenced by last_lr_irq",
+      "programFiles": [
+        "arch/arm64/kvm/vgic/vgic.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98712.json",
+      "cnaSha256": "b87722486ecfc6b4343f6ae85e580894ebaadce8eaef600a2346d126cf509ea3",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98712",
+      "ubuntuSha256": "36a31e89f64bcddde55efeaec579e435baf52e26f3f640dfda409800bbf66ff3",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98719",
+      "severity": "HIGH",
+      "title": "KVM: SEV: Nullify \"have run CPUs\" mask pointer when freeing it",
+      "programFiles": [
+        "arch/x86/kvm/svm/sev.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98719.json",
+      "cnaSha256": "82dc3cb4731ae0261d231f0eba7cb894d3af9376f47aecc088ccac514e3ca23a",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98719",
+      "ubuntuSha256": "e9e3ec62bd29654bef8d53b040b616b3930fd36708a9e5bc114f3e79b72e3704",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98725",
+      "severity": "CRITICAL",
+      "title": "nvmet-auth: fix out-of-bounds write in nvmet_auth_challenge()",
+      "programFiles": [
+        "drivers/nvme/target/fabrics-cmd-auth.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98725.json",
+      "cnaSha256": "6d6231293bde0534df4525f0dfdeb45aa06460512b8ed3571beaf75392919a89",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98725",
+      "ubuntuSha256": "c9c685a8a620e69a4de8799106fe51c08affc6d8e4fe4de15c75a79dae9dc9dd",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98730",
+      "severity": "HIGH",
+      "title": "Bluetooth: btintel_pcie: reject oversized TX packets in send_frame()",
+      "programFiles": [
+        "drivers/bluetooth/btintel_pcie.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98730.json",
+      "cnaSha256": "ba0717763f4b6d33160595eaf53ec67563c595401f36e91c19a66b415e801a57",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98730",
+      "ubuntuSha256": "55248ae10b9f4fc057bb9c1c9ebb47ab3b1b2e1dce4710178ac15306d6bde77d",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98733",
+      "severity": "HIGH",
+      "title": "Bluetooth: hci_core: Serialize fragmented ISO packet queueing",
+      "programFiles": [
+        "net/bluetooth/hci_core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98733.json",
+      "cnaSha256": "0dedcbca6817b72c8da6e740106f698ca0c8185b54b972c59ae643e9b88cfc26",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98733",
+      "ubuntuSha256": "eaff89ba95fdecf95b5352f3ee178d70e51d1f8256ac73d97e4648a57402381b",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98734",
+      "severity": "HIGH",
+      "title": "Bluetooth: hci_core: Serialize SCO and ISO scheduling with teardown",
+      "programFiles": [
+        "net/bluetooth/hci_core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98734.json",
+      "cnaSha256": "b9ee21e1e5fc9f6dae42db21d6f7c2df2acbaac9ed73ec46eaf471c61d283816",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98734",
+      "ubuntuSha256": "91ba0ce5e711fc2a9c57777fc8b9ff8f7ca250ae1ad854ee2626bc2ea981e342",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98735",
+      "severity": "HIGH",
+      "title": "Bluetooth: hci_core: Serialize ACL scheduling with channel deletion",
+      "programFiles": [
+        "net/bluetooth/hci_core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98735.json",
+      "cnaSha256": "7d5de4e5b6ebfbfe99dd90151265bb91e7a2d6492575d6971a0abc436156eeba",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98735",
+      "ubuntuSha256": "257de923b3330651491faa86f5baed4654d090c1659ef04fd99703958db241dd",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98737",
+      "severity": "HIGH",
+      "title": "Bluetooth: hci_sync: Fix inquiry cache use-after-free",
+      "programFiles": [
+        "net/bluetooth/hci_sync.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98737.json",
+      "cnaSha256": "6ae5a5b05b63c9c3a2f3438fd4049a1b2cfb2ad2cc13fce10a59d0a317a97232",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98737",
+      "ubuntuSha256": "514c20910a87e5b91cbbb7f4294a89214b681b352f91ae8fdf0a27d4ebd95c08",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98738",
+      "severity": "HIGH",
+      "title": "Bluetooth: Serialize SMP remote OOB data access",
+      "programFiles": [
+        "include/net/bluetooth/hci_core.h",
+        "net/bluetooth/hci_core.c",
+        "net/bluetooth/smp.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98738.json",
+      "cnaSha256": "c39755dbd0c7dfe4e4f83965bfe405fcf0234f297b491ef8eff13f80b27d4a9a",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98738",
+      "ubuntuSha256": "45a05b16c5d5956b4d3332cb1adf40ae572eb43555086f601e7c4711aed46c62",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98739",
+      "severity": "HIGH",
+      "title": "Bluetooth: RFCOMM: Fix initial port reference race",
+      "programFiles": [
+        "net/bluetooth/rfcomm/tty.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98739.json",
+      "cnaSha256": "1dafc4bfe38f3cf8742bfd1d3da53cea36c202479a5c02bf7b94728e29b63281",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98739",
+      "ubuntuSha256": "7f3d9ce54d57b10e6d643128ba414bb2136d15210e35b472128a361bf3cb5243",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98741",
+      "severity": "HIGH",
+      "title": "ALSA: ua101: reject mismatched capture/playback packet sizes",
+      "programFiles": [
+        "sound/usb/misc/ua101.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98741.json",
+      "cnaSha256": "d4c88524fb829c85a7697aa35936ab7b8f20c4e4a84f24b5b64903e92c6e1984",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98741",
+      "ubuntuSha256": "d3f7b4cf857c0f19bc794a33ed4de2c7389421b9ed401138a2a587f877ce9904",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98742",
+      "severity": "HIGH",
+      "title": "ALSA: seq: Serialize compat port-info ioctls",
+      "programFiles": [
+        "sound/core/seq/seq_compat.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98742.json",
+      "cnaSha256": "c5ee1e1ae865c7cad0b37ea68340dfdf6eed200c5604a6b7e9e4a2c930b3b55b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98742",
+      "ubuntuSha256": "d30fd60094a6d07f9748bb2bb0c47a52438d0734dcfc38e44a3f694394a69096",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98752",
+      "severity": "HIGH",
+      "title": "tty: port: fix tty_port_tty_vhangup() race",
+      "programFiles": [
+        "drivers/tty/tty_port.c",
+        "include/linux/tty_port.h"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98752.json",
+      "cnaSha256": "1d5276f356a13d0950d4165f92d43377bf94f1ef336e8608a68f0862a016ef1c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98752",
+      "ubuntuSha256": "18d18d079a71dc64083705127fd32a21ac733fbed3f8f2101374704346495aed",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98754",
+      "severity": "HIGH",
+      "title": "tty: vcc: hold port lock when clearing tty pointer in vcc_cleanup",
+      "programFiles": [
+        "drivers/tty/vcc.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98754.json",
+      "cnaSha256": "eccb2f5d7a72a4e77f2f6db537e03aecf13feedbed3c724fb41f014e13454a2d",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98754",
+      "ubuntuSha256": "cef2839471a7dc29f0dbb66b806b0cb8b21fd7248032f2000fb984f79b750522",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98763",
+      "severity": "HIGH",
+      "title": "usb: core: clear both ep_in and ep_out for non-ep0 control endpoints",
+      "programFiles": [
+        "drivers/usb/core/message.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98763.json",
+      "cnaSha256": "f6d09a3b3011c23611d63ea6a6a37247d1ab30b4cdd05a77b8b53ba916ec82d4",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98763",
+      "ubuntuSha256": "83611580721519d3ce8c79c340e3f08e834b94e2064f341dae54de479f546f83",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98776",
+      "severity": "HIGH",
+      "title": "binderfs: fix UAF write in binder_add_device",
+      "programFiles": [
+        "drivers/android/binderfs.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98776.json",
+      "cnaSha256": "ccf8f78fd6198ece82b2f9b6eb8e0c4a2047cc52920ce7576db1f9233cc29741",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98776",
+      "ubuntuSha256": "b4ce6afab4b613b607cf137220ca7e66ae8a6a007a10bda01cac0cb2d545555c",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98788",
+      "severity": "HIGH",
+      "title": "futex: Fix private hash use-after-free on resize",
+      "programFiles": [
+        "kernel/futex/core.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98788.json",
+      "cnaSha256": "8342f3844778b55594576fd01e75b6769c30f42b3fb792103cdfb134ee5a1c94",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98788",
+      "ubuntuSha256": "4c9cfd2ef5160dde651d4fa26d26207443dadd463598ebd36d336f6755cb84b8",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98792",
+      "severity": "HIGH",
+      "title": "netfilter: flowtable: generalize pending status bit",
+      "programFiles": [
+        "include/net/netfilter/nf_flow_table.h",
+        "net/netfilter/nf_flow_table_core.c",
+        "net/netfilter/nf_flow_table_offload.c",
+        "net/sched/act_ct.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98792.json",
+      "cnaSha256": "2de834421ce576eaeae3cc932bf90213e3dd28987fb8c50e5c2a8ea9c3bcebfa",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98792",
+      "ubuntuSha256": "9712fca2a58954c992f931e2f6ba177b40ff8f3d0811723e935972aa25b1c4ed",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98794",
+      "severity": "HIGH",
+      "title": "ipvs: filter some flags received in the backup server",
+      "programFiles": [
+        "net/netfilter/ipvs/ip_vs_sync.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98794.json",
+      "cnaSha256": "cd464b7d003214dddde4c3d4e8d13b2799fa931b7b1b8797868456bec6bc71fa",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98794",
+      "ubuntuSha256": "8e2bd9b1efd677a1f9dc56ad7e3ea8a51dff3ab1fdc22b032252324ddcce2321",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98797",
+      "severity": "HIGH",
+      "title": "net: cap skb->queue_mapping when the tx queue is picked",
+      "programFiles": [
+        "include/linux/netfilter_netdev.h",
+        "include/linux/rtnetlink.h",
+        "include/linux/skbuff.h",
+        "include/net/sch_generic.h",
+        "net/core/dev.c",
+        "net/sched/act_skbedit.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98797.json",
+      "cnaSha256": "c49404d14a2337261217420d1e78716527870ace0ff217bf48fd3a537437c31d",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98797",
+      "ubuntuSha256": "8557f81444de6e20fa35507e61191a486b21ba6078ab18b054b16b2406f7bec5",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98799",
+      "severity": "HIGH",
+      "title": "bpf: Skip detached progs in trampoline images that are still in use",
+      "programFiles": [
+        "arch/arm64/net/bpf_jit_comp.c",
+        "arch/loongarch/net/bpf_jit.c",
+        "arch/powerpc/net/bpf_jit_comp.c",
+        "arch/riscv/net/bpf_jit_comp64.c",
+        "arch/s390/net/bpf_jit_comp.c",
+        "arch/x86/net/bpf_jit_comp.c",
+        "include/linux/bpf.h",
+        "kernel/bpf/trampoline.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98799.json",
+      "cnaSha256": "2e1afb6690fbf6fe0286e304e19b8ecc6d7d6b5a873a7e5c13d336ccb205c54c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98799",
+      "ubuntuSha256": "1fa2848f148bcdaa8763909ab1a8a1234cc2dfea8097b264f461f907511b0a14",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98800",
+      "severity": "HIGH",
+      "title": "bpf: Wait for an RCU tasks grace period before freeing trampoline progs",
+      "programFiles": [
+        "include/linux/bpf.h",
+        "kernel/bpf/syscall.c",
+        "kernel/bpf/trampoline.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98800.json",
+      "cnaSha256": "366f656b5b391e354ed889657a1028925bcfc54896df129193c471b49e57fd80",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98800",
+      "ubuntuSha256": "90ff5fb07228f405e0bd32da60f4b0400066f2609cb80df3707bd0d6099b505a",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98803",
+      "severity": "HIGH",
+      "title": "net: stmmac: fix rx Scatter-Gather support",
+      "programFiles": [
+        "drivers/net/ethernet/stmicro/stmmac/stmmac_main.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98803.json",
+      "cnaSha256": "0a688bacb162096527612279eb8836b45d91456aee59d80621f9fce60c2fee0b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98803",
+      "ubuntuSha256": "f108591d5ec52d4aa0a5253fde42351b2759feb6d5f9ee3a4dfac739d7c8c427",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98804",
+      "severity": "HIGH",
+      "title": "net: page_pool: fix use-after-free in page_pool_recycle_ring_bulk()",
+      "programFiles": [
+        "net/core/page_pool.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98804.json",
+      "cnaSha256": "905ed9f14335414958d483073377be9334ee0cf1ff8a977da98d0f056ea9b578",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98804",
+      "ubuntuSha256": "d41a89d254b637dd2f97041562bd60f09833160fd5eadd71af56833c54522f2a",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98805",
+      "severity": "CRITICAL",
+      "title": "tipc: prevent GCM nonce reuse on peer key changes",
+      "programFiles": [
+        "net/tipc/crypto.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98805.json",
+      "cnaSha256": "ed728105c41fe281c20b2b60195b47652d6ff39d71ce7f3a0fa2239496c21b1b",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98805",
+      "ubuntuSha256": "e5aa5d1f4be4e1b325796946007c555daf43213d631bccd5bb55f0eec4e2a9ee",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98813",
+      "severity": "HIGH",
+      "title": "bpf: Hold map BTF for the memory allocator destructor record",
+      "programFiles": [
+        "kernel/bpf/hashtab.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98813.json",
+      "cnaSha256": "d0fc259d27315192a7be32c93cdf8433dba9b7381f778a57abd84ee989792999",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98813",
+      "ubuntuSha256": "480bfe7058fdf84ac8c9a8d0a1794bf70afbaecd6844d9d1649a31174d22f111",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98823",
+      "severity": "HIGH",
+      "title": "wifi: cfg80211: preserve hidden-group beacon IE ownership",
+      "programFiles": [
+        "net/wireless/scan.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98823.json",
+      "cnaSha256": "edc9ed3f5d0c968a1acfd3d703f2da33cf44c91431fce9e16279053525bf47a0",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98823",
+      "ubuntuSha256": "e0f065b0c863f7bd32267cc421d370c9c9a4754b6a486ff283015496f4ca1dd4",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98824",
+      "severity": "HIGH",
+      "title": "wifi: mac80211: validate TX status rate metadata",
+      "programFiles": [
+        "net/mac80211/rc80211_minstrel_ht.c",
+        "net/mac80211/status.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98824.json",
+      "cnaSha256": "42cebe09d42881983f68446d1ec2dfa2e77af825b7e899a854787f15102fb1d1",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98824",
+      "ubuntuSha256": "0a961189789c985cd2df2cbb9a06ae0f89ddd5aa1fc4fc952bd75de44041c457",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98827",
+      "severity": "HIGH",
+      "title": "wifi: ath9k_htc: bound TX aggregation to MAX_TX_BUF_SIZE",
+      "programFiles": [
+        "drivers/net/wireless/ath/ath9k/hif_usb.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98827.json",
+      "cnaSha256": "ef0fc9b539e8bf75ea25ffb1da51a0746ca52fd59d064361f91b6b7072bd87ad",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98827",
+      "ubuntuSha256": "dbbcdf729f52179e3c89863f6bf777b95f153cadad1e559c259543cb1eb706e3",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98829",
+      "severity": "HIGH",
+      "title": "wifi: mac80211: drop oversized fragments to avoid extra_len overflow",
+      "programFiles": [
+        "net/mac80211/drop.h",
+        "net/mac80211/rx.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98829.json",
+      "cnaSha256": "f3cbc9aa6033ddd274caad1d6d9a1c0f17becd718f300acb366e985aefceb9c1",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98829",
+      "ubuntuSha256": "ce0ee4fe0452e4bec3768ee363fa4575c9fd0d5ce4e48a1530375949fd39bb07",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98836",
+      "severity": "HIGH",
+      "title": "ALSA: line6: reject oversized playback packets",
+      "programFiles": [
+        "sound/usb/line6/playback.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98836.json",
+      "cnaSha256": "7058ff9e048ad95ead0adfa2da7d6e1806047f2bffac7175344f8924f61fb359",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98836",
+      "ubuntuSha256": "125460220764d86195b6f468f7ebdba6cc95ef3cbb90245b3cc78d48c03b8230",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98837",
+      "severity": "HIGH",
+      "title": "ALSA: caiaq: unregister the input device when probe fails",
+      "programFiles": [
+        "sound/usb/caiaq/device.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98837.json",
+      "cnaSha256": "a812701e5a4946f42b76aa51738ec175249e69020231b2593d25e5897dce4c4d",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98837",
+      "ubuntuSha256": "f94427447521806cefa23f5926dfa3fc6650af3c5c9026966ecc63465539deab",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98846",
+      "severity": "HIGH",
+      "title": "sctp: check RCV_SHUTDOWN after the sendmsg connect wait",
+      "programFiles": [
+        "net/sctp/socket.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98846.json",
+      "cnaSha256": "35a39998b29814a3a3926a4b7d0a4984c00cef151163dac3c2c55fa7a605b5cf",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98846",
+      "ubuntuSha256": "3482031c0912fc319cdcf0128104587fabf15c22d52450aa0be3912853c9eab8",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98858",
+      "severity": "HIGH",
+      "title": "io_uring: fix task_work add use-after-free with SQPOLL",
+      "programFiles": [
+        "io_uring/io_uring.c",
+        "io_uring/tw.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98858.json",
+      "cnaSha256": "d1f85279b3c3c1390ca3530140ba8a7b1929289bf4f4e2245a9041007b34b10e",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98858",
+      "ubuntuSha256": "db41a402b6fe2056c97582ef422443b9e1a2db6d4bdb5ab1dcb4d7b53b97b72d",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98861",
+      "severity": "HIGH",
+      "title": "fprobe: Use guard(rcu_sched_notrace) and check rcu_is_watching()",
+      "programFiles": [
+        "kernel/trace/fprobe.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98861.json",
+      "cnaSha256": "47ad31eb893955ea19bda391a1b4cbb808f4ee55b0477a7323c8ea20611bb37c",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98861",
+      "ubuntuSha256": "079d6ef83f0a2d7b145c4b88d1ee1abcf34a14a93fd40b4d2dad2603580aa479",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98862",
+      "severity": "HIGH",
+      "title": "audit: fix exe mark UAF in kill_rules()",
+      "programFiles": [
+        "kernel/audit_tree.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98862.json",
+      "cnaSha256": "d9ace6fbac034c4f7133f7b4e1f78ffce40cdf011f0123cfea1844d0defe34b2",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98862",
+      "ubuntuSha256": "70793757d965d5e189f13fea419e2d26531551b944d9ec808888d65cd53dfd5a",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
+    },
+    {
+      "cve": "CVE-2026-98863",
+      "severity": "HIGH",
+      "title": "KVM: x86: Re-pend GET_NESTED_STATE_PAGES if getting said pages fails",
+      "programFiles": [
+        "arch/x86/kvm/x86.c"
+      ],
+      "cnaUrl": "https://raw.githubusercontent.com/CVEProject/cvelistV5/main/cves/2026/98xxx/CVE-2026-98863.json",
+      "cnaSha256": "aa3d596309f4e4cf8ec88c734ec3747e6986f4e4710c94a0caaebb84aacee822",
+      "ubuntuUrl": "https://git.launchpad.net/ubuntu-cve-tracker/plain/active/CVE-2026-98863",
+      "ubuntuSha256": "ad8b6154596e6384d0deae64a90e868f37637c1482d0321e813c123851059771",
+      "reviewBasis": "Linux CNA affected implementation paths excluded from the exact inventoried user-space header package."
     }
   ],
   "analysisMethod": "Linux CNA programFiles for every listed CVE are kernel implementation or private headers, not exported UAPI; none is shipped in the exact official package. Canonical explicit binary-exclude tags are retained per entry without extrapolating them to other CVEs. CI must match all installed owned-file hashes and reject ELF/kernel payloads and any runtime package before using this classification. Host kernel applicability is outside scope."

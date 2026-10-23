@@ -23,9 +23,9 @@ bash -n scripts/assess-runtime-vulnerabilities scripts/build scripts/check-build
     scripts/check-migration-policy package/pasturestack-entrypoint.sh package/update-pasturestack-ca
 
 require_pattern Dockerfile.dapper 'ARG UBUNTU_IMAGE=ubuntu:26\.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b' "dapper_base_not_pinned"
-require_pattern Dockerfile.dapper 'ARG GO_VERSION=1\.27\.2' "go_version_not_current"
-require_pattern Dockerfile.dapper 'GO_LINUX_AMD64_SHA256=ecbadb99091a3f46e31f5f934b068b1864eafa7995211b39eaddf76996045fe5' "go_amd64_sha_not_current"
-require_pattern Dockerfile.dapper 'GO_LINUX_ARM64_SHA256=94f3e30b8e374bc285e7dadc11e0865726b9bc6e85b841ccceaabc0214c6b7c8' "go_arm64_sha_not_current"
+require_pattern Dockerfile.dapper 'ARG GO_VERSION=1\.27\.3' "go_version_not_current"
+require_pattern Dockerfile.dapper 'GO_LINUX_AMD64_SHA256=65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40' "go_amd64_sha_not_current"
+require_pattern Dockerfile.dapper 'GO_LINUX_ARM64_SHA256=a06e99309dbcbdca1a8ccd2282c3ee146e55930886e26b4f1193269587165f49' "go_arm64_sha_not_current"
 require_pattern Dockerfile.dapper 'ARG DOCKER_VERSION=29\.7\.2' "docker_version_not_current"
 require_pattern Dockerfile.dapper 'ARG DOCKER_GIT_COMMIT=a7dcaa6fdb6ed04aacbfdc76357fdae01605609e' "docker_commit_not_pinned"
 require_pattern Dockerfile.dapper 'ARG DOCKER_SOURCE_SHA256=6e5c91d3a5a79db78cf989d07727d00e757aa0da4d135a3ce4b86061b83fb511' "docker_source_sha_not_pinned"
@@ -50,13 +50,13 @@ require_pattern Dockerfile.dapper 'go get "github\.com/moby/go-archive@\$\{BUILD
 require_pattern Dockerfile.dapper 'git apply --check /usr/share/pasturestack/patches/buildx-security\.patch' "buildx_patch_preflight_missing"
 require_pattern Dockerfile.dapper "if grep -F \\$'dep\\\\tgithub.com/docker/docker\\\\t' /usr/share/pasturestack/manifests/buildx-go-version\.txt" "buildx_docker_module_absence_not_enforced"
 require_pattern Dockerfile.dapper 'ARG UBUNTU_SNAPSHOT=20261020T000000Z' "dapper_snapshot_not_pinned"
-require_pattern Dockerfile.dapper 'ADD --checksum=sha256:6077d27c6b6f8b23590cb01ff877ed8c804a67a5442cc32b5a33da10d2bd0e90' "dapper_ca_bootstrap_not_pinned"
+require_pattern Dockerfile.dapper 'ADD --checksum=sha256:5b6326f1932cfd7be57130561dc78192f09ed9f58bfbe6606ed0c50510c3b6cd' "dapper_ca_bootstrap_not_pinned"
 require_pattern Dockerfile.dapper 'COPY ubuntu-apt\.lock /usr/share/pasturestack/manifests/ubuntu-apt\.lock' "dapper_apt_lock_not_copied"
 require_pattern Dockerfile.dapper 'apt-get upgrade -y --no-install-recommends' "dapper_base_packages_not_updated"
 require_pattern Dockerfile.dapper 'gcc="\$\{UBUNTU_APT_GCC_VERSION\}"' "dapper_gcc_not_version_pinned"
 require_pattern Dockerfile.dapper 'linux-libc-dev="\$\{UBUNTU_APT_LINUX_LIBC_DEV_VERSION\}"' "dapper_linux_libc_dev_not_version_pinned"
 require_pattern Dockerfile.dapper 'dpkg-query -W' "dapper_resolved_package_manifest_missing"
-require_pattern Makefile 'DAPPER_IMAGE \?= pasturestack-resource-scheduler-dapper:go1\.27\.2-docker29\.7\.2-buildx0\.36\.1' "dapper_identity_not_pinned"
+require_pattern Makefile 'DAPPER_IMAGE \?= pasturestack-resource-scheduler-dapper:go1\.27\.3-docker29\.7\.2-buildx0\.36\.1' "dapper_identity_not_pinned"
 require_pattern Makefile 'UBUNTU_SNAPSHOT \?= 20261020T000000Z' "make_snapshot_not_current"
 require_pattern Makefile 'DAPPER_SOURCE \?= /go/src/github\.com/PastureStack/resource-scheduler' "dapper_source_not_canonical"
 reject_pattern Dockerfile.dapper 'curl[^|]*\|[[:space:]]*tar' "pipe_to_tar_download"
@@ -88,7 +88,7 @@ require_pattern ubuntu-apt.lock '^UBUNTU_APT_SNAPSHOT=.20261020T000000Z.$' "apt_
 require_pattern ubuntu-apt.lock '^UBUNTU_APT_LINUX_LIBC_DEV_VERSION=.7\.0\.0-38\.38.$' "linux_libc_dev_package_lock_missing"
 require_pattern ubuntu-apt.lock '^UBUNTU_APT_GCC_VERSION=.4:15\.2\.0-5ubuntu1.$' "gcc_package_lock_missing"
 require_pattern go.mod '^go 1\.26\.[0-9]+$' "go_language_floor_not_codeql_compatible"
-require_pattern go.mod '^toolchain go1\.27\.2$' "go_toolchain_not_current"
+require_pattern go.mod '^toolchain go1\.27\.3$' "go_toolchain_not_current"
 require_pattern go.mod 'github\.com/go-viper/mapstructure/v2 v2\.5\.0' "mapstructure_v2_not_current"
 require_pattern go.mod 'github\.com/sirupsen/logrus v1\.10\.2' "logrus_not_current"
 require_pattern go.mod 'github\.com/urfave/cli/v3 v3\.11\.0' "cli_v3_not_current"
@@ -130,4 +130,4 @@ if [ "${failures}" -ne 0 ]; then
     exit 1
 fi
 
-echo "RESOURCE_SCHEDULER_BUILD_POLICY_OK go=1.27.2 docker=29.7.2 buildx=0.36.1 pinned_base=1 pinned_direct_apt=1 module_vendor=1 buildx_legacy_module_removed=1 output_ownership_restored=1 semantic_reproducibility=runtime-config+dpkg+binary nonroot=1 verified_ca=1"
+echo "RESOURCE_SCHEDULER_BUILD_POLICY_OK go=1.27.3 docker=29.7.2 buildx=0.36.1 pinned_base=1 pinned_direct_apt=1 module_vendor=1 buildx_legacy_module_removed=1 output_ownership_restored=1 semantic_reproducibility=runtime-config+dpkg+binary nonroot=1 verified_ca=1"
