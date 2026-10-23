@@ -6,9 +6,7 @@ output_dir=${2:?usage: assess-runtime-vulnerabilities REPORT_JSON OUTPUT_DIR SUB
 subject=${3:?usage: assess-runtime-vulnerabilities REPORT_JSON OUTPUT_DIR SUBJECT}
 
 repo_root=$(cd "$(dirname "$0")/.." && pwd)
-python3 "$repo_root/.github/scripts/enforce-runtime-vulnerabilities.py" \
-    "$report" "$repo_root/.github/runtime-unfixed.json" \
-    --repository PastureStack/resource-scheduler
+python3 "$repo_root/.github/scripts/enforce-runtime-vulnerabilities.py" --repository PastureStack/resource-scheduler < "$report"
 
 mkdir -p "${output_dir}"
 
