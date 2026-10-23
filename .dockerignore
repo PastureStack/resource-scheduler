@@ -1,6 +1,9 @@
 **
 !Dockerfile.dapper
 !ubuntu-apt.lock
+!ubuntu-security-packages.lock
+!scripts/
+!scripts/install-ubuntu-security-updates
 !toolchain/
 !toolchain/buildx-security.patch
 !bin/
