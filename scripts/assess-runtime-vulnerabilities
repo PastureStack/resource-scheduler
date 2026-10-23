@@ -5,6 +5,11 @@ report=${1:?usage: assess-runtime-vulnerabilities REPORT_JSON OUTPUT_DIR SUBJECT
 output_dir=${2:?usage: assess-runtime-vulnerabilities REPORT_JSON OUTPUT_DIR SUBJECT}
 subject=${3:?usage: assess-runtime-vulnerabilities REPORT_JSON OUTPUT_DIR SUBJECT}
 
+repo_root=$(cd "$(dirname "$0")/.." && pwd)
+python3 "$repo_root/.github/scripts/enforce-runtime-vulnerabilities.py" \
+    "$report" "$repo_root/.github/runtime-unfixed.json" \
+    --repository PastureStack/resource-scheduler
+
 mkdir -p "${output_dir}"
 
 total=$(jq '[.Results[]?.Vulnerabilities[]?] | length' "${report}")
