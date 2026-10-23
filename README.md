@@ -1,5 +1,12 @@
 # PastureStack Resource Scheduler
 
+The current published release is [v0.8.20](https://github.com/PastureStack/resource-scheduler/releases/tag/v0.8.20),
+produced from `35d3a67c62df4b22d7167da3d73dd9dbc4905e66` by the existing
+[release workflow](https://github.com/PastureStack/resource-scheduler/actions/runs/39961862641).
+Its runtime digest is `sha256:e5a389273344585fca5c4513060e5289b30ca13046d8ec286b8563952f1325d4`.
+Only `release.yml` publishes; `supply-chain.yml` retains verification evidence
+without a second publisher. Later source changes do not replace released bytes.
+
 Resource Scheduler is the control-plane daemon that tracks host capacity, labels, and host-port reservations. It consumes the dated metadata API, handles scheduling events, ranks eligible hosts, reserves and releases resources, and exposes the health endpoint used by the infrastructure catalog.
 
 PastureStack is an independent community effort to preserve, audit, and modernize the Rancher 1.6 ecosystem. It is not affiliated with or endorsed by Rancher Labs or SUSE.
