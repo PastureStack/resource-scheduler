@@ -1,8 +1,8 @@
 ARG SOURCE_DATE_EPOCH
 ARG UBUNTU_IMAGE=ubuntu:26.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b
 FROM ${UBUNTU_IMAGE} AS snapshot-ca-bootstrap
-ADD --checksum=sha256:6077d27c6b6f8b23590cb01ff877ed8c804a67a5442cc32b5a33da10d2bd0e90 \
-    https://snapshot.ubuntu.com/ubuntu/20261020T000000Z/pool/main/c/ca-certificates/ca-certificates_20260601~26.04.1_all.deb \
+ADD --checksum=sha256:5b6326f1932cfd7be57130561dc78192f09ed9f58bfbe6606ed0c50510c3b6cd \
+    https://archive.ubuntu.com/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260816ubuntu0.26.04.1_all.deb \
     /tmp/ca-certificates.deb
 RUN dpkg-deb -x /tmp/ca-certificates.deb /tmp/ca-certificates && \
     cp /tmp/ca-certificates/usr/share/ca-certificates/mozilla/ISRG_Root_X1.crt /snapshot-ca.crt
@@ -19,6 +19,7 @@ ARG UBUNTU_SNAPSHOT=20261020T000000Z
 ARG UBUNTU_SNAPSHOT_BASE=https://snapshot.ubuntu.com/ubuntu
 ENV DEBIAN_FRONTEND=noninteractive
 
+ADD --checksum=sha256:5b6326f1932cfd7be57130561dc78192f09ed9f58bfbe6606ed0c50510c3b6cd https://archive.ubuntu.com/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260816ubuntu0.26.04.1_all.deb /opt/pasturestack-ca-certificates.deb
 RUN set -eux; \
     . /usr/share/pasturestack/manifests/ubuntu-apt.lock; \
     test "${UBUNTU_SNAPSHOT}" = "${UBUNTU_APT_SNAPSHOT}"; \
@@ -31,9 +32,14 @@ RUN set -eux; \
     DEBIAN_FRONTEND=noninteractive apt-get upgrade -y --no-install-recommends; \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         bash="${UBUNTU_APT_BASH_VERSION}" \
-        ca-certificates="${UBUNTU_APT_CA_CERTIFICATES_VERSION}" \
+        ca-certificates="${UBUNTU_APT_CA_CERTIFICATES_BOOTSTRAP_VERSION}" \
         curl="${UBUNTU_APT_CURL_VERSION}" \
         libcap2-bin="${UBUNTU_APT_LIBCAP2_BIN_VERSION}"; \
+    dpkg -i /opt/pasturestack-ca-certificates.deb && \
+    update-ca-certificates --fresh && \
+    test "$(dpkg-query -W -f='${Version}' ca-certificates)" = '20260816ubuntu0.26.04.1' && \
+    test ! -e /usr/share/ca-certificates/mozilla/emSign_ECC_Root_CA_-_G3.crt && \
+    rm -f /opt/pasturestack-ca-certificates.deb && \
     for package_and_version in \
         "bash=${UBUNTU_APT_BASH_VERSION}" \
         "ca-certificates=${UBUNTU_APT_CA_CERTIFICATES_VERSION}" \

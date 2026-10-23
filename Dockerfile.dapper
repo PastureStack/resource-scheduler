@@ -1,8 +1,8 @@
 ARG SOURCE_DATE_EPOCH
 ARG UBUNTU_IMAGE=ubuntu:26.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b
 FROM ${UBUNTU_IMAGE} AS snapshot-ca-bootstrap
-ADD --checksum=sha256:6077d27c6b6f8b23590cb01ff877ed8c804a67a5442cc32b5a33da10d2bd0e90 \
-    https://snapshot.ubuntu.com/ubuntu/20261020T000000Z/pool/main/c/ca-certificates/ca-certificates_20260601~26.04.1_all.deb \
+ADD --checksum=sha256:5b6326f1932cfd7be57130561dc78192f09ed9f58bfbe6606ed0c50510c3b6cd \
+    https://archive.ubuntu.com/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260816ubuntu0.26.04.1_all.deb \
     /tmp/ca-certificates.deb
 RUN dpkg-deb -x /tmp/ca-certificates.deb /tmp/ca-certificates && \
     cp /tmp/ca-certificates/usr/share/ca-certificates/mozilla/ISRG_Root_X1.crt /snapshot-ca.crt
@@ -13,7 +13,7 @@ COPY ubuntu-apt.lock /usr/share/pasturestack/manifests/ubuntu-apt.lock
 COPY toolchain/buildx-security.patch /usr/share/pasturestack/patches/buildx-security.patch
 
 ARG DAPPER_HOST_ARCH=amd64
-ARG GO_VERSION=1.27.2
+ARG GO_VERSION=1.27.3
 ARG DOCKER_VERSION=29.7.2
 ARG DOCKER_GIT_COMMIT=a7dcaa6fdb6ed04aacbfdc76357fdae01605609e
 ARG DOCKER_SOURCE_DATE_EPOCH=1785922455
@@ -35,13 +35,14 @@ ARG SECURITY_X_NET_VERSION=v0.60.0
 ARG SECURITY_OTEL_VERSION=v1.45.0
 ARG BUILDX_CONTAINERD_VERSION=v2.3.6
 ARG UBUNTU_SNAPSHOT=20261020T000000Z
-ARG GO_LINUX_AMD64_SHA256=ecbadb99091a3f46e31f5f934b068b1864eafa7995211b39eaddf76996045fe5
-ARG GO_LINUX_ARM64_SHA256=94f3e30b8e374bc285e7dadc11e0865726b9bc6e85b841ccceaabc0214c6b7c8
+ARG GO_LINUX_AMD64_SHA256=65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40
+ARG GO_LINUX_ARM64_SHA256=a06e99309dbcbdca1a8ccd2282c3ee146e55930886e26b4f1193269587165f49
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HOST_ARCH=${DAPPER_HOST_ARCH} ARCH=${DAPPER_HOST_ARCH}
 
 ARG UBUNTU_SNAPSHOT_BASE=https://snapshot.ubuntu.com/ubuntu
+ADD --checksum=sha256:5b6326f1932cfd7be57130561dc78192f09ed9f58bfbe6606ed0c50510c3b6cd https://archive.ubuntu.com/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260816ubuntu0.26.04.1_all.deb /opt/pasturestack-ca-certificates.deb
 RUN set -eux; \
     . /usr/share/pasturestack/manifests/ubuntu-apt.lock; \
     test "${UBUNTU_SNAPSHOT}" = "${UBUNTU_APT_SNAPSHOT}"; \
@@ -54,7 +55,7 @@ RUN set -eux; \
     DEBIAN_FRONTEND=noninteractive apt-get upgrade -y --no-install-recommends && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         bash="${UBUNTU_APT_BASH_VERSION}" \
-        ca-certificates="${UBUNTU_APT_CA_CERTIFICATES_VERSION}" \
+        ca-certificates="${UBUNTU_APT_CA_CERTIFICATES_BOOTSTRAP_VERSION}" \
         curl="${UBUNTU_APT_CURL_VERSION}" \
         file="${UBUNTU_APT_FILE_VERSION}" \
         gcc="${UBUNTU_APT_GCC_VERSION}" \
@@ -64,6 +65,11 @@ RUN set -eux; \
         make="${UBUNTU_APT_MAKE_VERSION}" \
         tar="${UBUNTU_APT_TAR_VERSION}" \
         xz-utils="${UBUNTU_APT_XZ_UTILS_VERSION}" && \
+    dpkg -i /opt/pasturestack-ca-certificates.deb && \
+    update-ca-certificates --fresh && \
+    test "$(dpkg-query -W -f='${Version}' ca-certificates)" = '20260816ubuntu0.26.04.1' && \
+    test ! -e /usr/share/ca-certificates/mozilla/emSign_ECC_Root_CA_-_G3.crt && \
+    rm -f /opt/pasturestack-ca-certificates.deb && \
     for package_and_version in \
         "bash=${UBUNTU_APT_BASH_VERSION}" \
         "ca-certificates=${UBUNTU_APT_CA_CERTIFICATES_VERSION}" \
