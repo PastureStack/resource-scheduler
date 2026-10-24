@@ -1,8 +1,8 @@
 # PastureStack Resource Scheduler
 
-Linux candidate **`v0.8.21`** integrates shared Ubuntu 26.04 security backports for already-installed packages while preserving the selected coreutils provider. It is unpublished; the last published Linux release is [v0.8.20](https://github.com/PastureStack/resource-scheduler/releases/tag/v0.8.20).
+Linux runtime **`v0.8.21`** integrates shared Ubuntu 26.04 security backports for already-installed packages while preserving the selected coreutils provider.
 
-Build and image examples below target the candidate. Publication requires completed bundle provenance and the normal final-image release gates. The image retains bundle manifests, source inputs and install/verify receipts under `/usr/share/pasturestack/security/ubuntu-backports/`.
+The image retains bundle manifests, source inputs and installation receipts under `/usr/share/pasturestack/security/ubuntu-backports/`.
 
 Resource Scheduler is the control-plane daemon that tracks host capacity, labels, and host-port reservations. It consumes the dated metadata API, handles scheduling events, ranks eligible hosts, reserves and releases resources, and exposes the health endpoint used by the infrastructure catalog.
 
@@ -24,7 +24,7 @@ original severity and `under_investigation` status.
 
 ## Runtime image
 
-After publication, the candidate image coordinate is:
+The Linux image coordinate is:
 
 ```text
 ghcr.io/pasturestack/resource-scheduler:v0.8.21
@@ -78,4 +78,4 @@ finding with an official fix blocks release, regardless of severity. Unknown
 findings block unless a separately reviewed, exact not-affected statement is
 proved by the actual product dependency graph. LOW/MEDIUM findings without an
 official fix require the repository's exact CVE/package/version/PURL review ledger;
-new or changed findings fail closed. Each candidate must pass this policy against its exact image and package versions.
+new or changed findings fail closed. Each release must pass this policy against its exact image and package versions.
