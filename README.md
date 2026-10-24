@@ -1,11 +1,8 @@
 # PastureStack Resource Scheduler
 
-The current published release is [v0.8.20](https://github.com/PastureStack/resource-scheduler/releases/tag/v0.8.20),
-produced from `35d3a67c62df4b22d7167da3d73dd9dbc4905e66` by the existing
-[release workflow](https://github.com/PastureStack/resource-scheduler/actions/runs/39961862641).
-Its runtime digest is `sha256:e5a389273344585fca5c4513060e5289b30ca13046d8ec286b8563952f1325d4`.
-Only `release.yml` publishes; `supply-chain.yml` retains verification evidence
-without a second publisher. Later source changes do not replace released bytes.
+Linux runtime **`v0.8.21`** integrates shared Ubuntu 26.04 security backports for already-installed packages while preserving the selected coreutils provider.
+
+The image retains bundle manifests, source inputs and installation receipts under `/usr/share/pasturestack/security/ubuntu-backports/`.
 
 Resource Scheduler is the control-plane daemon that tracks host capacity, labels, and host-port reservations. It consumes the dated metadata API, handles scheduling events, ranks eligible hosts, reserves and releases resources, and exposes the health endpoint used by the infrastructure catalog.
 
@@ -13,19 +10,7 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 **Upstream:** [`rancher/scheduler`](https://github.com/rancher/scheduler). This GitHub fork retains the upstream Git history, authorship, dates, and license notices. PastureStack maintenance is consolidated into one commit after the preserved upstream boundary.
 
-The current published release is [`v0.8.20`](https://github.com/PastureStack/resource-scheduler/releases/tag/v0.8.20).
-The corresponding Catalog version `5` is recorded in the
-[Catalog update](https://github.com/PastureStack/catalog-templates/pull/18).
-
-Release `v0.8.20` refreshes the official Go security release and Ubuntu packages.
-Its actual runtime scan has 0 High/Critical findings, 0 vendor-fixed findings,
-and 0 secrets. The 4 Low and 47 Medium vendor-unfixed findings remain
-`under_investigation` in the release risk register and OpenVEX; they are not
-resolved. Release checksums and the SBOM and image build-provenance attestations
-were verified against the exact signed tag, source commit, and release workflow.
-Publication does not establish a managed-system upgrade or rollback result.
-
-Its disposable builder also selects the official `golang.org/x/net` 0.60.0,
+The disposable builder also selects the official `golang.org/x/net` 0.60.0,
 OpenTelemetry-Go 1.45.0, and containerd 2.3.6 security updates for Docker CLI
 and Buildx. These tools are not copied into the runtime image.
 
@@ -37,20 +22,12 @@ vendor-fixed builder finding remain blocking. This does not assess the host
 kernel; vendor-unfixed Low/Medium and unrated builder findings retain their
 original severity and `under_investigation` status.
 
-The [native evidence run](https://github.com/PastureStack/resource-scheduler/actions/runs/39357570483)
-retains the raw builder scan: 8 Critical and 192 High header source-package
-matches are separately classified by 200 exact `not_affected` statements.
-Another 2,600 vendor-unfixed package findings remain recorded, including the
-unrated `GO-2026-5932` module advisory. The actual Buildx compilation graph
-contains no `golang.org/x/crypto/openpgp` packages; that fact does not remove
-the module finding or assess any host kernel.
-
 ## Runtime image
 
-The maintained image is published from this repository as:
+The Linux image coordinate is:
 
 ```text
-ghcr.io/pasturestack/resource-scheduler:<version>
+ghcr.io/pasturestack/resource-scheduler:v0.8.21
 ```
 
 This image is a system component, not a standalone application. The PastureStack infrastructure catalog supplies the control-plane URL, scoped access credentials, metadata endpoint, health-check configuration, and an explicit numeric version tag. The container runs as UID/GID `10001:10001`; only the scheduler binary receives `cap_net_bind_service` so the established port `80` health contract can remain available without a root process.
@@ -71,7 +48,7 @@ make validate
 bash scripts/check-build-downloads
 go list -mod=vendor ./...
 bash scripts/check-migration-policy
-VERSION_OVERRIDE=v0.8.20 IMAGE_NAMESPACE=pasturestack make package
+VERSION_OVERRIDE=v0.8.21 IMAGE_NAMESPACE=pasturestack make package
 ```
 
 CI validates source and dependency locks, tests and reproducible builds, and generates short-lived security evidence. Releases are published only from an annotated, pure numeric SemVer tag that resolves to the reviewed commit.
@@ -101,5 +78,4 @@ finding with an official fix blocks release, regardless of severity. Unknown
 findings block unless a separately reviewed, exact not-affected statement is
 proved by the actual product dependency graph. LOW/MEDIUM findings without an
 official fix require the repository's exact CVE/package/version/PURL review ledger;
-new or changed findings fail closed. This policy-only update does not replace any
-already published immutable artifact.
+new or changed findings fail closed. Each release must pass this policy against its exact image and package versions.

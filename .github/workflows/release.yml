@@ -87,15 +87,47 @@ jobs:
             --scanners vuln,secret --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL \
             --format json \
             --output "/release/resource-scheduler-${RELEASE_TAG#v}-security.json" "$RUNTIME_IMAGE"
-          bash scripts/assess-runtime-vulnerabilities \
-            "$release_dir/resource-scheduler-${RELEASE_TAG#v}-security.json" \
-            "$release_dir" "$RUNTIME_IMAGE"
           docker run --rm --network none \
             -v /var/run/docker.sock:/var/run/docker.sock \
             -v "$PWD/$release_dir:/release" \
             -v "$cache:/root/.cache/trivy" \
             "$TRIVY_IMAGE" image --skip-db-update --offline-scan --format cyclonedx \
             --output "/release/resource-scheduler-${RELEASE_TAG#v}-image.cdx.json" "$RUNTIME_IMAGE"
+          mkdir -p "$release_dir"
+          consumer_container=$(docker create "$RUNTIME_IMAGE" /bin/true)
+          if docker cp "$consumer_container:/usr/share/pasturestack/security/ubuntu-backports" "$release_dir"/ubuntu-backports; then
+              docker rm "$consumer_container" >/dev/null
+          else
+              docker rm "$consumer_container" >/dev/null
+              exit 1
+          fi
+          (cd "$release_dir"/ubuntu-backports && sha256sum --check SHA256SUMS)
+          bundle_image='ghcr.io/pasturestack/ubuntu-security-backports:v0.1.0@sha256:2742a3d429e4e14bc587f6dedc51ded4246cf90bbaedcd86c67d0885e32a6f2a'
+          mkdir -p "$release_dir"/bundle-tools
+          bundle_container=$(docker create "$bundle_image" unused)
+          if docker cp "$bundle_container:/out/verify-consumer-evidence.py" "$release_dir"/bundle-tools/verify-consumer-evidence.py && \
+              docker cp "$bundle_container:/out/SHA256SUMS" "$release_dir"/bundle-tools/SHA256SUMS; then
+              docker rm "$bundle_container" >/dev/null
+          else
+              docker rm "$bundle_container" >/dev/null
+              exit 1
+          fi
+          (cd "$release_dir"/bundle-tools && \
+              test "$(grep -Ec '^[0-9a-f]{64}  verify-consumer-evidence\.py$' SHA256SUMS)" -eq 1 && \
+              grep -E '^[0-9a-f]{64}  verify-consumer-evidence\.py$' SHA256SUMS | sha256sum --check -)
+          python3 "$release_dir"/bundle-tools/verify-consumer-evidence.py \
+              --evidence-dir "$release_dir"/ubuntu-backports --sbom "$release_dir/resource-scheduler-${RELEASE_TAG#v}-image.cdx.json" \
+              --bundle-checksums "$release_dir"/bundle-tools/SHA256SUMS \
+              --expected-bundle-digest 'sha256:2742a3d429e4e14bc587f6dedc51ded4246cf90bbaedcd86c67d0885e32a6f2a' > "$release_dir"/ubuntu-backports-validation.json
+          docker run --rm --network none -v /var/run/docker.sock:/var/run/docker.sock \
+            -v "$PWD/$release_dir:/release" -v "$cache:/root/.cache/trivy" "$TRIVY_IMAGE" \
+            image --skip-db-update --offline-scan --scanners vuln,secret \
+            --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL --vex /release/ubuntu-backports/openvex.json \
+            --format json --output "/release/resource-scheduler-${RELEASE_TAG#v}-security.effective.json" "$RUNTIME_IMAGE"
+          bash scripts/assess-runtime-vulnerabilities \
+            "$release_dir/resource-scheduler-${RELEASE_TAG#v}-security.effective.json" \
+            "$release_dir" "$RUNTIME_IMAGE"
+          tar -cf "$release_dir/ubuntu-backports-evidence.tar" -C "$release_dir" ubuntu-backports ubuntu-backports-validation.json
           docker run --rm --entrypoint cat "$RUNTIME_IMAGE" \
             /usr/share/pasturestack/manifests/runtime-ubuntu-packages.tsv \
             > "$release_dir/resource-scheduler-${RELEASE_TAG#v}-ubuntu-packages.tsv"
@@ -113,6 +145,7 @@ jobs:
               "resource-scheduler-${RELEASE_TAG#v}-linux-amd64.tar.xz" \
               "resource-scheduler-${RELEASE_TAG#v}-image.cdx.json" \
               "resource-scheduler-${RELEASE_TAG#v}-security.json" \
+              "resource-scheduler-${RELEASE_TAG#v}-security.effective.json" ubuntu-backports-evidence.tar \
               "resource-scheduler-${RELEASE_TAG#v}-ubuntu-packages.tsv" \
               runtime-risk-summary.txt \
               runtime-vendor-unfixed.tsv \
@@ -158,6 +191,8 @@ jobs:
             "dist/release/resource-scheduler-${RELEASE_TAG#v}-linux-amd64.tar.xz" \
             "dist/release/resource-scheduler-${RELEASE_TAG#v}-image.cdx.json" \
             "dist/release/resource-scheduler-${RELEASE_TAG#v}-security.json" \
+            "dist/release/resource-scheduler-${RELEASE_TAG#v}-security.effective.json" \
+            dist/release/ubuntu-backports-evidence.tar \
             "dist/release/resource-scheduler-${RELEASE_TAG#v}-ubuntu-packages.tsv" \
             dist/release/runtime-risk-summary.txt \
             dist/release/runtime-vendor-unfixed.tsv \
