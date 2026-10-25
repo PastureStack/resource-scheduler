@@ -1,6 +1,8 @@
 # PastureStack Resource Scheduler
 
-Linux runtime **`v0.8.21`** integrates shared Ubuntu 26.04 security backports for already-installed packages while preserving the selected coreutils provider.
+Linux runtime **`v0.8.22`** integrates shared Ubuntu 26.04 security backports for already-installed packages while preserving the selected coreutils provider.
+
+The shared bundle includes the official Brotli decoder fix for CVE-2026-111497.
 
 The image retains bundle manifests, source inputs and installation receipts under `/usr/share/pasturestack/security/ubuntu-backports/`.
 
@@ -27,7 +29,7 @@ original severity and `under_investigation` status.
 The Linux image coordinate is:
 
 ```text
-ghcr.io/pasturestack/resource-scheduler:v0.8.21
+ghcr.io/pasturestack/resource-scheduler:v0.8.22
 ```
 
 This image is a system component, not a standalone application. The PastureStack infrastructure catalog supplies the control-plane URL, scoped access credentials, metadata endpoint, health-check configuration, and an explicit numeric version tag. The container runs as UID/GID `10001:10001`; only the scheduler binary receives `cap_net_bind_service` so the established port `80` health contract can remain available without a root process.
@@ -48,7 +50,7 @@ make validate
 bash scripts/check-build-downloads
 go list -mod=vendor ./...
 bash scripts/check-migration-policy
-VERSION_OVERRIDE=v0.8.21 IMAGE_NAMESPACE=pasturestack make package
+VERSION_OVERRIDE=v0.8.22 IMAGE_NAMESPACE=pasturestack make package
 ```
 
 CI validates source and dependency locks, tests and reproducible builds, and generates short-lived security evidence. Releases are published only from an annotated, pure numeric SemVer tag that resolves to the reviewed commit.

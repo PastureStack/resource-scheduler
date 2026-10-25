@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:
-      CANDIDATE_VERSION: v0.8.21
+      CANDIDATE_VERSION: v0.8.22
       DAPPER_IMAGE: local/resource-scheduler-dapper:${{ github.sha }}
       TRIVY_IMAGE: aquasec/trivy:0.74.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969
 
@@ -285,7 +285,7 @@ jobs:
               exit 1
           fi
           (cd evidence/ubuntu-backports && sha256sum --check SHA256SUMS)
-          bundle_image='ghcr.io/pasturestack/ubuntu-security-backports:v0.1.0@sha256:2742a3d429e4e14bc587f6dedc51ded4246cf90bbaedcd86c67d0885e32a6f2a'
+          bundle_image='ghcr.io/pasturestack/ubuntu-security-backports:v0.1.1@sha256:45d6b507b63a18459ae5cf76afd4d9731f8ef43b9c40e4c3dbb01899e1752b19'
           mkdir -p evidence/bundle-tools
           bundle_container=$(docker create "$bundle_image" unused)
           if docker cp "$bundle_container:/out/verify-consumer-evidence.py" evidence/bundle-tools/verify-consumer-evidence.py && \
@@ -301,7 +301,7 @@ jobs:
           python3 evidence/bundle-tools/verify-consumer-evidence.py \
               --evidence-dir evidence/ubuntu-backports --sbom evidence/runtime.cdx.json \
               --bundle-checksums evidence/bundle-tools/SHA256SUMS \
-              --expected-bundle-digest 'sha256:2742a3d429e4e14bc587f6dedc51ded4246cf90bbaedcd86c67d0885e32a6f2a' > evidence/ubuntu-backports-validation.json
+              --expected-bundle-digest 'sha256:45d6b507b63a18459ae5cf76afd4d9731f8ef43b9c40e4c3dbb01899e1752b19' > evidence/ubuntu-backports-validation.json
           trivy_cache="$RUNNER_TEMP/resource-scheduler-trivy-cache"
           docker run --rm --network none --volume /var/run/docker.sock:/var/run/docker.sock \
             --volume "$PWD/evidence:/evidence" --volume "$trivy_cache:/root/.cache/trivy" \
