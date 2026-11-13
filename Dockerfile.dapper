@@ -25,6 +25,7 @@ ARG DOCKER_UPSTREAM_X_TEXT_VERSION=v0.40.0
 ARG DOCKER_X_TEXT_VERSION=v0.43.0
 ARG DOCKER_UPSTREAM_GRPC_VERSION=v1.82.1
 ARG DOCKER_GRPC_VERSION=v1.83.2
+ARG DOCKER_GO_JOSE_VERSION=v4.1.6
 ARG BUILDX_VERSION=0.36.1
 ARG BUILDX_GIT_COMMIT=1d8dde89b8aba914e05e45366770736fea1fd690
 ARG BUILDX_SOURCE_DATE_EPOCH=1785856317
@@ -37,6 +38,7 @@ ARG BUILDX_GRPC_VERSION=v1.83.2
 ARG SECURITY_X_NET_VERSION=v0.62.0
 ARG SECURITY_OTEL_VERSION=v1.45.0
 ARG BUILDX_CONTAINERD_VERSION=v2.3.6
+ARG BUILDX_X_CRYPTO_VERSION=v0.59.0
 ARG UBUNTU_SNAPSHOT=20261020T000000Z
 ARG GO_LINUX_AMD64_SHA256=7226736c2339719cda28fbf3a54d71aa63bcefe376e98cef00034268dab24840
 ARG GO_LINUX_ARM64_SHA256=3392582988a273a87ab5043ee1b2c9c17a2c3c00580bf9326c47a2e0aaaeac92
@@ -52,6 +54,9 @@ ADD --checksum=sha256:0de729b8fe0e1c67c04e8e8d5bd6e0420dbd47f75b93f0b71c8e740edc
 ADD --checksum=sha256:94e5d41303265b66af0f8c70ade18bfb77260ad286edee6c8045faddef82b94c \
     https://security.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg7.0_3.2.1ubuntu0.1_amd64.deb \
     /tmp/libapt-pkg7.0.deb
+ADD --checksum=sha256:3a3adc14e3332fc017b1d0e4e39655298a2a977d51db6e80de533ac60137b07f https://snapshot.ubuntu.com/ubuntu/20261107T200000Z/pool/main/l/linux/linux-libc-dev_7.0.0-43.43_amd64.deb /tmp/linux-libc-dev.deb
+ADD --checksum=sha256:44ebbeb6493eacffbc460ca71446959ba86a00b2e23515e4cfb1a5cc317d6672 https://security.ubuntu.com/ubuntu/pool/main/p/pcre2/libpcre2-8-0_10.46-1ubuntu0.1_amd64.deb /tmp/libpcre2-8-0.deb
+ADD --checksum=sha256:bedeef1cf3268f90338c411cdb0a45b224d0660fd2240f310f380316c8244606 https://security.ubuntu.com/ubuntu/pool/main/b/brotli/libbrotli1_1.2.0-3ubuntu0.1_amd64.deb /tmp/libbrotli1.deb
 RUN set -eux; \
     . /usr/share/pasturestack/manifests/ubuntu-apt.lock; \
     test "${UBUNTU_SNAPSHOT}" = "${UBUNTU_APT_SNAPSHOT}"; \
@@ -75,7 +80,7 @@ RUN set -eux; \
         gcc="${UBUNTU_APT_GCC_VERSION}" \
         git="${UBUNTU_APT_GIT_VERSION}" \
         libc6-dev="${UBUNTU_APT_LIBC6_DEV_VERSION}" \
-        linux-libc-dev="${UBUNTU_APT_LINUX_LIBC_DEV_VERSION}" \
+        /tmp/linux-libc-dev.deb \
         make="${UBUNTU_APT_MAKE_VERSION}" \
         tar="${UBUNTU_APT_TAR_VERSION}" \
         xz-utils="${UBUNTU_APT_XZ_UTILS_VERSION}" && \
@@ -88,6 +93,10 @@ RUN set -eux; \
     printf '%s\n' libperl5.40=5.40.1-7ubuntu0.4 perl=5.40.1-7ubuntu0.4 perl-base=5.40.1-7ubuntu0.4 perl-modules-5.40=5.40.1-7ubuntu0.4 > /tmp/ubuntu-perl-security.lock && \
     UBUNTU_SECURITY_ARCHIVE=https://archive.ubuntu.com/ubuntu sh /usr/local/libexec/pasturestack/install-ubuntu-security-updates /tmp/ubuntu-perl-security.lock /etc/ssl/certs/ca-certificates.crt && \
     rm -f /tmp/ubuntu-perl-security.lock && \
+    dpkg -i /tmp/libpcre2-8-0.deb /tmp/libbrotli1.deb && \
+    test "$(dpkg-query -W -f='${Version}' libpcre2-8-0)" = 10.46-1ubuntu0.1 && \
+    test "$(dpkg-query -W -f='${Version}' libbrotli1)" = 1.2.0-3ubuntu0.1 && \
+    rm -f /tmp/linux-libc-dev.deb /tmp/libpcre2-8-0.deb /tmp/libbrotli1.deb && \
     for package_and_version in \
         "bash=${UBUNTU_APT_BASH_VERSION}" \
         "ca-certificates=${UBUNTU_APT_CA_CERTIFICATES_VERSION}" \
@@ -153,7 +162,7 @@ RUN set -eux; \
     cp vendor.sum go.sum; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=https://proxy.golang.org GOSUMDB=sum.golang.org GOMODCACHE=/tmp/docker-go-mod \
         go get "golang.org/x/text@${DOCKER_X_TEXT_VERSION}" "google.golang.org/grpc@${DOCKER_GRPC_VERSION}" \
-        "golang.org/x/net@${SECURITY_X_NET_VERSION}" \
+        "golang.org/x/net@${SECURITY_X_NET_VERSION}" "github.com/go-jose/go-jose/v4@${DOCKER_GO_JOSE_VERSION}" \
         "go.opentelemetry.io/otel/sdk@${SECURITY_OTEL_VERSION}" \
         "go.opentelemetry.io/otel/exporters/otlp/otlptrace@${SECURITY_OTEL_VERSION}" \
         "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc@${SECURITY_OTEL_VERSION}"; \
@@ -190,7 +199,7 @@ RUN set -eux; \
     go mod edit -droprequire=github.com/docker/docker; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=https://proxy.golang.org GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod \
         go get "github.com/moby/go-archive@${BUILDX_GO_ARCHIVE_VERSION}" "golang.org/x/mod@${BUILDX_X_MOD_VERSION}" "google.golang.org/grpc@${BUILDX_GRPC_VERSION}" \
-        "golang.org/x/net@${SECURITY_X_NET_VERSION}" "github.com/containerd/containerd/v2@${BUILDX_CONTAINERD_VERSION}" \
+        "golang.org/x/net@${SECURITY_X_NET_VERSION}" "github.com/containerd/containerd/v2@${BUILDX_CONTAINERD_VERSION}" "golang.org/x/crypto@${BUILDX_X_CRYPTO_VERSION}" \
         "go.opentelemetry.io/otel/sdk@${SECURITY_OTEL_VERSION}" \
         "go.opentelemetry.io/otel/exporters/otlp/otlptrace@${SECURITY_OTEL_VERSION}" \
         "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc@${SECURITY_OTEL_VERSION}" \

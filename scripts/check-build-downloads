@@ -54,7 +54,7 @@ require_pattern Dockerfile.dapper 'ADD --checksum=sha256:a7e3bf769aec16ba21ca39c
 require_pattern Dockerfile.dapper 'COPY ubuntu-apt\.lock /usr/share/pasturestack/manifests/ubuntu-apt\.lock' "dapper_apt_lock_not_copied"
 require_pattern Dockerfile.dapper 'apt-get upgrade -y --no-install-recommends' "dapper_base_packages_not_updated"
 require_pattern Dockerfile.dapper 'gcc="\$\{UBUNTU_APT_GCC_VERSION\}"' "dapper_gcc_not_version_pinned"
-require_pattern Dockerfile.dapper 'linux-libc-dev="\$\{UBUNTU_APT_LINUX_LIBC_DEV_VERSION\}"' "dapper_linux_libc_dev_not_version_pinned"
+require_pattern Dockerfile.dapper 'linux-libc-dev_7\.0\.0-43\.43_amd64\.deb /tmp/linux-libc-dev\.deb' "dapper_linux_libc_dev_not_version_pinned"
 require_pattern Dockerfile.dapper 'dpkg-query -W' "dapper_resolved_package_manifest_missing"
 require_pattern Makefile 'DAPPER_IMAGE \?= pasturestack-resource-scheduler-dapper:go1\.27\.4-docker29\.7\.2-buildx0\.36\.1' "dapper_identity_not_pinned"
 require_pattern Makefile 'UBUNTU_SNAPSHOT \?= 20261020T000000Z' "make_snapshot_not_current"
