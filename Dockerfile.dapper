@@ -1,8 +1,9 @@
+# syntax=docker/dockerfile:1.7
 ARG SOURCE_DATE_EPOCH
 ARG UBUNTU_IMAGE=ubuntu:26.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea2648d2c0e09b
 FROM ${UBUNTU_IMAGE} AS snapshot-ca-bootstrap
-ADD --checksum=sha256:5b6326f1932cfd7be57130561dc78192f09ed9f58bfbe6606ed0c50510c3b6cd \
-    https://archive.ubuntu.com/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260816ubuntu0.26.04.1_all.deb \
+ADD --checksum=sha256:a7e3bf769aec16ba21ca39cba180d6d311dafcbae68346a05f137c5cc26c9ca6 \
+    https://security.ubuntu.com/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260816ubuntu0.26.04.2_all.deb \
     /tmp/ca-certificates.deb
 RUN dpkg-deb -x /tmp/ca-certificates.deb /tmp/ca-certificates && \
     cp /tmp/ca-certificates/usr/share/ca-certificates/mozilla/ISRG_Root_X1.crt /snapshot-ca.crt
@@ -15,7 +16,7 @@ COPY scripts/install-ubuntu-security-updates /usr/local/libexec/pasturestack/ins
 COPY toolchain/buildx-security.patch /usr/share/pasturestack/patches/buildx-security.patch
 
 ARG DAPPER_HOST_ARCH=amd64
-ARG GO_VERSION=1.27.3
+ARG GO_VERSION=1.27.4
 ARG DOCKER_VERSION=29.7.2
 ARG DOCKER_GIT_COMMIT=a7dcaa6fdb6ed04aacbfdc76357fdae01605609e
 ARG DOCKER_SOURCE_DATE_EPOCH=1785922455
@@ -37,14 +38,20 @@ ARG SECURITY_X_NET_VERSION=v0.60.0
 ARG SECURITY_OTEL_VERSION=v1.45.0
 ARG BUILDX_CONTAINERD_VERSION=v2.3.6
 ARG UBUNTU_SNAPSHOT=20261020T000000Z
-ARG GO_LINUX_AMD64_SHA256=65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40
-ARG GO_LINUX_ARM64_SHA256=a06e99309dbcbdca1a8ccd2282c3ee146e55930886e26b4f1193269587165f49
+ARG GO_LINUX_AMD64_SHA256=7226736c2339719cda28fbf3a54d71aa63bcefe376e98cef00034268dab24840
+ARG GO_LINUX_ARM64_SHA256=3392582988a273a87ab5043ee1b2c9c17a2c3c00580bf9326c47a2e0aaaeac92
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HOST_ARCH=${DAPPER_HOST_ARCH} ARCH=${DAPPER_HOST_ARCH}
 
 ARG UBUNTU_SNAPSHOT_BASE=https://snapshot.ubuntu.com/ubuntu
-ADD --checksum=sha256:5b6326f1932cfd7be57130561dc78192f09ed9f58bfbe6606ed0c50510c3b6cd https://archive.ubuntu.com/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260816ubuntu0.26.04.1_all.deb /opt/pasturestack-ca-certificates.deb
+ADD --checksum=sha256:a7e3bf769aec16ba21ca39cba180d6d311dafcbae68346a05f137c5cc26c9ca6 https://security.ubuntu.com/ubuntu/pool/main/c/ca-certificates/ca-certificates_20260816ubuntu0.26.04.2_all.deb /opt/pasturestack-ca-certificates.deb
+ADD --checksum=sha256:0de729b8fe0e1c67c04e8e8d5bd6e0420dbd47f75b93f0b71c8e740edc2d5ffc \
+    https://security.ubuntu.com/ubuntu/pool/main/a/apt/apt_3.2.1ubuntu0.1_amd64.deb \
+    /tmp/apt.deb
+ADD --checksum=sha256:94e5d41303265b66af0f8c70ade18bfb77260ad286edee6c8045faddef82b94c \
+    https://security.ubuntu.com/ubuntu/pool/main/a/apt/libapt-pkg7.0_3.2.1ubuntu0.1_amd64.deb \
+    /tmp/libapt-pkg7.0.deb
 RUN set -eux; \
     . /usr/share/pasturestack/manifests/ubuntu-apt.lock; \
     test "${UBUNTU_SNAPSHOT}" = "${UBUNTU_APT_SNAPSHOT}"; \
@@ -53,7 +60,12 @@ RUN set -eux; \
     printf 'Types: deb\nURIs: %s\nSuites: resolute resolute-updates resolute-backports resolute-security\nComponents: main universe restricted multiverse\nSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\nSnapshot: no\n' \
         "${snapshot_uri}" > /etc/apt/sources.list.d/pasturestack-snapshot.sources; \
     printf 'Acquire::Retries "5";\nAcquire::http::Timeout "30";\nAcquire::https::Timeout "30";\nAcquire::https::CaInfo "/etc/ssl/certs/ca-certificates.crt";\nAcquire::https::Verify-Peer "true";\nAcquire::https::Verify-Host "true";\nAcquire::http::Pipeline-Depth "0";\nAcquire::AllowInsecureRepositories "false";\nAPT::Get::AllowUnauthenticated "false";\n' > /etc/apt/apt.conf.d/80pasturestack-retries; \
-    apt-get update && \
+    dpkg -i /tmp/apt.deb /tmp/libapt-pkg7.0.deb; \
+    for package in apt libapt-pkg7.0; do \
+        test "$(dpkg-query -W -f='${Version}' "$package")" = '3.2.1ubuntu0.1'; \
+    done; \
+    rm -f /tmp/apt.deb /tmp/libapt-pkg7.0.deb; \
+    apt-get update --error-on=any && \
     DEBIAN_FRONTEND=noninteractive apt-get upgrade -y --no-install-recommends && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         bash="${UBUNTU_APT_BASH_VERSION}" \
@@ -69,10 +81,13 @@ RUN set -eux; \
         xz-utils="${UBUNTU_APT_XZ_UTILS_VERSION}" && \
     dpkg -i /opt/pasturestack-ca-certificates.deb && \
     update-ca-certificates --fresh && \
-    test "$(dpkg-query -W -f='${Version}' ca-certificates)" = '20260816ubuntu0.26.04.1' && \
+    test "$(dpkg-query -W -f='${Version}' ca-certificates)" = '20260816ubuntu0.26.04.2' && \
     test ! -e /usr/share/ca-certificates/mozilla/emSign_ECC_Root_CA_-_G3.crt && \
     rm -f /opt/pasturestack-ca-certificates.deb && \
     sh /usr/local/libexec/pasturestack/install-ubuntu-security-updates /usr/share/pasturestack/manifests/ubuntu-security-packages.lock /etc/ssl/certs/ca-certificates.crt && \
+    printf '%s\n' libperl5.40=5.40.1-7ubuntu0.4 perl=5.40.1-7ubuntu0.4 perl-base=5.40.1-7ubuntu0.4 perl-modules-5.40=5.40.1-7ubuntu0.4 > /tmp/ubuntu-perl-security.lock && \
+    UBUNTU_SECURITY_ARCHIVE=https://archive.ubuntu.com/ubuntu sh /usr/local/libexec/pasturestack/install-ubuntu-security-updates /tmp/ubuntu-perl-security.lock /etc/ssl/certs/ca-certificates.crt && \
+    rm -f /tmp/ubuntu-perl-security.lock && \
     for package_and_version in \
         "bash=${UBUNTU_APT_BASH_VERSION}" \
         "ca-certificates=${UBUNTU_APT_CA_CERTIFICATES_VERSION}" \

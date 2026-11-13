@@ -20,6 +20,21 @@ UBUNTU_SNAPSHOT=${UBUNTU_SNAPSHOT:-20261020T000000Z}
 
 ./scripts/build
 
+if [ "${CHECK_QUALIFIED_BACKPORTS:-0}" = 1 ]; then
+    docker buildx build --target qualified_backports \
+        --load \
+        --provenance=false \
+        --network "${DOCKER_BUILD_NETWORK:-host}" \
+        --build-arg IMAGE_VERSION="${TAG}" \
+        --build-arg IMAGE_REVISION="${IMAGE_REVISION}" \
+        --build-arg IMAGE_CREATED="${IMAGE_CREATED}" \
+        --build-arg SOURCE_DATE_EPOCH="${SOURCE_DATE_EPOCH}" \
+        --build-arg UBUNTU_SNAPSHOT="${UBUNTU_SNAPSHOT}" \
+        --tag "${IMAGE}-backports" \
+        -f package/Dockerfile \
+        .
+fi
+
 docker buildx build \
     --load \
     --provenance=false \
