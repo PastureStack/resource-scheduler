@@ -1,6 +1,6 @@
 # PastureStack Resource Scheduler
 
-Linux runtime **`v0.8.22`** integrates shared Ubuntu 26.04 security backports for already-installed packages while preserving the selected coreutils provider.
+Linux runtime **`v0.8.23`** uses Canonical-signed Ubuntu 26.04 APT, CA, glibc, PCRE2 and kernel header updates while preserving the selected coreutils provider.
 
 The shared bundle includes the official Brotli decoder fix for CVE-2026-111497.
 
@@ -12,7 +12,7 @@ PastureStack is an independent community effort to preserve, audit, and moderniz
 
 **Upstream:** [`rancher/scheduler`](https://github.com/rancher/scheduler). This GitHub fork retains the upstream Git history, authorship, dates, and license notices. PastureStack maintenance is consolidated into one commit after the preserved upstream boundary.
 
-The disposable builder also selects the official `golang.org/x/net` 0.60.0,
+The disposable builder also selects the official `golang.org/x/net` 0.62.0,
 OpenTelemetry-Go 1.45.0, and containerd 2.3.6 security updates for Docker CLI
 and Buildx. These tools are not copied into the runtime image.
 
@@ -26,10 +26,10 @@ original severity and `under_investigation` status.
 
 ## Runtime image
 
-The Linux image coordinate is:
+The [v0.8.23 release](https://github.com/PastureStack/resource-scheduler/releases/tag/v0.8.23) includes the SBOM, package inventory, and vulnerability reports. The Linux image coordinate is:
 
 ```text
-ghcr.io/pasturestack/resource-scheduler:v0.8.22
+ghcr.io/pasturestack/resource-scheduler:v0.8.23
 ```
 
 This image is a system component, not a standalone application. The PastureStack infrastructure catalog supplies the control-plane URL, scoped access credentials, metadata endpoint, health-check configuration, and an explicit numeric version tag. The container runs as UID/GID `10001:10001`; only the scheduler binary receives `cap_net_bind_service` so the established port `80` health contract can remain available without a root process.
@@ -40,7 +40,7 @@ The native command is `resource-scheduler`. A `scheduler` executable symlink rem
 
 ## Build and test
 
-The maintained build uses Go 1.27.3 to compile Docker CLI 29.7.2 and Docker Buildx 0.36.1 from checksum-pinned source. A small checksum-locked Buildx patch removes its sole compiled dependency on the legacy Docker module; the security-sensitive Buildx modules are then pinned to `github.com/moby/go-archive` 0.3.0 and `golang.org/x/mod` 0.41.0, with the final binary metadata checked in CI. The Ubuntu base image is digest-pinned; all inherited base packages are updated from the fixed `20261020T000000Z` Canonical snapshot before the direct packages pinned in `ubuntu-apt.lock` are installed, and each built image records the complete resolved `dpkg` inventory. BuildKit receives the source commit time through `SOURCE_DATE_EPOCH`, and CI compares binary hashes, runtime configuration, and resolved package inventories across clean rebuilds.
+The maintained build uses Go 1.27.4 to compile Docker CLI 29.7.2 and Docker Buildx 0.36.1 from checksum-pinned source. A small checksum-locked Buildx patch removes its sole compiled dependency on the legacy Docker module; the security-sensitive Buildx modules are then pinned to `github.com/moby/go-archive` 0.3.0 and `golang.org/x/mod` 0.42.0, with the final binary metadata checked in CI. The Ubuntu base image is digest-pinned; all inherited base packages are updated from the fixed `20261020T000000Z` Canonical snapshot before the direct packages pinned in `ubuntu-apt.lock` are installed, and each built image records the complete resolved `dpkg` inventory. Invalid or unavailable signed indexes stop the build. BuildKit receives the source commit time through `SOURCE_DATE_EPOCH`, and CI compares binary hashes, runtime configuration, and resolved package inventories across clean rebuilds.
 
 The dependency graph is declared in `go.mod`, checksum-bound by `go.sum`, and committed in the standard module-aware `vendor` tree for reproducible offline builds. Security CI produces short-lived source and runtime CycloneDX SBOMs, runs binary reachability analysis, and blocks detected secrets, every High/Critical runtime finding, and any finding for which Ubuntu has published a fixed package. Low/Medium findings without an available Ubuntu fix remain visible as `under_investigation` in the release risk register and OpenVEX artifact; they are not represented as resolved and are re-evaluated when the vendor, base digest, or vulnerability data changes.
 
@@ -50,7 +50,7 @@ make validate
 bash scripts/check-build-downloads
 go list -mod=vendor ./...
 bash scripts/check-migration-policy
-VERSION_OVERRIDE=v0.8.22 IMAGE_NAMESPACE=pasturestack make package
+VERSION_OVERRIDE=v0.8.23 IMAGE_NAMESPACE=pasturestack make package
 ```
 
 CI validates source and dependency locks, tests and reproducible builds, and generates short-lived security evidence. Releases are published only from an annotated, pure numeric SemVer tag that resolves to the reviewed commit.
@@ -71,7 +71,7 @@ The inherited project remains licensed under [Apache License 2.0](LICENSE). Past
 
 ## October 2026 security maintenance
 
-Maintained Go builds select the patched Go 1.27.3 compiler without raising the existing Go language requirement. Ubuntu build/runtime stages apply the checksum-pinned `ca-certificates 20260816ubuntu0.26.04.1` security package after their frozen APT baseline; the final trust store and installed version are verified. Release artifacts must pass the repository's existing checks before publication.
+Maintained Go builds select the patched Go 1.27.4 compiler without raising the existing Go language requirement. Ubuntu build/runtime stages apply the checksum-pinned `ca-certificates 20260816ubuntu0.26.04.1` security package after their frozen APT baseline; the final trust store and installed version are verified. Release artifacts must pass the repository's existing checks before publication.
 
 ## Full-severity release policy
 
