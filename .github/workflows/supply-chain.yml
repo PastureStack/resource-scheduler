@@ -188,7 +188,7 @@ jobs:
           grep -F $'dep\tgolang.org/x/text\tv0.43.0\t' evidence/docker-cli-go-version.txt >/dev/null
           grep -F $'dep\tgoogle.golang.org/grpc\tv1.83.2\t' evidence/docker-cli-go-version.txt >/dev/null
           grep -F $'dep\tgithub.com/moby/go-archive\tv0.3.0\t' evidence/buildx-go-version.txt >/dev/null
-          grep -F $'dep\tgolang.org/x/mod\tv0.41.0\t' evidence/buildx-go-version.txt >/dev/null
+          grep -F $'dep\tgolang.org/x/mod\tv0.42.0\t' evidence/buildx-go-version.txt >/dev/null
           grep -F $'dep\tgoogle.golang.org/grpc\tv1.83.2\t' evidence/buildx-go-version.txt >/dev/null
           for manifest in evidence/docker-cli-go-version.txt evidence/buildx-go-version.txt; do
             grep -F $'dep\tgolang.org/x/net\tv0.62.0\t' "$manifest" >/dev/null
