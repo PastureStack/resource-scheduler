@@ -85,7 +85,7 @@ require_pattern .dockerignore '^!toolchain/buildx-security\.patch$' "buildx_patc
 require_pattern toolchain/buildx-security.patch '^\+	"crypto/rand"$' "buildx_crypto_random_patch_missing"
 require_pattern toolchain/buildx-security.patch '^-	"github\.com/docker/docker/pkg/namesgenerator"$' "buildx_namesgenerator_removal_missing"
 require_pattern ubuntu-apt.lock '^UBUNTU_APT_SNAPSHOT=.20261020T000000Z.$' "apt_snapshot_lock_missing"
-require_pattern ubuntu-apt.lock '^UBUNTU_APT_LINUX_LIBC_DEV_VERSION=.7\.0\.0-38\.38.$' "linux_libc_dev_package_lock_missing"
+require_pattern ubuntu-apt.lock '^UBUNTU_APT_LINUX_LIBC_DEV_VERSION=.7\.0\.0-43\.43.$' "linux_libc_dev_package_lock_missing"
 require_pattern ubuntu-apt.lock '^UBUNTU_APT_GCC_VERSION=.4:15\.2\.0-5ubuntu1.$' "gcc_package_lock_missing"
 require_pattern go.mod '^go 1\.26\.[0-9]+$' "go_language_floor_not_codeql_compatible"
 require_pattern go.mod '^toolchain go1\.27\.4$' "go_toolchain_not_current"
