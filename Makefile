@@ -1,7 +1,7 @@
 .RECIPEPREFIX := >
 TARGETS := $(shell ls scripts)
 
-DAPPER_IMAGE ?= pasturestack-resource-scheduler-dapper:go1.27.3-docker29.7.2-buildx0.36.1
+DAPPER_IMAGE ?= pasturestack-resource-scheduler-dapper:go1.27.4-docker29.7.2-buildx0.36.1
 DAPPER_HOST_ARCH ?= amd64
 DOCKER_VERSION ?= 29.7.2
 BUILDX_VERSION ?= 0.36.1
@@ -36,6 +36,7 @@ $(TARGETS): .dapper
 >  -e IMAGE_REVISION \
 >  -e IMAGE_CREATED \
 >  -e SOURCE_DATE_EPOCH \
+>  -e CHECK_QUALIFIED_BACKPORTS \
 >  -e GITHUB_EVENT_NAME \
 >  $(DAPPER_IMAGE) $@
 

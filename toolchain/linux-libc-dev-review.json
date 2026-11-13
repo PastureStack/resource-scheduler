@@ -4,12 +4,12 @@
   "reviewedAt": "2026-10-23",
   "package": {
     "name": "linux-libc-dev",
-    "version": "7.0.0-38.38",
+    "version": "7.0.0-43.43",
     "architecture": "amd64",
-    "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-38.38?arch=amd64&distro=ubuntu-26.04",
-    "archiveUrl": "https://snapshot.ubuntu.com/ubuntu/20261020T000000Z/pool/main/l/linux/linux-libc-dev_7.0.0-38.38_amd64.deb",
-    "archiveSHA256": "0498bc9510149ef06abd6c09b8932e43c5bc71b68634b4b8f84488b2e0a20e82",
-    "ownedFilesSHA256": "a6f559e4ea9513c0e55d668fe8ab631a916639efb532cdd7d87b886ac6a41ca6",
+    "purl": "pkg:deb/ubuntu/linux-libc-dev@7.0.0-43.43?arch=amd64&distro=ubuntu-26.04",
+    "archiveUrl": "https://snapshot.ubuntu.com/ubuntu/20261107T200000Z/pool/main/l/linux/linux-libc-dev_7.0.0-43.43_amd64.deb",
+    "archiveSHA256": "3a3adc14e3332fc017b1d0e4e39655298a2a977d51db6e80de533ac60137b07f",
+    "ownedFilesSHA256": "a7fe9756eacec987e8c1025f76ba9f5c8c698b4fb9a80ac65eecd41ea05b07cd",
     "ownedFileCount": 1041,
     "elfCount": 0
   },
