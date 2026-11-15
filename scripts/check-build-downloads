@@ -44,7 +44,7 @@ require_pattern Dockerfile.dapper 'ARG BUILDX_X_MOD_VERSION=v0\.42\.0' "buildx_x
 require_pattern Dockerfile.dapper 'ARG BUILDX_UPSTREAM_GRPC_VERSION=v1\.82\.1' "buildx_upstream_grpc_not_pinned"
 require_pattern Dockerfile.dapper 'ARG BUILDX_GRPC_VERSION=v1\.83\.2' "buildx_grpc_not_patched"
 require_pattern Dockerfile.dapper 'ARG SECURITY_X_NET_VERSION=v0\.62\.0' "builder_x_net_not_patched"
-require_pattern Dockerfile.dapper 'ARG SECURITY_OTEL_VERSION=v1\.45\.0' "builder_otel_not_patched"
+require_pattern Dockerfile.dapper 'ARG SECURITY_OTEL_VERSION=v1\.47\.0' "builder_otel_not_patched"
 require_pattern Dockerfile.dapper 'ARG BUILDX_CONTAINERD_VERSION=v2\.3\.6' "buildx_containerd_not_patched"
 require_pattern Dockerfile.dapper 'go get "github\.com/moby/go-archive@\$\{BUILDX_GO_ARCHIVE_VERSION\}" "golang\.org/x/mod@\$\{BUILDX_X_MOD_VERSION\}" "google\.golang\.org/grpc@\$\{BUILDX_GRPC_VERSION\}"' "buildx_go_patch_step_missing"
 require_pattern Dockerfile.dapper 'git apply --check /usr/share/pasturestack/patches/buildx-security\.patch' "buildx_patch_preflight_missing"
