@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:
-      CANDIDATE_VERSION: v0.8.23
+      CANDIDATE_VERSION: v0.8.24
       DAPPER_IMAGE: local/resource-scheduler-dapper:${{ github.sha }}
       TRIVY_IMAGE: aquasec/trivy:0.74.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969
 
@@ -281,7 +281,7 @@ jobs:
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
             -v "$trivy_cache:/root/.cache/trivy" -v "$PWD/evidence:/evidence" "$TRIVY_IMAGE" \
             image --skip-db-update --offline-scan --format cyclonedx --output /evidence/backport-stage.cdx.json "$RUNTIME_IMAGE-backports"
-          python3 .github/scripts/verify-official-glibc.py "evidence/backport-stage.cdx.json" "evidence/runtime.cdx.json"
+          python3 .github/scripts/verify-official-runtime-packages.py "evidence/backport-stage.cdx.json" "evidence/runtime.cdx.json"
           consumer_container=$(docker create "$RUNTIME_IMAGE" /bin/true)
           if docker cp "$consumer_container:/usr/share/pasturestack/security/ubuntu-backports" evidence/ubuntu-backports; then
               docker rm "$consumer_container" >/dev/null

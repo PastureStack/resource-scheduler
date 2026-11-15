@@ -96,7 +96,7 @@ jobs:
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
             -v "$cache:/root/.cache/trivy" -v "$PWD/$release_dir:/evidence" "$TRIVY_IMAGE" \
             image --skip-db-update --offline-scan --format cyclonedx --output /evidence/backport-stage.cdx.json "$RUNTIME_IMAGE-backports"
-          python3 .github/scripts/verify-official-glibc.py "$release_dir/backport-stage.cdx.json" "$release_dir/resource-scheduler-${RELEASE_TAG#v}-image.cdx.json"
+          python3 .github/scripts/verify-official-runtime-packages.py "$release_dir/backport-stage.cdx.json" "$release_dir/resource-scheduler-${RELEASE_TAG#v}-image.cdx.json"
           mkdir -p "$release_dir"
           consumer_container=$(docker create "$RUNTIME_IMAGE" /bin/true)
           if docker cp "$consumer_container:/usr/share/pasturestack/security/ubuntu-backports" "$release_dir"/ubuntu-backports; then
