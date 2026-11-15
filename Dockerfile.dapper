@@ -228,11 +228,11 @@ RUN set -eux; \
         "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc@${SECURITY_OTEL_VERSION}" \
         "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp@${SECURITY_OTEL_VERSION}"; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=https://proxy.golang.org GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go mod download; \
+    CGO_ENABLED=0 GOOS=linux GOARCH="${DAPPER_HOST_ARCH}" GOFLAGS=-mod=mod GOWORK=off GOPROXY=https://proxy.golang.org GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go list -deps ./cmd/buildx > /tmp/buildx-deps.txt; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go mod verify; \
     test "$(GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go list -m -f '{{.Version}}' github.com/moby/go-archive)" = "${BUILDX_GO_ARCHIVE_VERSION}"; \
     test "$(GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go list -m -f '{{.Version}}' golang.org/x/mod)" = "${BUILDX_X_MOD_VERSION}"; \
     test "$(GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go list -m -f '{{.Version}}' google.golang.org/grpc)" = "${BUILDX_GRPC_VERSION}"; \
-    GOFLAGS=-mod=mod GOWORK=off GOPROXY=off GOSUMDB=sum.golang.org GOMODCACHE=/tmp/buildx-go-mod go list -deps ./cmd/buildx > /tmp/buildx-deps.txt; \
     cp /tmp/buildx-deps.txt /usr/share/pasturestack/manifests/buildx-deps.txt; \
     if grep '^github.com/docker/docker/' /tmp/buildx-deps.txt; then \
         echo 'patched Buildx still compiles github.com/docker/docker' >&2; \
