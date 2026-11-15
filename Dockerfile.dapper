@@ -185,6 +185,7 @@ RUN set -eux; \
         go get "golang.org/x/text@${DOCKER_X_TEXT_VERSION}" "google.golang.org/grpc@${DOCKER_GRPC_VERSION}" \
         "golang.org/x/net@${SECURITY_X_NET_VERSION}" "github.com/go-jose/go-jose/v4@${DOCKER_GO_JOSE_VERSION}" \
         "go.opentelemetry.io/otel/sdk@${SECURITY_OTEL_VERSION}" \
+        "go.opentelemetry.io/otel/log@${SECURITY_OTEL_VERSION}" \
         "go.opentelemetry.io/otel/exporters/otlp/otlptrace@${SECURITY_OTEL_VERSION}" \
         "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc@${SECURITY_OTEL_VERSION}"; \
     GOFLAGS=-mod=mod GOWORK=off GOPROXY=https://proxy.golang.org GOSUMDB=sum.golang.org GOMODCACHE=/tmp/docker-go-mod go mod download; \
@@ -222,6 +223,7 @@ RUN set -eux; \
         go get "github.com/moby/go-archive@${BUILDX_GO_ARCHIVE_VERSION}" "golang.org/x/mod@${BUILDX_X_MOD_VERSION}" "google.golang.org/grpc@${BUILDX_GRPC_VERSION}" \
         "golang.org/x/net@${SECURITY_X_NET_VERSION}" "github.com/containerd/containerd/v2@${BUILDX_CONTAINERD_VERSION}" "golang.org/x/crypto@${BUILDX_X_CRYPTO_VERSION}" \
         "go.opentelemetry.io/otel/sdk@${SECURITY_OTEL_VERSION}" \
+        "go.opentelemetry.io/otel/log@${SECURITY_OTEL_VERSION}" \
         "go.opentelemetry.io/otel/exporters/otlp/otlptrace@${SECURITY_OTEL_VERSION}" \
         "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc@${SECURITY_OTEL_VERSION}" \
         "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp@${SECURITY_OTEL_VERSION}"; \
